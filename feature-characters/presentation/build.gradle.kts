@@ -11,13 +11,14 @@ android {
 }
 
 dependencies {
-    api(project(":feature-characters:domain"))
+    implementation(project(":feature-characters:domain"))
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    //implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common.jvm)
+    implementation(libs.androidx.lifecycle.viewmodel)
 
     testImplementation(libs.junit)
 }

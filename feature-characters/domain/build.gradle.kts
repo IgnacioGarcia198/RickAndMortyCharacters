@@ -7,4 +7,5 @@ plugins {
 
 dependencies {
     implementation(libs.androidx.paging.common.jvm)
+    implementation(libs.com.google.dagger)
 }

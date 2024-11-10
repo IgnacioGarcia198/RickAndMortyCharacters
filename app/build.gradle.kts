@@ -28,6 +28,9 @@ android {
 dependencies {
     implementation(project(":feature-characters:ui"))
     implementation((project(":ui-common")))
+    implementation(project(":framework:local"))
+    implementation(project(":framework:di-connector")) // connect DI
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

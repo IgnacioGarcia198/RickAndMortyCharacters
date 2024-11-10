@@ -7,8 +7,9 @@ import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
+import javax.inject.Inject
 
-class RealCharactersLocalDataSource(
+class RealCharactersLocalDataSource @Inject constructor(
     private val database: AppDatabase
 ) : CharactersLocalDataSource {
     private val rmCharacterDao get() = database.rmCharacterDao()

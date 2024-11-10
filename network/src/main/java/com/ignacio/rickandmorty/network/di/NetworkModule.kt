@@ -15,6 +15,7 @@ import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @Module
+//@InstallIn(SingletonComponent::class)
 @Suppress("unused")
 interface NetworkModule {
     @Binds

@@ -7,14 +7,14 @@ plugins {
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.data"
+    namespace = "com.ignacio.rickandmorty.di_connector"
 }
 
 dependencies {
-    implementation(project(":feature-characters:domain"))
+    //implementation(project(":feature-characters:data"))
+    implementation(project(":kotlin-utils"))
+    implementation(project(":network"))
 
-    //implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.common.jvm)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 }

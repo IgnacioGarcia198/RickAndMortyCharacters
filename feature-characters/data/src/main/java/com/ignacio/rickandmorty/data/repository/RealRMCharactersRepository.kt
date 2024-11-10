@@ -13,9 +13,10 @@ import com.ignacio.rickandmorty.domain.models.RMCharacter
 import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class RealRMCharactersRepository(
+class RealRMCharactersRepository @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
     private val charactersLocalDataSource: CharactersLocalDataSource,
 ): RMCharactersRepository {

@@ -70,6 +70,7 @@ io-ktor-client-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-se
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
 # serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -81,6 +82,7 @@ androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", 
 
 # kotlin-only deps
 com-google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+com-google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 
 # test deps
 junit = { group = "junit", name = "junit", version.ref = "junit" }

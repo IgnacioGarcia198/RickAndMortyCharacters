@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id(libs.plugins.android.module.plugin.get().pluginId)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
@@ -11,11 +12,11 @@ android {
 
 dependencies {
     implementation(project(":feature-characters:data"))
+
     implementation(libs.io.ktor.client.cio)
     implementation(libs.io.ktor.client.logging)
     implementation(libs.io.ktor.client.content.negotiation)
     implementation(libs.io.ktor.client.serialization.kotlinx.json)
     implementation(libs.com.google.dagger)
-    implementation(libs.androidx.paging.runtime)
-    implementation(libs.androidx.paging.common.jvm)
+    ksp(libs.com.google.dagger.compiler)
 }
