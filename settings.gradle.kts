@@ -28,4 +28,11 @@ include(":feature-characters:framework:remote")
 include(":framework:local")
 include(":feature-characters:presentation")
 
+// common modules
+include(":android-utils")
+include(":kotlin-utils")
+include(":ui-common")
+include(":resources")
+
+// build
 includeBuild("build-src")
