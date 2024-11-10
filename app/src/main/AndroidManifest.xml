@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RickAndMorty">
         <activity
-            android:name=".ui.characters.MainActivity"
+            android:name=".ui.characters.CharactersActivity"
             android:exported="true"
             android:theme="@style/Theme.RickAndMorty">
             <intent-filter>

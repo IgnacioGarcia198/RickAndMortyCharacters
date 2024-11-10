@@ -9,10 +9,10 @@ import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class CharactersActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             RickAndMortyTheme {
                 CharactersFeature()
