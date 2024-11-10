@@ -11,8 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RickAndMorty"
-        tools:targetApi="31">
+        android:theme="@style/Theme.RickAndMorty">
         <activity
             android:name=".ui.characters.MainActivity"
             android:exported="true"

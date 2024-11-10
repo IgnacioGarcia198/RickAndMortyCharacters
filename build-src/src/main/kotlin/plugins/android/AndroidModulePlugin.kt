@@ -24,7 +24,7 @@ class AndroidModulePlugin : Plugin<Project> {
                 versionCode = libs.versions.versionCode.get().toInt()
                 versionName = libs.versions.versionName.get()
 
-                testInstrumentationRunner = BuildConstants.TESST_INSTRUMENTATION_RUNNER
+                testInstrumentationRunner = BuildConstants.TEST_INSTRUMENTATION_RUNNER
                 consumerProguardFiles("consumer-rules.pro")
             }
 
