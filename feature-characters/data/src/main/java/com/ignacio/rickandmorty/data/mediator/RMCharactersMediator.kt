@@ -18,6 +18,13 @@ class RMCharactersMediator(
     private val networkService: RickAndMortyApi,
 ) : RemoteMediator<Int, LocalRMCharacter>() {
 
+    override suspend fun initialize(): InitializeAction {
+        // Launch remote refresh as soon as paging starts and do not trigger remote prepend or
+        // append until refresh has succeeded.
+        // TODO: CHECK LAST UPDATE
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
+
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, LocalRMCharacter>
