@@ -36,5 +36,5 @@ include(":resources")
 
 // build
 includeBuild("build-src")
-include(":network")
+include(":framework:remote")
 include(":framework:di-connector")

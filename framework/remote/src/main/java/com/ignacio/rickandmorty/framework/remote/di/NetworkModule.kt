@@ -1,7 +1,7 @@
-package com.ignacio.rickandmorty.network.di
+package com.ignacio.rickandmorty.framework.remote.di
 
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
-import com.ignacio.rickandmorty.network.api.RealRickAndMortyApi
+import com.ignacio.rickandmorty.framework.remote.api.RealRickAndMortyApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

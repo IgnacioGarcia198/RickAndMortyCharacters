@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.network.models
+package com.ignacio.rickandmorty.framework.remote.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.network.constants
+package com.ignacio.rickandmorty.framework.remote.constants
 
 object NetworkConstants {
     const val RICK_AND_MORTY_HOST = "rickandmortyapi.com"

@@ -13,7 +13,7 @@ android {
 dependencies {
     //implementation(project(":feature-characters:data"))
     implementation(project(":kotlin-utils"))
-    implementation(project(":network"))
+    implementation(project(":framework:remote"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

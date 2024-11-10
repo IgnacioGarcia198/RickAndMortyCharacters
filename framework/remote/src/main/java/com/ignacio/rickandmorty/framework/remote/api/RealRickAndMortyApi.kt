@@ -1,12 +1,10 @@
-package com.ignacio.rickandmorty.network.api
+package com.ignacio.rickandmorty.framework.remote.api
 
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
-import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.data.models.RMCharacters
-import com.ignacio.rickandmorty.network.constants.NetworkConstants
-import com.ignacio.rickandmorty.network.mapping.getRMCharacters
-import com.ignacio.rickandmorty.network.mapping.toRMCharacters
-import com.ignacio.rickandmorty.network.models.RMCharactersResponse
+import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
+import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
+import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get

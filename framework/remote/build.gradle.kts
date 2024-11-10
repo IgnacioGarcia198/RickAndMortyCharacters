@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.network"
+    namespace = "com.ignacio.rickandmorty.framework.remote"
 }
 
 dependencies {

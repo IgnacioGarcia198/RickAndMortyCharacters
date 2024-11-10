@@ -1,8 +1,6 @@
-package com.ignacio.rickandmorty.network.api
+package com.ignacio.rickandmorty.framework.remote.api
 
-import com.ignacio.rickandmorty.network.di.NetworkModule
-import io.ktor.client.call.body
-import io.ktor.client.statement.bodyAsText
+import com.ignacio.rickandmorty.framework.remote.di.NetworkModule
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
