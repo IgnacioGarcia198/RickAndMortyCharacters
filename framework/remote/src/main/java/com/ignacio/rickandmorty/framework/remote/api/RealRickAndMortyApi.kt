@@ -28,6 +28,8 @@ class RealRickAndMortyApi @Inject constructor(
                 }
             }
             response.body<RMCharactersResponse>().toRMCharacters()
+        }.onFailure {
+            it.printStackTrace()
         }
     }
 }

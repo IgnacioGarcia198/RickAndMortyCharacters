@@ -19,4 +19,5 @@ dependencies {
     implementation(libs.io.ktor.client.serialization.kotlinx.json)
     implementation(libs.com.google.dagger)
     ksp(libs.com.google.dagger.compiler)
+    //implementation("org.slf4j:slf4j-android:1.7.36")
 }
