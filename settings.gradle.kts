@@ -36,3 +36,4 @@ include(":resources")
 
 // build
 includeBuild("build-src")
+include(":network")
