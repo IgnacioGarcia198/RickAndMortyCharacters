@@ -5,6 +5,6 @@ import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
     val api = RealRickAndMortyApi(NetworkModule.provideHttpClient())
-    val response = api.getCharacters()
+    val response = api.getCharacters(1)
     println(response)
 }

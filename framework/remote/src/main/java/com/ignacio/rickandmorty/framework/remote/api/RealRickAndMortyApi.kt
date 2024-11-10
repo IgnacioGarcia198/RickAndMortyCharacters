@@ -8,6 +8,7 @@ import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient
 ) : RickAndMortyApi {
-    override suspend fun getCharacters(): Result<RMCharacters> {
+    override suspend fun getCharacters(page: Int): Result<RMCharacters> {
         return kotlin.runCatching {
             val response = client.get {
                 url {
@@ -25,6 +26,7 @@ class RealRickAndMortyApi @Inject constructor(
                         NetworkConstants.RICK_AND_MORTY_BASE_PATH,
                         NetworkConstants.RICK_AND_MORTY_CHARACTERS_PATH
                     )
+                    parameter(key = "page", value = page)
                 }
             }
             response.body<RMCharactersResponse>().toRMCharacters()

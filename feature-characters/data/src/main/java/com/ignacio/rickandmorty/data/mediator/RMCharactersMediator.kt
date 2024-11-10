@@ -7,7 +7,9 @@ import androidx.paging.RemoteMediator
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
-import com.ignacio.rickandmorty.data.models.RMCharacter
+
+private const val CHARACTERS_API_FIRST_PAGE = 1
+private const val CHARACTERS_API_RESULTS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class RMCharactersMediator(
@@ -21,44 +23,32 @@ class RMCharactersMediator(
         state: PagingState<Int, LocalRMCharacter>
     ): MediatorResult {
         return try {
-            // The network load method takes an optional after=<user.id>
-            // parameter. For every page after the first, pass the last user
-            // ID to let it continue from where it left off. For REFRESH,
-            // pass null to load the first page.
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 1
-                // In this example, you never need to prepend, since REFRESH
-                // will always load the first page in the list. Immediately
-                // return, reporting end of pagination.
+                LoadType.REFRESH -> CHARACTERS_API_FIRST_PAGE
                 LoadType.PREPEND ->
                     return MediatorResult.Success(endOfPaginationReached = true)
+
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-
-                    // You must explicitly check if the last item is null when
-                    // appending, since passing null to networkService is only
-                    // valid for initial load. If lastItem is null it means no
-                    // items were loaded after the initial REFRESH and there are
-                    // no more items to load.
                     if (lastItem == null) {
-                        return MediatorResult.Success(
-                            endOfPaginationReached = true
-                        )
+                        CHARACTERS_API_FIRST_PAGE
+                    } else {
+                        (lastItem.id / CHARACTERS_API_RESULTS_PER_PAGE) + 1
                     }
-
-                    lastItem.id
                 }
             }
 
-            // Suspending network load via Retrofit. This doesn't need to be
+            // Suspending network load via Ktor. This doesn't need to be
             // wrapped in a withContext(Dispatcher.IO) { ... } block since
-            // Retrofit's Coroutine CallAdapter dispatches on a worker
-            // thread.
-            val response = networkService.getCharacters(
-                //query = query, after = loadKey
-            ).getOrElse { return MediatorResult.Error(it) }
+            // Ktor does it automatically.
+            val response = networkService.getCharacters(page = loadKey)
+                .getOrElse { return MediatorResult.Error(it) }
 
-            localDataSource.upsertAll(response.characters, clear = loadType == LoadType.REFRESH, query = query)
+            localDataSource.upsertAll(
+                response.characters,
+                clear = loadType == LoadType.REFRESH,
+                query = query
+            )
 
             MediatorResult.Success(
                 endOfPaginationReached = !response.hasNextPage // response.characters.isEmpty()

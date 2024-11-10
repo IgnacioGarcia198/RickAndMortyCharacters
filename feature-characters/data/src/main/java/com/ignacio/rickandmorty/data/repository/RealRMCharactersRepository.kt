@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+private const val DB_PAGE_SIZE = 40
+
 @OptIn(ExperimentalPagingApi::class)
 class RealRMCharactersRepository @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
@@ -22,7 +24,7 @@ class RealRMCharactersRepository @Inject constructor(
 ): RMCharactersRepository {
     override fun getRMCharacters(query: String): Flow<PagingData<RMCharacter>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = DB_PAGE_SIZE),
             remoteMediator = RMCharactersMediator(
                 localDataSource = charactersLocalDataSource,
                 networkService = rickAndMortyApi,
