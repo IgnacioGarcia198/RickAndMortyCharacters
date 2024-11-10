@@ -27,3 +27,5 @@ include(":feature-characters:data")
 include(":feature-characters:framework:remote")
 include(":framework:local")
 include(":feature-characters:presentation")
+
+includeBuild("build-src")
