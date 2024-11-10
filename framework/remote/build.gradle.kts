@@ -1,13 +1,9 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
-    id(libs.plugins.android.module.plugin.get().pluginId)
+    id("java-library")
+    alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.com.google.devtools.ksp)
-}
-
-android {
-    namespace = "com.ignacio.rickandmorty.framework.remote"
+    id(libs.plugins.kotlin.module.plugin.get().pluginId)
 }
 
 dependencies {
@@ -19,5 +15,4 @@ dependencies {
     implementation(libs.io.ktor.client.serialization.kotlinx.json)
     implementation(libs.com.google.dagger)
     ksp(libs.com.google.dagger.compiler)
-    //implementation("org.slf4j:slf4j-android:1.7.36")
 }

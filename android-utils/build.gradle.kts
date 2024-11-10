@@ -14,8 +14,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":kotlin-utils"))
-
     implementation(libs.androidx.core.ktx)
 
     debugImplementation(libs.hilt.android)

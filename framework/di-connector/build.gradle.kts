@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    //implementation(project(":feature-characters:data"))
+    implementation(project(":feature-characters:data"))
     implementation(project(":kotlin-utils"))
     implementation(project(":framework:remote"))
 
