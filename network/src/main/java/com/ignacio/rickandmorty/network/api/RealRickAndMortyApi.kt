@@ -1,7 +1,11 @@
 package com.ignacio.rickandmorty.network.api
 
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.models.RMCharacter
+import com.ignacio.rickandmorty.data.models.RMCharacters
 import com.ignacio.rickandmorty.network.constants.NetworkConstants
+import com.ignacio.rickandmorty.network.mapping.getRMCharacters
+import com.ignacio.rickandmorty.network.mapping.toRMCharacters
 import com.ignacio.rickandmorty.network.models.RMCharactersResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -13,7 +17,7 @@ import javax.inject.Inject
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient
 ) : RickAndMortyApi {
-    suspend fun getCharacters(): Result<RMCharactersResponse> {
+    override suspend fun getCharacters(): Result<RMCharacters> {
         return kotlin.runCatching {
             val response = client.get {
                 url {
@@ -25,7 +29,7 @@ class RealRickAndMortyApi @Inject constructor(
                     )
                 }
             }
-            response.body()
+            response.body<RMCharactersResponse>().toRMCharacters()
         }
     }
 }

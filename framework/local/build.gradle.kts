@@ -4,18 +4,30 @@ plugins {
     id(libs.plugins.android.module.plugin.get().pluginId)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.androidx.room)
 }
 
 android {
     namespace = "com.ignacio.rickandmorty.framework.local"
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
 }
 
 dependencies {
+    implementation(project(":feature-characters:data"))
+
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    // paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common.jvm)
+    // room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
 

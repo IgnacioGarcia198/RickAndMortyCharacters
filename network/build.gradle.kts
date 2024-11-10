@@ -1,8 +1,12 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    id(libs.plugins.android.module.plugin.get().pluginId)
     alias(libs.plugins.kotlinx.serialization)
-    id(libs.plugins.kotlin.module.plugin.get().pluginId)
+}
+
+android {
+    namespace = "com.ignacio.rickandmorty.network"
 }
 
 dependencies {
@@ -12,5 +16,6 @@ dependencies {
     implementation(libs.io.ktor.client.content.negotiation)
     implementation(libs.io.ktor.client.serialization.kotlinx.json)
     implementation(libs.com.google.dagger)
-    //implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.common.jvm)
 }

@@ -15,6 +15,8 @@ android {
 dependencies {
     implementation(project(":resources"))
     implementation((project(":ui-common")))
+    implementation(project(":feature-characters:presentation"))
+    implementation(project(":feature-characters:presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -29,6 +31,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
 
     testImplementation(libs.junit)
 

@@ -4,3 +4,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm)
     id(libs.plugins.kotlin.module.plugin.get().pluginId)
 }
+
+dependencies {
+    implementation(libs.androidx.paging.common.jvm)
+}

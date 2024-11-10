@@ -14,14 +14,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":kotlin-utils"))
+
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-
-    testImplementation(libs.junit)
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 
     debugImplementation(libs.hilt.android)
     kspDebug(libs.hilt.android.compiler)

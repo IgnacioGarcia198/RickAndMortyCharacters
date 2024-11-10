@@ -33,6 +33,7 @@ ksp = "1.9.24-1.0.20"
 lifecycle = "2.8.7"
 kotlinx-serialization = "1.6.0"
 ktor = "2.3.12"
+paging = "3.3.2"
 dummy-version = "1"
 
 [libraries]
@@ -72,6 +73,11 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 
 # serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+# paging
+androidx-paging-common-jvm = { group = "androidx.paging", name = "paging-common-jvm", version.ref = "paging" }
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 
 # kotlin-only deps
 com-google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }

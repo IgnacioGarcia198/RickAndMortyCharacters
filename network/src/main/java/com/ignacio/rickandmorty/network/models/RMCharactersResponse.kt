@@ -14,7 +14,7 @@ data class RMCharactersResponse(
         val count: Int,
         val next: String? = null,
         val pages: Int,
-        val prev: String? = null
+        val prev: String? = null,
     )
 
     @Serializable
@@ -30,6 +30,6 @@ data class RMCharactersResponse(
         val species: String,
         val status: String,
         val type: String? = null,
-        val url: String
+        val url: String,
     )
 }
