@@ -9,6 +9,7 @@ plugins {
 android {
     namespace = "com.ignacio.rickandmorty.android_utils"
 
+    @Suppress("UnstableApiUsage")
     testFixtures { enable = true } // only works for Java sources on Android modules :(
 }
 
