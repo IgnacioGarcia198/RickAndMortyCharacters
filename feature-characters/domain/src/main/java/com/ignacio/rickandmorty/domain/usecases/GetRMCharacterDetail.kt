@@ -1,12 +1,14 @@
 package com.ignacio.rickandmorty.domain.usecases
 
 import com.ignacio.rickandmorty.domain.models.RMCharacter
+import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class GetRMCharacterDetail @Inject constructor() {
+class GetRMCharacterDetail @Inject constructor(
+    private val repository: RMCharactersRepository,
+) {
     operator fun invoke(id: Int): Flow<Result<RMCharacter?>> {
-        return flowOf(Result.success(RMCharacter.dummy))
+        return repository.getRMCharacterById(id)
     }
 }

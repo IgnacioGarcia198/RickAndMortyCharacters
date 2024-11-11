@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface RMCharactersRepository {
     fun getRMCharacters(query: String): Flow<PagingData<RMCharacter>>
+    fun getRMCharacterById(id: Int): Flow<Result<RMCharacter?>>
 }

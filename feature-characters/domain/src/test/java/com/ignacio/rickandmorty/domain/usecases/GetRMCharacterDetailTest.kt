@@ -30,10 +30,17 @@ class GetRMCharacterDetailTest {
 
     @Test
     fun `use case uses repository to get character by id`() = runTest {
-        val result = getRMCharacterDetail(id).first()
+        var result = getRMCharacterDetail(id).first()
         advanceUntilIdle()
 
         verify { repository.getRMCharacterById(id) }
         assertEquals(Result.success(RMCharacter.dummy), result)
+
+
+        repositoryFlow.value = Result.success(null)
+        result = getRMCharacterDetail(id).first()
+        advanceUntilIdle()
+
+        assertEquals(Result.success(null), result)
     }
 }
