@@ -23,8 +23,11 @@ class RMCharacterDetailViewModel @Inject constructor(
     private val getRMCharacterDetail: GetRMCharacterDetail,
 ) : ViewModel(), RMCharacterDetailViewModelContract {
     override var state by mutableStateOf<RMCharacterDetailState>(RMCharacterDetailState.Loading)
+    private var id = 0
 
     override fun initialize(id: Int) {
+        if (id == this.id) return
+        this.id = id
         getRMCharacterDetail(id)
             .onEach { result ->
                 result.onFailure {
