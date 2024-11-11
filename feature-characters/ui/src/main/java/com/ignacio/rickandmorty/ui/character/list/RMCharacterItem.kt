@@ -1,5 +1,6 @@
-package com.ignacio.rickandmorty.ui
+package com.ignacio.rickandmorty.ui.character.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -22,16 +23,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
+import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
 
 @Composable
 fun RMCharacterItem(
     character: UiRMCharacter,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCharacterClick: (id: Int) -> Unit = {},
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable {
+               onCharacterClick   (character.id)
+        },
     ) {
         Row(
             modifier = Modifier
@@ -99,7 +103,7 @@ fun RMCharacterItemPreview() {
                 gender = "Female",
                 url = ""
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

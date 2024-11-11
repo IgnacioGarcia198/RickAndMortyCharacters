@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.ui
+package com.ignacio.rickandmorty.ui.character.list
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -12,15 +12,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
+import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
+import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 
 @Composable
 fun CharacterListScreen(
-    characters: LazyPagingItems<UiRMCharacter>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: RMCharactersViewModelContract = hiltViewModel<RMCharactersViewModel>(),
+    onCharacterClick: (id: Int) -> Unit = {},
 ) {
+    val characters: LazyPagingItems<UiRMCharacter> =
+        viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val context = LocalContext.current
     LaunchedEffect(key1 = characters.loadState) {
         if (characters.loadState.refresh is LoadState.Error) {
@@ -44,8 +51,9 @@ fun CharacterListScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(characters.itemCount) { index ->
-                    characters[index]?.let {
-                        RMCharacterItem(character = it)
+                    characters[index]?.let { character ->
+                        //onCharacterClicked(character.id)
+                        RMCharacterItem(character = character, onCharacterClick = onCharacterClick)
                     }
                 }
                 item {

@@ -19,6 +19,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.compose.runtime)
 
     testImplementation(libs.junit)
 }

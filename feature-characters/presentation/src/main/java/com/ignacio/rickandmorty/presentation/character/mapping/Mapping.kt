@@ -1,7 +1,7 @@
-package com.ignacio.rickandmorty.presentation.mapping
+package com.ignacio.rickandmorty.presentation.character.mapping
 
 import com.ignacio.rickandmorty.domain.models.RMCharacter
-import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
+import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 
 fun RMCharacter.toUi(): UiRMCharacter = UiRMCharacter(
     created = created,

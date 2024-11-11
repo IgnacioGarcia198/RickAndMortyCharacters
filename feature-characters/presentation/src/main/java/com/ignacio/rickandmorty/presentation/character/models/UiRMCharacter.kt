@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.presentation.models
+package com.ignacio.rickandmorty.presentation.character.models
 
 data class UiRMCharacter(
     val created: String,
