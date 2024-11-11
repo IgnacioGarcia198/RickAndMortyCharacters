@@ -34,6 +34,7 @@ lifecycle = "2.8.7"
 kotlinx-serialization = "1.6.0"
 ktor = "2.3.12"
 paging = "3.3.2"
+coil = "3.0.2"
 dummy-version = "1"
 
 [libraries]
@@ -79,6 +80,10 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-paging-common-jvm = { group = "androidx.paging", name = "paging-common-jvm", version.ref = "paging" }
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+
+# loading images
+io-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+io-coil-network-ktor2 = { group = "io.coil-kt.coil3", name = "coil-network-ktor2", version.ref = "coil" }
 
 # kotlin-only deps
 com-google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }

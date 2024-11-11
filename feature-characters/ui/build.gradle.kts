@@ -34,7 +34,9 @@ dependencies {
     implementation(libs.androidx.paging.compose) {
         exclude(group = "androidx.paging", module = "paging-common-android")
     }
-    //implementation(libs.androidx.paging.runtime)
+    implementation(libs.io.coil.compose)
+    implementation(libs.io.coil.network.ktor2)
+    implementation(libs.io.ktor.client.cio)
 
     testImplementation(libs.junit)
 
