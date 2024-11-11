@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Rick and Morty</string>
     <string name="character_not_found">Character not found</string>
+    <string name="character_detail_species">Species</string>
+    <string name="character_detail_status">Status</string>
+    <string name="character_detail_gender">Gender</string>
+    <string name="character_detail_type">Type</string>
+    <string name="character_created">Created at %s</string>
+    <string name="character_detail_created">Created at</string>
 </resources>

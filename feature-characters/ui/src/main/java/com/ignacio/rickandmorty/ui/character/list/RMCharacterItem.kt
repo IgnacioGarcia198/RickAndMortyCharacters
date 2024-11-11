@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
+import com.ignacio.rickandmorty.resources.R
 import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
 
 @Composable
@@ -34,7 +37,7 @@ fun RMCharacterItem(
 ) {
     Card(
         modifier = modifier.clickable {
-               onCharacterClick   (character.id)
+            onCharacterClick(character.id)
         },
     ) {
         Row(
@@ -48,7 +51,8 @@ fun RMCharacterItem(
                 contentDescription = character.name,
                 modifier = Modifier
                     .weight(1f)
-                    .height(150.dp)
+                    .height(150.dp),
+                contentScale = ContentScale.Fit
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
@@ -76,10 +80,10 @@ fun RMCharacterItem(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Created in ${character.created}",
+                    text = stringResource(id = R.string.character_created, character.created),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
-                    fontSize = 8.sp
+                    fontSize = 10.sp
                 )
             }
         }
