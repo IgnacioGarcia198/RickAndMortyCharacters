@@ -4,5 +4,4 @@ import com.ignacio.rickandmorty.presentation.character.models.RMCharacterDetailS
 
 interface RMCharacterDetailViewModelContract {
     val state: RMCharacterDetailState
-    fun initialize(id: Int)
 }
