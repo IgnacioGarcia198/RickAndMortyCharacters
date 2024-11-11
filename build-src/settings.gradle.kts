@@ -1,4 +1,4 @@
-rootProject.name = "depsModule"
+rootProject.name = "build-src"
 
 dependencyResolutionManagement {
     versionCatalogs {
