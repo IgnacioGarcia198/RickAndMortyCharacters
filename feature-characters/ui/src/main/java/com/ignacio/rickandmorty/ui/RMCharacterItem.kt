@@ -1,6 +1,15 @@
 package com.ignacio.rickandmorty.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,11 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ignacio.rickandmorty.domain.models.RMCharacter
+import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
 import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
 
 @Composable
 fun BeerItem(
-    character: RMCharacter,
+    character: UiRMCharacter,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -78,7 +88,7 @@ fun BeerItem(
 fun RMCharacterItemPreview() {
     RickAndMortyTheme {
         BeerItem(
-            character = RMCharacter(
+            character = UiRMCharacter(
                 id = 1,
                 name = "Test character",
                 episode = listOf(),

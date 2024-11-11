@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -17,24 +16,25 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.ignacio.rickandmorty.domain.models.RMCharacter
+import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
 
 @Composable
 fun BeerScreen(
-    beers: LazyPagingItems<RMCharacter>
+    characters: LazyPagingItems<UiRMCharacter>
 ) {
     val context = LocalContext.current
-    LaunchedEffect(key1 = beers.loadState) {
-        if(beers.loadState.refresh is LoadState.Error) {
+    LaunchedEffect(key1 = characters.loadState) {
+        if(characters.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
-                "Error: " + (beers.loadState.refresh as LoadState.Error).error.message,
+                "Error: " + (characters.loadState.refresh as LoadState.Error).error.message,
                 Toast.LENGTH_LONG
             ).show()
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if(beers.loadState.refresh is LoadState.Loading) {
+        if(characters.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -44,8 +44,8 @@ fun BeerScreen(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(beers.itemCount) { index ->
-                    Text(text = beers[index]?.name.orEmpty())
+                items(characters.itemCount) { index ->
+                    Text(text = characters[index]?.name.orEmpty())
                     //if(beer != null) {
                     //    BeerItem(
                     //        beer = beer,
@@ -54,7 +54,7 @@ fun BeerScreen(
                     //}
                 }
                 item {
-                    if(beers.loadState.append is LoadState.Loading) {
+                    if(characters.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator()
                     }
                 }
