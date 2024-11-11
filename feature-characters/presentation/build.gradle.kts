@@ -14,7 +14,6 @@ dependencies {
     implementation(project(":feature-characters:domain"))
 
     implementation(libs.androidx.core.ktx)
-    //implementation(libs.androidx.appcompat)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.paging.common.jvm)
@@ -22,4 +21,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk.jvm)
+    testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(libs.kotlinx.coroutines.test)
 }
