@@ -20,4 +20,8 @@ class RealRMCharactersRepository @Inject constructor(
     override fun getRMCharacters(query: String): Flow<PagingData<RMCharacter>> {
         return pagerFactory.create(query).flow.map { pagingData -> pagingData.map { it.toDomain() } }
     }
+
+    override fun getRMCharacterById(id: Int): Flow<Result<RMCharacter?>> {
+        TODO("Not yet implemented")
+    }
 }
