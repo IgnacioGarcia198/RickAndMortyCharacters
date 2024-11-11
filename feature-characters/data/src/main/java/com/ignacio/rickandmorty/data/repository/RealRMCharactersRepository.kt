@@ -7,6 +7,7 @@ import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.mapping.toDomain
 import com.ignacio.rickandmorty.data.paging.CharactersPagerFactory
 import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
+import com.ignacio.rickandmorty.kotlin_utils.extensions.mapResultFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -23,6 +24,6 @@ class RealRMCharactersRepository @Inject constructor(
 
     override fun getRMCharacterById(id: Int): Flow<Result<DomainCharacter?>> {
         return charactersLocalDataSource.getRMCharacterById(id)
-            .map { result -> result.map { it?.toDomain() } }
+            .mapResultFlow { it?.toDomain() }
     }
 }
