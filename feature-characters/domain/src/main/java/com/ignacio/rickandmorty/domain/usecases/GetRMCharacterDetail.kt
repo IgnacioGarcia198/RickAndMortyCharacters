@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class GetRMCharacterDetail @Inject constructor() {
-    operator fun invoke(id: Int): Flow<Result<RMCharacter>> {
+    operator fun invoke(id: Int): Flow<Result<RMCharacter?>> {
         return flowOf(Result.success(RMCharacter.dummy))
     }
 }

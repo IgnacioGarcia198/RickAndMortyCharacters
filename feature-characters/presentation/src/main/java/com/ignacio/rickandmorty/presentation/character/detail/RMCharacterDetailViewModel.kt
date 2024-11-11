@@ -31,8 +31,12 @@ class RMCharacterDetailViewModel @AssistedInject constructor(
             .onEach { result ->
                 result.onFailure {
                     state = RMCharacterDetailState.Error(it)
-                }.onSuccess {
-                    state = RMCharacterDetailState.Data(it.toUi())
+                }.onSuccess { character ->
+                    state = if (character != null) {
+                        RMCharacterDetailState.Data(character.toUi())
+                    } else {
+                        RMCharacterDetailState.CharacterNotFound
+                    }
                 }
             }.launchIn(viewModelScope)
     }
