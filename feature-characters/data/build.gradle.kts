@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     implementation(project(":feature-characters:domain"))
+    implementation(project(":kotlin-utils"))
 
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.com.google.dagger)

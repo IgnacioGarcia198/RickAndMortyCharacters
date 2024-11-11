@@ -17,13 +17,12 @@ android {
 
 dependencies {
     implementation(project(":feature-characters:data"))
+    implementation(project(":kotlin-utils"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-    // paging
-    //implementation(libs.androidx.paging.runtime)
-    //implementation(libs.androidx.paging.common.jvm)
+
     // room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

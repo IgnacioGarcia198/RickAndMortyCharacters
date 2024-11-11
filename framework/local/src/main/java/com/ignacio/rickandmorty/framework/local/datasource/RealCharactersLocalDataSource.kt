@@ -6,7 +6,10 @@ import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
+import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
+import com.ignacio.rickandmorty.kotlin_utils.extensions.asResultFlow
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RealCharactersLocalDataSource @Inject constructor(
@@ -27,5 +30,9 @@ class RealCharactersLocalDataSource @Inject constructor(
         return (if (query.isEmpty())
             rmCharacterDao.getAllRMCharacters()
         else rmCharacterDao.getRMCharacters(query)) as PagingSource<Int, LocalRMCharacter>
+    }
+
+    override fun getRMCharacterById(id: Int): Flow<Result<RMCharacter?>> {
+        return rmCharacterDao.getRMCharacterById(id).asResultFlow { it?.toData() }
     }
 }

@@ -17,4 +17,19 @@ data class DbRMCharacter(
     override val status: String,
     override val type: String?,
     override val url: String,
-): LocalRMCharacter
+) : LocalRMCharacter {
+    companion object {
+        val dummy = DbRMCharacter(
+            created = "created",
+            episode = emptyList(),
+            gender = "male",
+            id = 1,
+            image = null,
+            name = "name",
+            species = "species",
+            status = "status",
+            type = "type",
+            url = "url"
+        )
+    }
+}
