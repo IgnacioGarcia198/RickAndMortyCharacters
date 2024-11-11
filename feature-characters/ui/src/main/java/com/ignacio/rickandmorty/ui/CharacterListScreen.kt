@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -19,11 +18,12 @@ import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
 
 @Composable
 fun CharacterListScreen(
-    characters: LazyPagingItems<UiRMCharacter>
+    characters: LazyPagingItems<UiRMCharacter>,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = characters.loadState) {
-        if(characters.loadState.refresh is LoadState.Error) {
+        if (characters.loadState.refresh is LoadState.Error) {
             Toast.makeText(
                 context,
                 "Error: " + (characters.loadState.refresh as LoadState.Error).error.message,
@@ -32,8 +32,8 @@ fun CharacterListScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        if(characters.loadState.refresh is LoadState.Loading) {
+    Box(modifier = modifier.fillMaxSize()) {
+        if (characters.loadState.refresh is LoadState.Loading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -49,7 +49,7 @@ fun CharacterListScreen(
                     }
                 }
                 item {
-                    if(characters.loadState.append is LoadState.Loading) {
+                    if (characters.loadState.append is LoadState.Loading) {
                         CircularProgressIndicator()
                     }
                 }
