@@ -17,8 +17,7 @@ fun CharactersFeature() {
     val viewModel: RMCharactersViewModelContract = hiltViewModel<RMCharactersViewModel>()
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         val characters = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-        //TestScreen(characters = characters)
-        BeerScreen(characters = characters)
+        CharacterListScreen(characters = characters)
     }
 }
 

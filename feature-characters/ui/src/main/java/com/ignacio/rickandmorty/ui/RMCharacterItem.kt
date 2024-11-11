@@ -26,7 +26,7 @@ import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
 import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
 
 @Composable
-fun BeerItem(
+fun RMCharacterItem(
     character: UiRMCharacter,
     modifier: Modifier = Modifier
 ) {
@@ -86,7 +86,7 @@ fun BeerItem(
 @Composable
 fun RMCharacterItemPreview() {
     RickAndMortyTheme {
-        BeerItem(
+        RMCharacterItem(
             character = UiRMCharacter(
                 id = 1,
                 name = "Test character",

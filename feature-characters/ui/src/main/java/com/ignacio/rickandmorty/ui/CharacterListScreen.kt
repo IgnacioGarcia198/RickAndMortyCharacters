@@ -15,11 +15,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.ignacio.rickandmorty.domain.models.RMCharacter
 import com.ignacio.rickandmorty.presentation.models.UiRMCharacter
 
 @Composable
-fun BeerScreen(
+fun CharacterListScreen(
     characters: LazyPagingItems<UiRMCharacter>
 ) {
     val context = LocalContext.current
@@ -45,13 +44,9 @@ fun BeerScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(characters.itemCount) { index ->
-                    Text(text = characters[index]?.name.orEmpty())
-                    //if(beer != null) {
-                    //    BeerItem(
-                    //        beer = beer,
-                    //        modifier = Modifier.fillMaxWidth()
-                    //    )
-                    //}
+                    characters[index]?.let {
+                        RMCharacterItem(character = it)
+                    }
                 }
                 item {
                     if(characters.loadState.append is LoadState.Loading) {
