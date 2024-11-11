@@ -37,11 +37,6 @@ class RMCharactersRepositoryTest {
     }
 
     @Test
-    fun `bla`() {
-        repository.getRMCharacterById(1)
-    }
-
-    @Test
     fun `repository uses CharactersLocalDataSource to get character by id`() = runTest {
         var result = repository.getRMCharacterById(id).first()
         advanceUntilIdle()

@@ -6,22 +6,23 @@ import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.mapping.toDomain
 import com.ignacio.rickandmorty.data.paging.CharactersPagerFactory
-import com.ignacio.rickandmorty.domain.models.RMCharacter
 import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import com.ignacio.rickandmorty.domain.models.RMCharacter as DomainCharacter
 
 class RealRMCharactersRepository @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
     private val charactersLocalDataSource: CharactersLocalDataSource,
     private val pagerFactory: CharactersPagerFactory,
 ) : RMCharactersRepository {
-    override fun getRMCharacters(query: String): Flow<PagingData<RMCharacter>> {
+    override fun getRMCharacters(query: String): Flow<PagingData<DomainCharacter>> {
         return pagerFactory.create(query).flow.map { pagingData -> pagingData.map { it.toDomain() } }
     }
 
-    override fun getRMCharacterById(id: Int): Flow<Result<RMCharacter?>> {
-        TODO("Not yet implemented")
+    override fun getRMCharacterById(id: Int): Flow<Result<DomainCharacter?>> {
+        return charactersLocalDataSource.getRMCharacterById(id)
+            .map { result -> result.map { it?.toDomain() } }
     }
 }
