@@ -32,8 +32,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.compose.NavHost
@@ -88,7 +90,12 @@ fun CharactersFeature() {
                                 focusedBorderColor = Color.Transparent,
                                 unfocusedBorderColor = Color.Transparent
                             ),
-                            placeholder = { Text(stringResource(R.string.top_app_bar_search_hint)) },
+                            placeholder = {
+                                Text(
+                                    stringResource(R.string.top_app_bar_search_hint),
+                                    style = TextStyle(fontSize = 22.sp)
+                                )
+                            },
                         )
                     } else {
                         Text(titleText)
