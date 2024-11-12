@@ -29,7 +29,7 @@ class RealCharactersLocalDataSource @Inject constructor(
     override fun getRMCharacters(query: String): PagingSource<Int, LocalRMCharacter> {
         return (if (query.isEmpty())
             rmCharacterDao.getAllRMCharacters()
-        else rmCharacterDao.getRMCharacters(query)) as PagingSource<Int, LocalRMCharacter>
+        else rmCharacterDao.getRMCharacters("%$query%")) as PagingSource<Int, LocalRMCharacter>
     }
 
     override fun getRMCharacterById(id: Int): Flow<Result<RMCharacter?>> {

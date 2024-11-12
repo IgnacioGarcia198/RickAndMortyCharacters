@@ -19,7 +19,9 @@ class RealRMCharactersRepository @Inject constructor(
     private val pagerFactory: CharactersPagerFactory,
 ) : RMCharactersRepository {
     override fun getRMCharacters(query: String): Flow<PagingData<DomainCharacter>> {
-        return pagerFactory.create(query).flow.map { pagingData -> pagingData.map { it.toDomain() } }
+        return pagerFactory.create(query).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
     }
 
     override fun getRMCharacterById(id: Int): Flow<Result<DomainCharacter?>> {

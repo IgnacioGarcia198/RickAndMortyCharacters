@@ -70,9 +70,7 @@ private fun DisplayCharacter(character: UiRMCharacter) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .height(IntrinsicSize.Max)
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize(),
+            .verticalScroll(rememberScrollState()),
     ) {
         Text(
             text = character.name,

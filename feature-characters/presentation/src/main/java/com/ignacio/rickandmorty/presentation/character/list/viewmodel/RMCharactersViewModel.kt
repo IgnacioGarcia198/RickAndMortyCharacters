@@ -24,4 +24,8 @@ class RMCharactersViewModel @Inject constructor(
         .flatMapLatest { getRMCharacters(query = it) }
         .map { data -> data.map { it.toUi() } }
         .cachedIn(viewModelScope)
+
+    override fun setQuery(query: String) {
+        queryMF.value = query
+    }
 }

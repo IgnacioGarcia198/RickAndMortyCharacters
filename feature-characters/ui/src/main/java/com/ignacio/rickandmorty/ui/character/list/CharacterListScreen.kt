@@ -22,6 +22,7 @@ import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 
 @Composable
 fun CharacterListScreen(
+    searchText: String,
     modifier: Modifier = Modifier,
     viewModel: RMCharactersViewModelContract = hiltViewModel<RMCharactersViewModel>(),
     onCharacterClick: (id: Int) -> Unit = {},
@@ -37,6 +38,9 @@ fun CharacterListScreen(
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+    LaunchedEffect(key1 = searchText) {
+        viewModel.setQuery(searchText)
     }
 
     Box(modifier = modifier.fillMaxSize()) {
