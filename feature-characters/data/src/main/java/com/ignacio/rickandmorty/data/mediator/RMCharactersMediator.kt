@@ -21,9 +21,16 @@ class RMCharactersMediator(
     override suspend fun initialize(): InitializeAction {
         // Launch remote refresh as soon as paging starts and do not trigger remote prepend or
         // append until refresh has succeeded.
-        // TODO: CHECK LAST UPDATE
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return if (shouldRefreshInitially()) {
+            initialized = true
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        } else {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        }
     }
+
+    // TODO: CHECK LAST UPDATE
+    private fun shouldRefreshInitially(): Boolean = !initialized
 
     override suspend fun load(
         loadType: LoadType,
@@ -63,5 +70,9 @@ class RMCharactersMediator(
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }
+    }
+
+    companion object {
+        var initialized = false
     }
 }
