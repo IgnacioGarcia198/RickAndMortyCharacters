@@ -55,7 +55,7 @@ class RMCharactersMediator(
             // Suspending network load via Ktor. This doesn't need to be
             // wrapped in a withContext(Dispatcher.IO) { ... } block since
             // Ktor does it automatically.
-            val response = networkService.getCharacters(page = loadKey)
+            val response = networkService.getCharacters(page = loadKey, query = query)
                 .getOrElse { return MediatorResult.Error(it) }
 
             localDataSource.upsertAll(

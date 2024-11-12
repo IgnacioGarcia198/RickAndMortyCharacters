@@ -16,7 +16,7 @@ import javax.inject.Inject
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient
 ) : RickAndMortyApi {
-    override suspend fun getCharacters(page: Int): Result<RMCharacters> {
+    override suspend fun getCharacters(page: Int, query: String): Result<RMCharacters> {
         return kotlin.runCatching {
             val response = client.get {
                 url {
@@ -27,6 +27,9 @@ class RealRickAndMortyApi @Inject constructor(
                         NetworkConstants.RICK_AND_MORTY_CHARACTERS_PATH
                     )
                     parameter(key = "page", value = page)
+                    if (query.isNotEmpty()) {
+                        parameter(key = "name", value = query)
+                    }
                 }
             }
             response.body<RMCharactersResponse>().toRMCharacters()
