@@ -8,7 +8,6 @@ plugins {
 
 dependencies {
     implementation(project(":feature-characters:data"))
-    implementation(project(":feature-characters:domain"))
 
     implementation(libs.io.ktor.client.cio)
     implementation(libs.io.ktor.client.logging)

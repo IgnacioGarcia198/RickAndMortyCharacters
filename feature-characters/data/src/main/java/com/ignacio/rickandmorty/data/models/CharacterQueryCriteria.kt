@@ -1,6 +1,6 @@
-package com.ignacio.rickandmorty.domain.models
+package com.ignacio.rickandmorty.data.models
 
-data class CharacterListQueryCriteria(
+data class CharacterQueryCriteria(
     val name: String,
     val status: Status,
     val species: String,
@@ -20,7 +20,7 @@ data class CharacterListQueryCriteria(
         override fun toString(): String = name.lowercase()
     }
     companion object {
-        val default = CharacterListQueryCriteria(
+        val default = CharacterQueryCriteria(
             name = "",
             status = Status.ANY,
             species = "",

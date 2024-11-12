@@ -6,7 +6,6 @@ import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.room.Upsert
 import androidx.sqlite.db.SupportSQLiteQuery
-import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
 import kotlinx.coroutines.flow.Flow
 
@@ -32,6 +31,7 @@ interface RMCharacterDao {
 
     @Query("SELECT * FROM rickAndMortyCharacters")
     fun getAllRMCharacters(): PagingSource<Int, DbRMCharacter>
+
     @Query("SELECT * FROM rickAndMortyCharacters WHERE id = :id")
     fun getRMCharacterById(id: Int): Flow<DbRMCharacter?>
 }

@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.mapping.toData
 import com.ignacio.rickandmorty.data.mapping.toDomain
 import com.ignacio.rickandmorty.data.paging.CharactersPagerFactory
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
@@ -20,7 +21,7 @@ class RealRMCharactersRepository @Inject constructor(
     private val pagerFactory: CharactersPagerFactory,
 ) : RMCharactersRepository {
     override fun getRMCharacters(query: CharacterListQueryCriteria): Flow<PagingData<DomainCharacter>> {
-        return pagerFactory.create(query).flow.map { pagingData ->
+        return pagerFactory.create(query.toData()).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
     }

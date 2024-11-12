@@ -6,15 +6,15 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
-import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 
 private const val CHARACTERS_API_FIRST_PAGE = 1
 private const val CHARACTERS_API_RESULTS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class RMCharactersMediator(
-    private val query: CharacterListQueryCriteria,
+    private val query: CharacterQueryCriteria,
     private val localDataSource: CharactersLocalDataSource,
     private val networkService: RickAndMortyApi,
 ) : RemoteMediator<Int, LocalRMCharacter>() {

@@ -4,9 +4,9 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
+import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.models.RMCharacter
-import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
@@ -18,10 +18,10 @@ class RealCharactersLocalDataSource @Inject constructor(
     private val database: AppDatabase
 ) : CharactersLocalDataSource {
     private val rmCharacterDao get() = database.rmCharacterDao()
-    override suspend fun upsertAll(characters: List<RMCharacter>, clear: Boolean, query: CharacterListQueryCriteria) {
+    override suspend fun upsertAll(characters: List<RMCharacter>, clear: Boolean, query: CharacterQueryCriteria) {
         database.withTransaction {
             if (clear) {
-                if (query == CharacterListQueryCriteria.default) {
+                if (query == CharacterQueryCriteria.default) {
                     rmCharacterDao.clearAll()
                 } else {
                     rmCharacterDao.deleteByQuery(query.toQuery("DELETE FROM rickAndMortyCharacters WHERE "))
@@ -32,8 +32,8 @@ class RealCharactersLocalDataSource @Inject constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun getRMCharacters(query: CharacterListQueryCriteria): PagingSource<Int, LocalRMCharacter> {
-        return (if (query == CharacterListQueryCriteria.default)
+    override fun getRMCharacters(query: CharacterQueryCriteria): PagingSource<Int, LocalRMCharacter> {
+        return (if (query == CharacterQueryCriteria.default)
             rmCharacterDao.getAllRMCharacters()
         else {
             val sql = query.toQuery("SELECT * FROM rickAndMortyCharacters WHERE ")
@@ -41,7 +41,7 @@ class RealCharactersLocalDataSource @Inject constructor(
         }) as PagingSource<Int, LocalRMCharacter>
     }
 
-    private fun CharacterListQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
+    private fun CharacterQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
         val sql = StringBuilder(queryStart)
         val args = mutableListOf<String>()
         if (name.isNotEmpty()) {
@@ -56,11 +56,11 @@ class RealCharactersLocalDataSource @Inject constructor(
             sql.appendQuerySegment("species LIKE ?")
             args.add("%$species%")
         }
-        if (status != CharacterListQueryCriteria.Status.any) {
+        if (status != CharacterQueryCriteria.Status.ANY) {
             sql.appendQuerySegment("status LIKE ?")
             args.add("%${status.name}%")
         }
-        if (gender != CharacterListQueryCriteria.Gender.any) {
+        if (gender != CharacterQueryCriteria.Gender.ANY) {
             sql.appendQuerySegment("gender LIKE ?")
             args.add("%${gender.name}%")
         }

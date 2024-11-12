@@ -8,15 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
-import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
-import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.ui_common.composables.Spinner
 
 @Composable

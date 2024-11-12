@@ -1,8 +1,8 @@
 package com.ignacio.rickandmorty.framework.remote.api
 
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.models.RMCharacters
-import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
@@ -17,7 +17,10 @@ import javax.inject.Inject
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient
 ) : RickAndMortyApi {
-    override suspend fun getCharacters(page: Int, query: CharacterListQueryCriteria): Result<RMCharacters> {
+    override suspend fun getCharacters(
+        page: Int,
+        query: CharacterQueryCriteria
+    ): Result<RMCharacters> {
         return kotlin.runCatching {
             val response = client.get {
                 url {
@@ -38,10 +41,10 @@ class RealRickAndMortyApi @Inject constructor(
                         if (query.species.isNotEmpty()) {
                             parameter(key = "species", value = query.species)
                         }
-                        if (query.status != CharacterListQueryCriteria.Status.any) {
+                        if (query.status != CharacterQueryCriteria.Status.ANY) {
                             parameter(key = "status", value = query.status.name)
                         }
-                        if (query.gender != CharacterListQueryCriteria.Gender.any) {
+                        if (query.gender != CharacterQueryCriteria.Gender.ANY) {
                             parameter(key = "gender", value = query.gender.name)
                         }
                     }
