@@ -6,6 +6,8 @@ import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.mapping.toData
 import com.ignacio.rickandmorty.data.mapping.toDomain
+import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.paging.CharactersPagerFactory
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
@@ -18,12 +20,40 @@ import com.ignacio.rickandmorty.domain.models.RMCharacter as DomainCharacter
 class RealRMCharactersRepository @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
     private val charactersLocalDataSource: CharactersLocalDataSource,
-    private val pagerFactory: CharactersPagerFactory,
+    private val pagerFactory: CharactersPagerFactory<Int, LocalRMCharacter>,
 ) : RMCharactersRepository {
     override fun getRMCharacters(query: CharacterListQueryCriteria): Flow<PagingData<DomainCharacter>> {
-        return pagerFactory.create(query.toData()).flow.map { pagingData ->
+        val dataQuery = query.toData()
+        return pagerFactory.create(
+            updateFromRemote = { page, shouldClearLocalCache ->
+                updateFromRemote(
+                    query = query.toData(),
+                    page = page,
+                    shouldClearLocalCache = shouldClearLocalCache,
+                )
+            }
+        ) { charactersLocalDataSource.getRMCharacters(dataQuery) }.flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
+    }
+
+    suspend fun updateFromRemote(
+        query: CharacterQueryCriteria,
+        page: Int,
+        shouldClearLocalCache: Boolean,
+    ): Result<Boolean> {
+        // Suspending network load via Ktor. This doesn't need to be
+        // wrapped in a withContext(Dispatcher.IO) { ... } block since
+        // Ktor does it automatically.
+        return rickAndMortyApi.getCharacters(page = page, query = query)
+            .mapCatching { response ->
+                charactersLocalDataSource.upsertAll(
+                    response.characters,
+                    clear = shouldClearLocalCache,
+                    query = query
+                )
+                !response.hasNextPage
+            }
     }
 
     override fun getRMCharacterById(id: Int): Flow<Result<DomainCharacter?>> {

@@ -1,9 +1,11 @@
 package com.ignacio.rickandmorty.data.paging
 
 import androidx.paging.Pager
-import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.data.models.LocalRMCharacter
+import androidx.paging.PagingSource
 
-interface CharactersPagerFactory {
-    fun create(query: CharacterQueryCriteria): Pager<Int, LocalRMCharacter>
+interface CharactersPagerFactory<Key : Any, Value : Any> {
+    fun create(
+        updateFromRemote: suspend (page: Int, shouldClearLocalCache: Boolean) -> Result<Boolean>,
+        pagingSourceFactory: () -> PagingSource<Key, Value>
+    ): Pager<Key, Value>
 }

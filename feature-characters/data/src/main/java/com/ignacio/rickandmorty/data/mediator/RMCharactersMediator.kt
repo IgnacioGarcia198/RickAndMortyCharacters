@@ -4,9 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
-import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
-import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 
 private const val CHARACTERS_API_FIRST_PAGE = 1
@@ -14,9 +11,7 @@ private const val CHARACTERS_API_RESULTS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class RMCharactersMediator(
-    private val query: CharacterQueryCriteria,
-    private val localDataSource: CharactersLocalDataSource,
-    private val networkService: RickAndMortyApi,
+    private val updateFromRemote: suspend (page: Int, shouldClearLocalCache: Boolean) -> Result<Boolean>,
 ) : RemoteMediator<Int, LocalRMCharacter>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -37,43 +32,30 @@ class RMCharactersMediator(
         loadType: LoadType,
         state: PagingState<Int, LocalRMCharacter>
     ): MediatorResult {
-        return try {
-            val loadKey = when (loadType) {
-                LoadType.REFRESH -> CHARACTERS_API_FIRST_PAGE
-                LoadType.PREPEND ->
-                    return MediatorResult.Success(endOfPaginationReached = true)
+        val loadKey = when (loadType) {
+            LoadType.REFRESH -> CHARACTERS_API_FIRST_PAGE
+            LoadType.PREPEND ->
+                return MediatorResult.Success(endOfPaginationReached = true)
 
-                LoadType.APPEND -> {
-                    val lastItem = state.lastItemOrNull()
-                    if (lastItem == null) {
-                        CHARACTERS_API_FIRST_PAGE
-                    } else {
-                        (lastItem.id / CHARACTERS_API_RESULTS_PER_PAGE) + 1
-                    }
+            LoadType.APPEND -> {
+                val lastItem = state.lastItemOrNull()
+                if (lastItem == null) {
+                    CHARACTERS_API_FIRST_PAGE
+                } else {
+                    (lastItem.id / CHARACTERS_API_RESULTS_PER_PAGE) + 1
                 }
             }
-
-            // Suspending network load via Ktor. This doesn't need to be
-            // wrapped in a withContext(Dispatcher.IO) { ... } block since
-            // Ktor does it automatically.
-            val response = networkService.getCharacters(page = loadKey, query = query)
-                .getOrElse { return MediatorResult.Error(it) }
-
-            localDataSource.upsertAll(
-                response.characters,
-                clear = loadType == LoadType.REFRESH,
-                query = query
-            )
-
-            MediatorResult.Success(
-                endOfPaginationReached = !response.hasNextPage // response.characters.isEmpty()
-            )
-        } catch (e: Exception) {
-            MediatorResult.Error(e)
         }
+        return updateFromRemote(loadKey, loadType == LoadType.REFRESH,).toMediatorResult()
     }
 
     companion object {
         var initialized = false
     }
+}
+
+@OptIn(ExperimentalPagingApi::class)
+fun Result<Boolean>.toMediatorResult(): RemoteMediator.MediatorResult = when {
+    this.isSuccess -> RemoteMediator.MediatorResult.Success(endOfPaginationReached = getOrThrow())
+    else -> RemoteMediator.MediatorResult.Error(exceptionOrNull()!!)
 }
