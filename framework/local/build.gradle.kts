@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":feature-characters:data"))
+    implementation(project(":feature-characters:domain"))
     implementation(project(":kotlin-utils"))
 
     implementation(libs.androidx.core.ktx)

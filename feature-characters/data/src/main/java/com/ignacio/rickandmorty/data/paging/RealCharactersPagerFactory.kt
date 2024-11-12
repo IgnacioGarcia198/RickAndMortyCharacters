@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.mediator.CharactersMediatorFactory
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
+import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import javax.inject.Inject
 
 private const val DB_PAGE_SIZE = 40
@@ -15,7 +16,7 @@ class RealCharactersPagerFactory @Inject constructor(
     private val charactersLocalDataSource: CharactersLocalDataSource,
 ): CharactersPagerFactory {
     @OptIn(ExperimentalPagingApi::class)
-    override fun create(query: String): Pager<Int, LocalRMCharacter> = Pager(
+    override fun create(query: CharacterListQueryCriteria): Pager<Int, LocalRMCharacter> = Pager(
         config = PagingConfig(pageSize = DB_PAGE_SIZE),
         remoteMediator = mediatorFactory.create(query),
         pagingSourceFactory = { charactersLocalDataSource.getRMCharacters(query) }

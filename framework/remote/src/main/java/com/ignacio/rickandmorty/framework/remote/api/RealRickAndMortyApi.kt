@@ -2,6 +2,7 @@ package com.ignacio.rickandmorty.framework.remote.api
 
 import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.models.RMCharacters
+import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient
 ) : RickAndMortyApi {
-    override suspend fun getCharacters(page: Int, query: String): Result<RMCharacters> {
+    override suspend fun getCharacters(page: Int, query: CharacterListQueryCriteria): Result<RMCharacters> {
         return kotlin.runCatching {
             val response = client.get {
                 url {
@@ -27,8 +28,22 @@ class RealRickAndMortyApi @Inject constructor(
                         NetworkConstants.RICK_AND_MORTY_CHARACTERS_PATH
                     )
                     parameter(key = "page", value = page)
-                    if (query.isNotEmpty()) {
-                        parameter(key = "name", value = query)
+                    if (query.name.isNotEmpty()) {
+                        parameter(key = "name", value = query.name)
+                    }
+                    if (!query.justName) {
+                        if (query.type.isNotEmpty()) {
+                            parameter(key = "type", value = query.type)
+                        }
+                        if (query.species.isNotEmpty()) {
+                            parameter(key = "species", value = query.species)
+                        }
+                        if (query.status != CharacterListQueryCriteria.Status.any) {
+                            parameter(key = "status", value = query.status.name)
+                        }
+                        if (query.gender != CharacterListQueryCriteria.Gender.any) {
+                            parameter(key = "gender", value = query.gender.name)
+                        }
                     }
                 }
             }

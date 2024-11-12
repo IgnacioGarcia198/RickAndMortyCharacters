@@ -8,4 +8,5 @@
     <string name="character_created">Created at %s</string>
     <string name="character_detail_created">Created at</string>
     <string name="top_app_bar_search_hint">Search</string>
+    <string name="navigate_back_arrow_content_desc">Go back</string>
 </resources>

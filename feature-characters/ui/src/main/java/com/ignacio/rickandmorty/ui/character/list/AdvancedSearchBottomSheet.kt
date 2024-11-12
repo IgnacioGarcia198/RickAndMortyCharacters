@@ -1,0 +1,91 @@
+package com.ignacio.rickandmorty.ui.character.list
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
+import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
+import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
+import com.ignacio.rickandmorty.ui_common.composables.Spinner
+
+@Composable
+fun AdvancedSearchBottomSheet(
+    criteria: CharacterListQueryCriteria,
+    onClose: () -> Unit = {},
+    updateCriteria: (CharacterListQueryCriteria) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Text("Advanced Search", style = MaterialTheme.typography.headlineSmall)
+
+        OutlinedTextField(
+            value = criteria.name,
+            onValueChange = { updateCriteria(criteria.copy(name = it)) },
+            label = { Text("Name") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = criteria.species,
+            onValueChange = { updateCriteria(criteria.copy(species = it)) },
+            label = { Text("Species") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        )
+
+        OutlinedTextField(
+            value = criteria.type,
+            onValueChange = { updateCriteria(criteria.copy(type = it)) },
+            label = { Text("Type") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+        )
+
+        Spinner(
+            label = "Status",
+            selected = criteria.status.name,
+            entries = CharacterListQueryCriteria.Status.entries.map { it.name },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            updateCriteria(criteria.copy(status = CharacterListQueryCriteria.Status.valueOf(it)))
+        }
+
+        Spinner(
+            label = "Gender",
+            selected = criteria.gender.name,
+            entries = CharacterListQueryCriteria.Gender.entries.map { it.name },
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            updateCriteria(criteria.copy(gender = CharacterListQueryCriteria.Gender.valueOf(it)))
+        }
+
+        Button(
+            onClick = {
+                onClose()
+            },
+            modifier = Modifier
+                .align(Alignment.End)
+                .padding(top = 16.dp)
+        ) {
+            Text("Done")
+        }
+    }
+}

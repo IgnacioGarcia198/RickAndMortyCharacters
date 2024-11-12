@@ -3,7 +3,6 @@ package com.ignacio.rickandmorty.ui.character.detail
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -13,14 +12,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,35 +41,60 @@ import com.ignacio.rickandmorty.presentation.character.detail.RMCharacterDetailV
 import com.ignacio.rickandmorty.presentation.character.models.RMCharacterDetailState
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui.theme.Pink80
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterDetailScreen(
     id: Int,
     viewModel: RMCharacterDetailViewModelContract = hiltViewModel<RMCharacterDetailViewModel, RMCharacterDetailViewModel.ViewModelFactory> { factory ->
         factory.create(id)
-    }
+    },
+    goBack: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        when (val state = viewModel.state) {
-            RMCharacterDetailState.CharacterNotFound -> Text(
-                text = stringResource(id = R.string.character_not_found),
-                modifier = Modifier.align(Alignment.Center),
+    Scaffold(
+        topBar = {
+            val titleText = stringResource(id = R.string.app_name)
+            TopAppBar(
+                title = {
+                    Text(titleText)
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Pink80),
+                modifier = Modifier.semantics { contentDescription = "Title: $titleText" },
+                navigationIcon = {
+                    IconButton(onClick = goBack) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.navigate_back_arrow_content_desc)
+                        )
+                    }
+                },
             )
+        },
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            when (val state = viewModel.state) {
+                RMCharacterDetailState.CharacterNotFound -> Text(
+                    text = stringResource(id = R.string.character_not_found),
+                    modifier = Modifier.align(Alignment.Center),
+                )
 
-            is RMCharacterDetailState.Data -> DisplayCharacter(state.character)
-            is RMCharacterDetailState.Error -> Text(
-                text = state.error?.stackTraceToString().orEmpty(),
-                style = TextStyle(color = Color.Red),
-                modifier = Modifier.align(Alignment.Center),
-            )
+                is RMCharacterDetailState.Data -> DisplayCharacter(state.character)
+                is RMCharacterDetailState.Error -> Text(
+                    text = state.error?.stackTraceToString().orEmpty(),
+                    style = TextStyle(color = Color.Red),
+                    modifier = Modifier.align(Alignment.Center),
+                )
 
-            RMCharacterDetailState.Loading -> CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
-            )
+                RMCharacterDetailState.Loading -> CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
         }
     }
 }
