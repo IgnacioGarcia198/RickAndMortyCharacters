@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,15 +53,29 @@ fun CharacterDetailScreen(
     },
     goBack: () -> Unit,
 ) {
+    val state = viewModel.state
     Scaffold(
         topBar = {
-            val titleText = stringResource(id = R.string.app_name)
+            val titleText =
+                if (state is RMCharacterDetailState.Data) state.character.name else stringResource(
+                    id = R.string.app_name
+                )
+            val titleContentDesc =
+                if (state is RMCharacterDetailState.Data) stringResource(
+                    id = R.string.character_detail_title_cd,
+                    state.character.name
+                ) else stringResource(
+                    id = R.string.app_name
+                )
             TopAppBar(
                 title = {
-                    Text(titleText)
+                    Text(
+                        titleText,
+                        modifier = Modifier.semantics { contentDescription = titleContentDesc },
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Pink80),
-                modifier = Modifier.semantics { contentDescription = "Title: $titleText" },
                 navigationIcon = {
                     IconButton(onClick = goBack) {
                         Icon(
@@ -78,7 +93,7 @@ fun CharacterDetailScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
-            when (val state = viewModel.state) {
+            when (state) {
                 RMCharacterDetailState.CharacterNotFound -> Text(
                     text = stringResource(id = R.string.character_not_found),
                     modifier = Modifier.align(Alignment.Center),
@@ -165,12 +180,12 @@ private fun AttributeValueRow(
         Text(
             text = "$attrName:",
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 14.sp),
-            modifier = Modifier.weight(0.3f) // Occupy equal width
+            modifier = Modifier.weight(0.3f)
         )
         Text(
             text = attrValue,
             style = TextStyle(fontSize = 14.sp),
-            modifier = Modifier.weight(1f) // Occupy equal width
+            modifier = Modifier.weight(1f)
         )
     }
     if (spaceBelow) {

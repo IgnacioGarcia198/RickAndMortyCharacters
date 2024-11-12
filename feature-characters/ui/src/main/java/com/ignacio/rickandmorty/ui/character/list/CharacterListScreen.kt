@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -78,9 +79,10 @@ fun CharacterListScreen(
         }
     }
 
+    val barContentDesc = stringResource(id = R.string.character_list_title_cd)
+
     Scaffold(
         topBar = {
-            val titleText = stringResource(id = R.string.app_name)
             TopAppBar(
                 title = {
                     if (showingSearchTextField) {
@@ -95,23 +97,23 @@ fun CharacterListScreen(
                             ),
                             placeholder = {
                                 Text(
-                                    stringResource(R.string.top_app_bar_search_hint),
+                                    stringResource(R.string.search),
                                     style = TextStyle(fontSize = 22.sp)
                                 )
                             },
+                            modifier = Modifier.fillMaxWidth(),
                         )
                     } else {
-                        Text(titleText)
+                        Text(stringResource(id = R.string.character_list_title), modifier = Modifier.semantics { contentDescription = barContentDesc })
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Pink80),
-                modifier = Modifier.semantics { contentDescription = "Title: $titleText" },
                 actions = {
                     if (showingSearchTextField) {
                         IconButton(onClick = {
                             showBottomSheet = true
                         }) {
-                            Icon(Icons.Default.Build, contentDescription = "Advanced search")
+                            Icon(Icons.Default.Build, contentDescription = stringResource(id = R.string.advanced_search_title))
                         }
                     }
                     IconButton(onClick = {
@@ -124,7 +126,7 @@ fun CharacterListScreen(
                     }) {
                         Icon(
                             imageVector = if (showingSearchTextField) Icons.Default.Close else Icons.Default.Search,
-                            contentDescription = "jjjj"
+                            contentDescription = stringResource(id = if (showingSearchTextField) R.string.close else R.string.search)
                         )
                     }
                 }

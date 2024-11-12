@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
+import com.ignacio.rickandmorty.resources.R
 import com.ignacio.rickandmorty.ui_common.composables.Spinner
 
 @Composable
@@ -25,12 +27,12 @@ fun AdvancedSearchBottomSheet(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        Text("Advanced Search", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(id = R.string.advanced_search_title), style = MaterialTheme.typography.headlineSmall)
 
         OutlinedTextField(
             value = criteria.name,
             onValueChange = { updateCriteria(criteria.copy(name = it)) },
-            label = { Text("Name") },
+            label = { Text(stringResource(id = R.string.name)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -39,7 +41,7 @@ fun AdvancedSearchBottomSheet(
         OutlinedTextField(
             value = criteria.species,
             onValueChange = { updateCriteria(criteria.copy(species = it)) },
-            label = { Text("Species") },
+            label = { Text(stringResource(id = R.string.species)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
@@ -48,14 +50,14 @@ fun AdvancedSearchBottomSheet(
         OutlinedTextField(
             value = criteria.type,
             onValueChange = { updateCriteria(criteria.copy(type = it)) },
-            label = { Text("Type") },
+            label = { Text(stringResource(id = R.string.type)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
         )
 
         Spinner(
-            label = "Status",
+            label = stringResource(id = R.string.status),
             selected = criteria.status.name,
             entries = CharacterListQueryCriteria.Status.entries.map { it.name },
             modifier = Modifier.padding(top = 16.dp)
@@ -64,7 +66,7 @@ fun AdvancedSearchBottomSheet(
         }
 
         Spinner(
-            label = "Gender",
+            label = stringResource(id = R.string.gender),
             selected = criteria.gender.name,
             entries = CharacterListQueryCriteria.Gender.entries.map { it.name },
             modifier = Modifier.padding(top = 8.dp)
@@ -78,9 +80,9 @@ fun AdvancedSearchBottomSheet(
             },
             modifier = Modifier
                 .align(Alignment.End)
-                .padding(top = 16.dp)
+                .padding(top = 16.dp, bottom = 16.dp)
         ) {
-            Text("Done")
+            Text(stringResource(id = R.string.done))
         }
     }
 }
