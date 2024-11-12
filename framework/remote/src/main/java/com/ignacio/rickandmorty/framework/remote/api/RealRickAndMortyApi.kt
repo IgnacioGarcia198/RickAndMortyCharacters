@@ -34,19 +34,17 @@ class RealRickAndMortyApi @Inject constructor(
                     if (query.name.isNotEmpty()) {
                         parameter(key = "name", value = query.name)
                     }
-                    if (!query.justName) {
-                        if (query.type.isNotEmpty()) {
-                            parameter(key = "type", value = query.type)
-                        }
-                        if (query.species.isNotEmpty()) {
-                            parameter(key = "species", value = query.species)
-                        }
-                        if (query.status != CharacterQueryCriteria.Status.ANY) {
-                            parameter(key = "status", value = query.status.name)
-                        }
-                        if (query.gender != CharacterQueryCriteria.Gender.ANY) {
-                            parameter(key = "gender", value = query.gender.name)
-                        }
+                    if (query.type.isNotEmpty()) {
+                        parameter(key = "type", value = query.type)
+                    }
+                    if (query.species.isNotEmpty()) {
+                        parameter(key = "species", value = query.species)
+                    }
+                    if (query.status != CharacterQueryCriteria.Status.ANY) {
+                        parameter(key = "status", value = query.status.name)
+                    }
+                    if (query.gender != CharacterQueryCriteria.Gender.ANY) {
+                        parameter(key = "gender", value = query.gender.name)
                     }
                 }
             }

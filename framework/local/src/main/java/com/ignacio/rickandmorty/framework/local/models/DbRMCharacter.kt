@@ -3,8 +3,9 @@ package com.ignacio.rickandmorty.framework.local.models
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ignacio.rickandmorty.data.models.LocalRMCharacter
+import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter.Companion.TABLE_NAME
 
-@Entity(tableName = "rickAndMortyCharacters")
+@Entity(tableName = TABLE_NAME)
 data class DbRMCharacter(
     override val created: String,
     override val episode: List<String>,
@@ -31,5 +32,6 @@ data class DbRMCharacter(
             type = "type",
             url = "url"
         )
+        const val TABLE_NAME = "rickAndMortyCharacters"
     }
 }

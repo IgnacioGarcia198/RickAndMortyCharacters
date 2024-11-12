@@ -6,7 +6,6 @@ data class CharacterQueryCriteria(
     val species: String,
     val type: String,
     val gender: Gender,
-    val justName: Boolean = false,
 ) {
     enum class Status {
         ALIVE, DEAD, UNKNOWN, ANY;

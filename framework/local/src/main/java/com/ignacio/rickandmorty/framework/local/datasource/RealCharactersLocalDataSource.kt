@@ -10,6 +10,7 @@ import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
+import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
 import com.ignacio.rickandmorty.kotlin_utils.extensions.asResultFlow
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -21,11 +22,7 @@ class RealCharactersLocalDataSource @Inject constructor(
     override suspend fun upsertAll(characters: List<RMCharacter>, clear: Boolean, query: CharacterQueryCriteria) {
         database.withTransaction {
             if (clear) {
-                if (query == CharacterQueryCriteria.default) {
-                    rmCharacterDao.clearAll()
-                } else {
-                    rmCharacterDao.deleteByQuery(query.toQuery("DELETE FROM rickAndMortyCharacters WHERE "))
-                }
+                rmCharacterDao.deleteByQuery(query.toQuery("DELETE FROM ${DbRMCharacter.TABLE_NAME}"))
             }
             rmCharacterDao.upsertAll(characters.map { it.toDb() })
         }
@@ -33,12 +30,8 @@ class RealCharactersLocalDataSource @Inject constructor(
 
     @Suppress("UNCHECKED_CAST")
     override fun getRMCharacters(query: CharacterQueryCriteria): PagingSource<Int, LocalRMCharacter> {
-        return (if (query == CharacterQueryCriteria.default)
-            rmCharacterDao.getAllRMCharacters()
-        else {
-            val sql = query.toQuery("SELECT * FROM rickAndMortyCharacters WHERE ")
-            rmCharacterDao.getRMCharacters(sql)
-        }) as PagingSource<Int, LocalRMCharacter>
+        val sql = query.toQuery("SELECT * FROM ${DbRMCharacter.TABLE_NAME}")
+        return rmCharacterDao.getRMCharacters(sql) as PagingSource<Int, LocalRMCharacter>
     }
 
     private fun CharacterQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
@@ -64,13 +57,11 @@ class RealCharactersLocalDataSource @Inject constructor(
             sql.appendQuerySegment("gender LIKE ?")
             args.add("%${gender.name}%")
         }
-        println("##################### DB QUERY: $sql")
         return SimpleSQLiteQuery(sql.toString(), args.toTypedArray())
     }
 
     private fun StringBuilder.appendQuerySegment(segment: String) {
-        println("############# CURRENT TEXT: $this")
-        if (endsWith("WHERE ")) append(segment)
+        if (endsWith(DbRMCharacter.TABLE_NAME)) append(" WHERE $segment")
         else append(" AND $segment")
     }
 

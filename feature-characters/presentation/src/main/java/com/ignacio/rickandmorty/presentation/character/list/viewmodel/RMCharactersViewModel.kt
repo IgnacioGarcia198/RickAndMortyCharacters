@@ -29,7 +29,7 @@ class RMCharactersViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     override fun justNameQuery(name: String) {
-        queryMF.value = CharacterListQueryCriteria.default.copy(name = name, justName = true)
+        queryMF.value = CharacterListQueryCriteria.default.copy(name = name)
     }
 
     override fun setQuery(queryCriteria: CharacterListQueryCriteria) {
