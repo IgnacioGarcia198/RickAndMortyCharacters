@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.domain.usecases.GetRMCharacters
+import com.ignacio.rickandmorty.paging.mapping.toAndroid
 import com.ignacio.rickandmorty.presentation.character.mapping.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,6 +26,7 @@ class RMCharactersViewModel @Inject constructor(
 
     override val pagingDataFlow = queryMF
         .flatMapLatest { getRMCharacters(query = it) }
+        .map { it.toAndroid() }
         .map { data -> data.map { it.toUi() } }
         .cachedIn(viewModelScope)
 

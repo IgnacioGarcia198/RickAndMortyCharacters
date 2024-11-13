@@ -1,16 +1,16 @@
 package com.ignacio.rickandmorty.domain.usecases
 
-import androidx.paging.PagingData
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.domain.models.RMCharacter
-import com.ignacio.rickandmorty.domain.repository.RMCharactersRepository
+import com.ignacio.rickandmorty.domain.repository.RMCharactersPagingRepository
+import com.ignacio.rickandmorty.kotlin_utils.paging.PagedData
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetRMCharacters @Inject constructor(
-    private val repository: RMCharactersRepository
+    private val repository: RMCharactersPagingRepository
 ) {
-    operator fun invoke(query: CharacterListQueryCriteria): Flow<PagingData<RMCharacter>> {
+    operator fun invoke(query: CharacterListQueryCriteria): Flow<PagedData<RMCharacter>> {
         return repository.getRMCharacters(query)
     }
 }

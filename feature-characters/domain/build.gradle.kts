@@ -6,8 +6,9 @@ plugins {
 }
 
 dependencies {
-    implementation(libs.androidx.paging.common.jvm)
+    implementation(project(":kotlin-utils"))
     implementation(libs.com.google.dagger)
+    implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk.jvm)

@@ -1,6 +1,6 @@
 package com.ignacio.rickandmorty.framework.remote.di
 
-import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.framework.remote.api.RealRickAndMortyApi
 import dagger.Binds
 import dagger.Module

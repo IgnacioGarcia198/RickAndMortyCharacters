@@ -17,6 +17,7 @@ android {
 
 dependencies {
     implementation(project(":feature-characters:data"))
+    implementation(project(":feature-characters:data:paging"))
     implementation(project(":kotlin-utils"))
 
     implementation(libs.androidx.core.ktx)

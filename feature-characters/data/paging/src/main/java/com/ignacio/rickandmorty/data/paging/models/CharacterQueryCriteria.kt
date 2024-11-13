@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.data.models
+package com.ignacio.rickandmorty.data.paging.models
 
 data class CharacterQueryCriteria(
     val name: String,

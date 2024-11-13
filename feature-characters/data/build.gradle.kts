@@ -10,7 +10,7 @@ dependencies {
     implementation(project(":feature-characters:domain"))
     implementation(project(":kotlin-utils"))
 
-    implementation(libs.androidx.paging.common.jvm)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.com.google.dagger)
 
     testImplementation(libs.junit)

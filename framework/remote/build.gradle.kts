@@ -7,6 +7,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":feature-characters:data:paging"))
     implementation(project(":feature-characters:data"))
 
     implementation(libs.io.ktor.client.cio)

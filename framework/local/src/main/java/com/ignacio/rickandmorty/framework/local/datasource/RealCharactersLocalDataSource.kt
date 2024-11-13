@@ -4,22 +4,27 @@ import androidx.paging.PagingSource
 import androidx.room.withTransaction
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
-import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.data.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
 import com.ignacio.rickandmorty.kotlin_utils.extensions.asResultFlow
+import com.ignacio.rickandmorty.data.paging.datasource.local.CharactersLocalPagingDataSource
+import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RealCharactersLocalDataSource @Inject constructor(
     private val database: AppDatabase
-) : CharactersLocalDataSource {
+) : CharactersLocalDataSource, CharactersLocalPagingDataSource {
     private val rmCharacterDao get() = database.rmCharacterDao()
-    override suspend fun upsertAll(characters: List<RMCharacter>, clear: Boolean, query: CharacterQueryCriteria) {
+    override suspend fun upsertAll(
+        characters: List<RMCharacter>,
+        clear: Boolean,
+        query: CharacterQueryCriteria
+    ) {
         database.withTransaction {
             if (clear) {
                 rmCharacterDao.deleteByQuery(query.toQuery("DELETE FROM ${DbRMCharacter.TABLE_NAME}"))

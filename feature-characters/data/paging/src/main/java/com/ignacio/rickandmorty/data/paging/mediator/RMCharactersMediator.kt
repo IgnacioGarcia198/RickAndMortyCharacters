@@ -1,10 +1,10 @@
-package com.ignacio.rickandmorty.data.mediator
+package com.ignacio.rickandmorty.data.paging.mediator
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.ignacio.rickandmorty.data.models.LocalRMCharacter
+import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
 
 private const val CHARACTERS_API_FIRST_PAGE = 1
 private const val CHARACTERS_API_RESULTS_PER_PAGE = 20
@@ -46,7 +46,7 @@ class RMCharactersMediator(
                 }
             }
         }
-        return updateFromRemote(loadKey, loadType == LoadType.REFRESH,).toMediatorResult()
+        return updateFromRemote(loadKey, loadType == LoadType.REFRESH).toMediatorResult()
     }
 
     companion object {

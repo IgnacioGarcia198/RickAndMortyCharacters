@@ -1,8 +1,8 @@
 package com.ignacio.rickandmorty.framework.remote.api
 
-import com.ignacio.rickandmorty.data.datasources.remote.RickAndMortyApi
-import com.ignacio.rickandmorty.data.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.data.models.RMCharacters
+import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.data.paging.models.RMCharacters
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
@@ -21,7 +21,7 @@ class RealRickAndMortyApi @Inject constructor(
         page: Int,
         query: CharacterQueryCriteria
     ): Result<RMCharacters> {
-        return kotlin.runCatching {
+        return kotlin.runCatching<RMCharacters> {
             val response = client.get {
                 url {
                     protocol = URLProtocol.HTTPS

@@ -2,7 +2,7 @@ package com.ignacio.rickandmorty.framework.local.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ignacio.rickandmorty.data.models.LocalRMCharacter
+import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter.Companion.TABLE_NAME
 
 @Entity(tableName = TABLE_NAME)
