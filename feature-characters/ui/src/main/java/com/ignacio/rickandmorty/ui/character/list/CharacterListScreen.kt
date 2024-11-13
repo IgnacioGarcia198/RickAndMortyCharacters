@@ -64,7 +64,7 @@ fun CharacterListScreen(
         mutableStateOf(false)
     }
     val searchCriteria by viewModel.query.collectAsState()
-    var showBottomSheet by remember { mutableStateOf(false) }
+    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     val characters: LazyPagingItems<UiRMCharacter> =
         viewModel.pagingDataFlow.collectAsLazyPagingItems()
