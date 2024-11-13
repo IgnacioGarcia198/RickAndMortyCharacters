@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
-import com.ignacio.rickandmorty.ui_common.theme.RickAndMortyTheme
+import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 
 @Composable
 fun RMCharacterItem(
@@ -70,7 +70,7 @@ fun RMCharacterItem(
                 Text(
                     text = character.species,
                     fontStyle = FontStyle.Italic,
-                    color = Color.LightGray,
+                    color = Color.Gray,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -93,7 +93,7 @@ fun RMCharacterItem(
 @Preview
 @Composable
 fun RMCharacterItemPreview() {
-    RickAndMortyTheme {
+    AppTheme {
         RMCharacterItem(
             character = UiRMCharacter(
                 id = 1,

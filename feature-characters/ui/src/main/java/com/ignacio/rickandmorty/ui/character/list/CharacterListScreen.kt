@@ -15,13 +15,14 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,7 +40,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,7 +50,7 @@ import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharacte
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
-import com.ignacio.rickandmorty.ui.theme.Pink80
+import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,27 +93,37 @@ fun CharacterListScreen(
                             },
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent
+                                unfocusedBorderColor = Color.Transparent,
                             ),
                             placeholder = {
                                 Text(
                                     stringResource(R.string.search),
-                                    style = TextStyle(fontSize = 22.sp)
+                                    style = LocalTextStyle.current.copy(
+                                        fontSize = 22.sp,
+                                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                                    )
                                 )
                             },
                             modifier = Modifier.fillMaxWidth(),
+                            textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onPrimaryContainer),
                         )
                     } else {
-                        Text(stringResource(id = R.string.character_list_title), modifier = Modifier.semantics { contentDescription = barContentDesc })
+                        Text(
+                            stringResource(id = R.string.character_list_title),
+                            modifier = Modifier.semantics { contentDescription = barContentDesc })
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Pink80),
+                colors = AppTopBarColors(),
                 actions = {
                     if (showingSearchTextField) {
                         IconButton(onClick = {
                             showBottomSheet = true
                         }) {
-                            Icon(Icons.Default.Build, contentDescription = stringResource(id = R.string.advanced_search_title))
+                            Icon(
+                                Icons.Default.Build,
+                                contentDescription = stringResource(id = R.string.advanced_search_title),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                            )
                         }
                     }
                     IconButton(onClick = {
@@ -126,7 +136,8 @@ fun CharacterListScreen(
                     }) {
                         Icon(
                             imageVector = if (showingSearchTextField) Icons.Default.Close else Icons.Default.Search,
-                            contentDescription = stringResource(id = if (showingSearchTextField) R.string.close else R.string.search)
+                            contentDescription = stringResource(id = if (showingSearchTextField) R.string.close else R.string.search),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                 }
@@ -136,9 +147,11 @@ fun CharacterListScreen(
         val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
         val scope = rememberCoroutineScope()
 
-        Box(modifier = modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             if (characters.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
@@ -187,3 +200,5 @@ fun CharacterListScreen(
         }
     }
 }
+
+fun Color.asHex(): String = String.format("#%08X", (value shr 32).toInt())

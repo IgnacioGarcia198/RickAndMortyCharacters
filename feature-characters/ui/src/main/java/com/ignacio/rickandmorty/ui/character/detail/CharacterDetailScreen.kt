@@ -21,7 +21,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +41,7 @@ import com.ignacio.rickandmorty.presentation.character.detail.RMCharacterDetailV
 import com.ignacio.rickandmorty.presentation.character.models.RMCharacterDetailState
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
-import com.ignacio.rickandmorty.ui.theme.Pink80
+import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +74,7 @@ fun CharacterDetailScreen(
                         overflow = TextOverflow.Ellipsis,
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Pink80),
+                colors = AppTopBarColors(),
                 navigationIcon = {
                     IconButton(onClick = goBack) {
                         Icon(
