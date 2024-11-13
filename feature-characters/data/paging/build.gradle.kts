@@ -15,4 +15,9 @@ dependencies {
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.com.google.dagger)
     ksp(libs.com.google.dagger.compiler)
+
+    testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk.jvm)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
