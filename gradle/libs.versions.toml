@@ -81,6 +81,7 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-paging-common-jvm = { group = "androidx.paging", name = "paging-common-jvm", version.ref = "paging" }
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+androidx-paging-testing = { group = "androidx.paging", name = "paging-testing", version.ref = "paging" }
 
 # loading images
 io-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }

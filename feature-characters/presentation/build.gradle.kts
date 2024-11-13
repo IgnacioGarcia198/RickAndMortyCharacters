@@ -26,4 +26,5 @@ dependencies {
     testImplementation(libs.mockk.jvm)
     testImplementation(testFixtures(project(":kotlin-utils")))
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.paging.testing)
 }
