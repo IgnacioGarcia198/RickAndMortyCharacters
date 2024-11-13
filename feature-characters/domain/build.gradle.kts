@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.com.google.dagger)
     implementation(libs.kotlinx.coroutines.core)
 
+    testImplementation(testFixtures(project(":kotlin-utils")))
     testImplementation(libs.junit)
     testImplementation(libs.mockk.jvm)
     testImplementation(libs.kotlinx.coroutines.test)
