@@ -18,6 +18,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,6 +33,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,6 +45,7 @@ import com.ignacio.rickandmorty.presentation.character.detail.RMCharacterDetailV
 import com.ignacio.rickandmorty.presentation.character.models.RMCharacterDetailState
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +55,7 @@ fun CharacterDetailScreen(
     viewModel: RMCharacterDetailViewModelContract = hiltViewModel<RMCharacterDetailViewModel, RMCharacterDetailViewModel.ViewModelFactory> { factory ->
         factory.create(id)
     },
-    goBack: () -> Unit,
+    goBack: () -> Unit = {},
 ) {
     val state = viewModel.state
     Scaffold(
@@ -79,7 +84,8 @@ fun CharacterDetailScreen(
                     IconButton(onClick = goBack) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = stringResource(id = R.string.navigate_back_arrow_content_desc)
+                            contentDescription = stringResource(id = R.string.navigate_back_arrow_content_desc),
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         )
                     }
                 },
@@ -190,4 +196,34 @@ private fun AttributeValueRow(
     if (spaceBelow) {
         Spacer(modifier = Modifier.height(16.dp))
     }
+}
+
+@Preview(
+    name = "Character detail screen sample with ViewModel",
+    showBackground = true,
+    showSystemUi = true,
+)
+@Composable
+fun CharacterDetailScreenPreview(
+    @PreviewParameter(SampleCharacterDetailStateProvider::class) state: RMCharacterDetailState,
+) {
+    class FakeViewModel(
+        override val state: RMCharacterDetailState,
+    ) : RMCharacterDetailViewModelContract
+
+
+    val viewModel = FakeViewModel(state = state)
+    AppTheme {
+        CharacterDetailScreen(id = 1, viewModel = viewModel)
+    }
+}
+
+class SampleCharacterDetailStateProvider : PreviewParameterProvider<RMCharacterDetailState> {
+    override val values: Sequence<RMCharacterDetailState> = sequenceOf(
+        RMCharacterDetailState.Loading,
+        RMCharacterDetailState.CharacterNotFound,
+        RMCharacterDetailState.Error(RuntimeException("something happened")),
+        RMCharacterDetailState.Data(character = UiRMCharacter.dummy),
+        RMCharacterDetailState.Data(character = UiRMCharacter.dummy.copy(type = "some type")),
+    )
 }

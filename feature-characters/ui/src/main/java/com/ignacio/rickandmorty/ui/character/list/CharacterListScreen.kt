@@ -29,7 +29,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,17 +39,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
+import androidx.paging.LoadStates
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -201,4 +210,116 @@ fun CharacterListScreen(
     }
 }
 
-fun Color.asHex(): String = String.format("#%08X", (value shr 32).toInt())
+@Preview(
+    name = "Character list screen sample with ViewModel",
+    showBackground = true,
+    showSystemUi = true,
+)
+@Composable
+fun CharacterListScreenPreview(
+    @PreviewParameter(SampleCharacterPagingDataProvider::class) pagingData: PagingData<UiRMCharacter>,
+) {
+    class FakeViewModel(
+        val queryFlow: MutableStateFlow<CharacterListQueryCriteria> = MutableStateFlow(CharacterListQueryCriteria.default),
+        override val pagingDataFlow: Flow<PagingData<UiRMCharacter>> = MutableStateFlow(PagingData.from(data = listOf(UiRMCharacter.dummy))),
+    ): RMCharactersViewModelContract {
+
+        override val query: StateFlow<CharacterListQueryCriteria> = queryFlow
+
+        override fun justNameQuery(name: String) {
+            queryFlow.value = CharacterListQueryCriteria.default.copy(name = name)
+        }
+
+        override fun setQuery(queryCriteria: CharacterListQueryCriteria) {
+            queryFlow.value = queryCriteria
+        }
+
+        override fun clearQuery() {
+            queryFlow.value = CharacterListQueryCriteria.default
+        }
+    }
+
+    val queryFlow: MutableStateFlow<CharacterListQueryCriteria> = MutableStateFlow(CharacterListQueryCriteria.default)
+    val pagingDataFlow: Flow<PagingData<UiRMCharacter>> = MutableStateFlow(pagingData)
+    val viewModel = FakeViewModel(queryFlow = queryFlow, pagingDataFlow = pagingDataFlow)
+    AppTheme {
+        CharacterListScreen(viewModel = viewModel)
+    }
+}
+
+class SampleCharacterPagingDataProvider : PreviewParameterProvider<PagingData<UiRMCharacter>> {
+    override val values = sequenceOf(
+        PagingData.from(
+            data = listOf(
+                UiRMCharacter.dummy,
+                UiRMCharacter.dummy.copy(type = "type"),
+                UiRMCharacter.dummy.copy(name = "asfjslfsljflajsfljsflsflafjlasfldflkjlsfjlsfalksfklsfdjkldfl"),
+            )
+        ),
+        PagingData.from(
+            data = listOf(UiRMCharacter.dummy),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.Loading,
+                prepend = LoadState.Loading,
+                append = LoadState.Loading,
+            ),
+            mediatorLoadStates = LoadStates(
+                refresh = LoadState.Loading,
+                prepend = LoadState.Loading,
+                append = LoadState.Loading,
+            ),
+        ),
+        PagingData.from(
+            data = listOf(UiRMCharacter.dummy),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(false),
+                prepend = LoadState.Loading,
+                append = LoadState.NotLoading(false),
+            ),
+            mediatorLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(false),
+                prepend = LoadState.Loading,
+                append = LoadState.NotLoading(false),
+            ),
+        ),
+        PagingData.from(
+            data = listOf(UiRMCharacter.dummy),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(false),
+                prepend = LoadState.NotLoading(false),
+                append = LoadState.Loading,
+            ),
+            mediatorLoadStates = LoadStates(
+                refresh = LoadState.NotLoading(false),
+                prepend = LoadState.NotLoading(false),
+                append = LoadState.Loading,
+            ),
+        ),
+        PagingData.from(
+            data = listOf<UiRMCharacter>(),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.Loading,
+                prepend = LoadState.NotLoading(false),
+                append = LoadState.NotLoading(false),
+            ),
+            mediatorLoadStates = LoadStates(
+                refresh = LoadState.Loading,
+                prepend = LoadState.NotLoading(false),
+                append = LoadState.NotLoading(false),
+            ),
+        ),
+        PagingData.from(
+            data = listOf(UiRMCharacter.dummy),
+            sourceLoadStates = LoadStates(
+                refresh = LoadState.Error(RuntimeException()),
+                prepend = LoadState.Error(RuntimeException()),
+                append = LoadState.Error(RuntimeException()),
+            ),
+            mediatorLoadStates = LoadStates(
+                refresh = LoadState.Error(RuntimeException()),
+                prepend = LoadState.Error(RuntimeException()),
+                append = LoadState.Error(RuntimeException()),
+            ),
+        ),
+    )
+}

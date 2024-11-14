@@ -226,7 +226,7 @@ val surfaceContainerHighestDarkHighContrast = Color(0xFF39323C)
 @Composable
 fun AppTopBarColors() = TopAppBarDefaults.topAppBarColors(
     containerColor = MaterialTheme.colorScheme.primaryContainer,
-    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
 )
 
 
