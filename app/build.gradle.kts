@@ -23,11 +23,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    buildFeatures.buildConfig = true
 }
 
 dependencies {
     implementation(project(":feature-characters:ui"))
     implementation((project(":ui-common")))
+    implementation((project(":kotlin-utils")))
     implementation(project(":framework:local"))
     implementation(project(":framework:di-connector")) // connect DI
 

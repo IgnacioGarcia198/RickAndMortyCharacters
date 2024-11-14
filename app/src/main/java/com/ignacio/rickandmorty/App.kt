@@ -32,4 +32,11 @@ class App: Application(), SingletonImageLoader.Factory {
             .logger(DebugLogger())
             .build()
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        if (BuildConfig.DEBUG) {
+            com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig.setDebugOnStartup()
+        }
+    }
 }
