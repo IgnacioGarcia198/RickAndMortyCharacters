@@ -58,7 +58,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
     modifier: Modifier = Modifier,
@@ -85,64 +84,22 @@ fun CharacterListScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
+            CharacterListScreenTopBar(
+                showingSearchTextField = showingSearchTextField,
+                searchCriteria = searchCriteria,
+                barContentDescription = barContentDesc,
+                onAdvancedSearchClick = {
+                    showAdvancedSearchBottomSheet = true
+                },
+                onSearchClick = {
                     if (showingSearchTextField) {
-                        OutlinedTextField(
-                            value = searchCriteria.name,
-                            onValueChange = {
-                                viewModel.justNameQuery(it)
-                            },
-                            colors = OutlinedTextFieldDefaults.colors(
-                                focusedBorderColor = Color.Transparent,
-                                unfocusedBorderColor = Color.Transparent,
-                            ),
-                            placeholder = {
-                                Text(
-                                    stringResource(R.string.search),
-                                    style = LocalTextStyle.current.copy(
-                                        fontSize = 22.sp,
-                                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                                    )
-                                )
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onPrimaryContainer),
-                        )
+                        showingSearchTextField = false
+                        viewModel.clearQuery()
                     } else {
-                        Text(
-                            stringResource(id = R.string.character_list_title),
-                            modifier = Modifier.semantics { contentDescription = barContentDesc })
+                        showingSearchTextField = true
                     }
                 },
-                colors = AppTopBarColors(),
-                actions = {
-                    if (showingSearchTextField) {
-                        IconButton(onClick = {
-                            showAdvancedSearchBottomSheet = true
-                        }) {
-                            Icon(
-                                Icons.Default.Build,
-                                contentDescription = stringResource(id = R.string.advanced_search_title),
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                            )
-                        }
-                    }
-                    IconButton(onClick = {
-                        if (showingSearchTextField) {
-                            showingSearchTextField = false
-                            viewModel.clearQuery()
-                        } else {
-                            showingSearchTextField = true
-                        }
-                    }) {
-                        Icon(
-                            imageVector = if (showingSearchTextField) Icons.Default.Close else Icons.Default.Search,
-                            contentDescription = stringResource(id = if (showingSearchTextField) R.string.close else R.string.search),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        )
-                    }
-                }
+                onSearchTextChange = { viewModel.justNameQuery(it) }
             )
         },
     ) { paddingValues ->
@@ -193,6 +150,66 @@ fun CharacterListScreen(
         errorText = bottomSheetError,
         onClose = {
             bottomSheetError = ""
+        }
+    )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun CharacterListScreenTopBar(
+    showingSearchTextField: Boolean,
+    searchCriteria: CharacterListQueryCriteria,
+    barContentDescription: String,
+    onAdvancedSearchClick: () -> Unit,
+    onSearchClick: () -> Unit,
+    onSearchTextChange: (String) -> Unit,
+) {
+    TopAppBar(
+        title = {
+            if (showingSearchTextField) {
+                OutlinedTextField(
+                    value = searchCriteria.name,
+                    onValueChange = onSearchTextChange,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
+                    ),
+                    placeholder = {
+                        Text(
+                            stringResource(R.string.search),
+                            style = LocalTextStyle.current.copy(
+                                fontSize = 22.sp,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = LocalTextStyle.current.copy(color = MaterialTheme.colorScheme.onPrimaryContainer),
+                )
+            } else {
+                Text(
+                    stringResource(id = R.string.character_list_title),
+                    modifier = Modifier.semantics { contentDescription = barContentDescription })
+            }
+        },
+        colors = AppTopBarColors(),
+        actions = {
+            if (showingSearchTextField) {
+                IconButton(onClick = onAdvancedSearchClick) {
+                    Icon(
+                        Icons.Default.Build,
+                        contentDescription = stringResource(id = R.string.advanced_search_title),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    )
+                }
+            }
+            IconButton(onClick = onSearchClick) {
+                Icon(
+                    imageVector = if (showingSearchTextField) Icons.Default.Close else Icons.Default.Search,
+                    contentDescription = stringResource(id = if (showingSearchTextField) R.string.close else R.string.search),
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
         }
     )
 }
