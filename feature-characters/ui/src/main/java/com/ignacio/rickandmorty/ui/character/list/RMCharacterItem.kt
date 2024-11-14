@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -52,7 +53,10 @@ fun RMCharacterItem(
                 modifier = Modifier
                     .weight(1f)
                     .height(150.dp),
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
+                placeholder = painterResource(id = R.drawable.baseline_image_search_24),
+                error = painterResource(id = R.drawable.baseline_broken_image_24),
+                fallback = painterResource(id = R.drawable.baseline_hide_image_24),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(
