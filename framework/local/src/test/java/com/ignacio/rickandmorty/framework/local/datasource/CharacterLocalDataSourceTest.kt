@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.framework.local
+package com.ignacio.rickandmorty.framework.local.datasource
 
 import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.data.models.RMCharacter

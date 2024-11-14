@@ -29,7 +29,9 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging) {
         exclude(group = "androidx.paging", module = "paging-common-android")
+        exclude(group = "androidx.paging", module = "paging-common")
     }
+    implementation(libs.androidx.paging.common.jvm)
     ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
@@ -38,6 +40,7 @@ dependencies {
     testImplementation(testFixtures(project(":kotlin-utils")))
     testImplementation(libs.androidx.paging.common.jvm)
 
+    androidTestImplementation(testFixtures(project(":android-utils")))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

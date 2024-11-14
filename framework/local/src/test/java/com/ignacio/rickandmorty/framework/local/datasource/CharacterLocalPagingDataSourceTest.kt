@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.framework.local
+package com.ignacio.rickandmorty.framework.local.datasource
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
@@ -6,7 +6,6 @@ import androidx.sqlite.db.SupportSQLiteQuery
 import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.data.paging.datasource.local.CharactersLocalPagingDataSource
 import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.framework.local.datasource.RealCharactersLocalDataSource
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.db.dao.RMCharacterDao
 import com.ignacio.rickandmorty.framework.local.mapping.toDb

@@ -14,23 +14,14 @@ interface RMCharacterDao {
     @Upsert
     fun upsertAll(characters: List<DbRMCharacter>)
 
-    @Query("DELETE FROM rickAndMortyCharacters WHERE name LIKE :query")
-    fun deleteByName(query: String)
-
     @RawQuery
     fun deleteByQuery(query: SupportSQLiteQuery): Int
 
     @Query("DELETE FROM rickAndMortyCharacters")
     fun clearAll()
 
-    @Query("SELECT * FROM rickAndMortyCharacters WHERE name LIKE :query")
-    fun getRMCharactersByName(query: String): PagingSource<Int, DbRMCharacter>
-
     @RawQuery(observedEntities = [DbRMCharacter::class])
     fun getRMCharacters(query: SupportSQLiteQuery): PagingSource<Int, DbRMCharacter>
-
-    @Query("SELECT * FROM rickAndMortyCharacters")
-    fun getAllRMCharacters(): PagingSource<Int, DbRMCharacter>
 
     @Query("SELECT * FROM rickAndMortyCharacters WHERE id = :id")
     fun getRMCharacterById(id: Int): Flow<DbRMCharacter?>
