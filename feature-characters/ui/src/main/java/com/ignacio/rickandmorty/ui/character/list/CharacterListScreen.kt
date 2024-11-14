@@ -17,19 +17,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -60,7 +57,6 @@ import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,8 +149,6 @@ fun CharacterListScreen(
             )
         },
     ) { paddingValues ->
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        val scope = rememberCoroutineScope()
 
         Box(
             modifier = modifier
@@ -187,26 +181,14 @@ fun CharacterListScreen(
                     }
                 }
             }
-            if (showBottomSheet) {
-                ModalBottomSheet(
-                    onDismissRequest = {
-                        showBottomSheet = false
-                    },
-                    sheetState = sheetState
-                ) {
-                    // Sheet content
-                    AdvancedSearchBottomSheet(
-                        criteria = searchCriteria,
-                        updateCriteria = { viewModel.setQuery(it) },
-                        onClose = {
-                            scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                if (!sheetState.isVisible) {
-                                    showBottomSheet = false
-                                }
-                            }
-                        })
+            AdvancedSearchBottomSheet(
+                show = showBottomSheet,
+                criteria = searchCriteria,
+                updateCriteria = { viewModel.setQuery(it) },
+                onClose = {
+                    showBottomSheet = false
                 }
-            }
+            )
         }
     }
 }
@@ -221,9 +203,15 @@ fun CharacterListScreenPreview(
     @PreviewParameter(SampleCharacterPagingDataProvider::class) pagingData: PagingData<UiRMCharacter>,
 ) {
     class FakeViewModel(
-        val queryFlow: MutableStateFlow<CharacterListQueryCriteria> = MutableStateFlow(CharacterListQueryCriteria.default),
-        override val pagingDataFlow: Flow<PagingData<UiRMCharacter>> = MutableStateFlow(PagingData.from(data = listOf(UiRMCharacter.dummy))),
-    ): RMCharactersViewModelContract {
+        val queryFlow: MutableStateFlow<CharacterListQueryCriteria> = MutableStateFlow(
+            CharacterListQueryCriteria.default
+        ),
+        override val pagingDataFlow: Flow<PagingData<UiRMCharacter>> = MutableStateFlow(
+            PagingData.from(
+                data = listOf(UiRMCharacter.dummy)
+            )
+        ),
+    ) : RMCharactersViewModelContract {
 
         override val query: StateFlow<CharacterListQueryCriteria> = queryFlow
 
@@ -240,7 +228,8 @@ fun CharacterListScreenPreview(
         }
     }
 
-    val queryFlow: MutableStateFlow<CharacterListQueryCriteria> = MutableStateFlow(CharacterListQueryCriteria.default)
+    val queryFlow: MutableStateFlow<CharacterListQueryCriteria> =
+        MutableStateFlow(CharacterListQueryCriteria.default)
     val pagingDataFlow: Flow<PagingData<UiRMCharacter>> = MutableStateFlow(pagingData)
     val viewModel = FakeViewModel(queryFlow = queryFlow, pagingDataFlow = pagingDataFlow)
     AppTheme {
