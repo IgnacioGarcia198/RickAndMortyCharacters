@@ -107,7 +107,7 @@ fun CharacterDetailScreen(
 
                 is RMCharacterDetailState.Data -> DisplayCharacter(state.character)
                 is RMCharacterDetailState.Error -> Text(
-                    text = state.error?.stackTraceToString().orEmpty(),
+                    text = stringResource(id = R.string.error_feedback_text, state.error?.message.orEmpty()),
                     style = TextStyle(color = Color.Red),
                     modifier = Modifier.align(Alignment.Center),
                 )
