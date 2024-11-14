@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.presentation.character.detail.RMCharacterDetailViewModel
 import com.ignacio.rickandmorty.presentation.character.detail.RMCharacterDetailViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.RMCharacterDetailState
@@ -107,7 +108,11 @@ fun CharacterDetailScreen(
 
                 is RMCharacterDetailState.Data -> DisplayCharacter(state.character)
                 is RMCharacterDetailState.Error -> Text(
-                    text = stringResource(id = R.string.error_feedback_text, state.error?.message.orEmpty()),
+                    text = if (BuildConfig.DEBUG) state.error?.stackTraceToString()
+                        .orEmpty() else stringResource(
+                        id = R.string.error_feedback_text,
+                        state.error?.message.orEmpty()
+                    ),
                     style = TextStyle(color = Color.Red),
                     modifier = Modifier.align(Alignment.Center),
                 )

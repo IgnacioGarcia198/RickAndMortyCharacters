@@ -15,6 +15,7 @@ android {
 dependencies {
     implementation(project(":resources"))
     implementation((project(":ui-common")))
+    implementation((project(":kotlin-utils")))
     implementation(project(":feature-characters:presentation"))
     implementation(project(":feature-characters:domain"))
 
