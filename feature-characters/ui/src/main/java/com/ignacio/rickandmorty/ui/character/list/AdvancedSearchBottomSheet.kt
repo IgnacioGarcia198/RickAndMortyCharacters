@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.resources.R
@@ -25,9 +26,9 @@ fun AdvancedSearchBottomSheet(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
     ) {
-        Text(stringResource(id = R.string.advanced_search_title), style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(id = R.string.advanced_search_title), style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold))
 
         OutlinedTextField(
             value = criteria.name,
@@ -35,7 +36,7 @@ fun AdvancedSearchBottomSheet(
             label = { Text(stringResource(id = R.string.name)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 8.dp)
+                .padding(top = 16.dp)
         )
 
         OutlinedTextField(

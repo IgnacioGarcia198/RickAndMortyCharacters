@@ -35,7 +35,7 @@ fun Spinner(
     var expanded by remember { mutableStateOf(false) }
     Row(modifier = modifier) {
         if (label.isNotEmpty()) {
-            Text(text = label, modifier = Modifier
+            Text(text = label, style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold), modifier = Modifier
                 .padding(end = 8.dp)
                 .weight(labelWeight))
         }
