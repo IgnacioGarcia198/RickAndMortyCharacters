@@ -43,4 +43,7 @@ dependencies {
     androidTestImplementation(testFixtures(project(":android-utils")))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.paging.testing) {
+        exclude(group = "androidx.paging", module = "paging-common-android")
+    }
 }

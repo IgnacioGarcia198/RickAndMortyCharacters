@@ -11,8 +11,6 @@ import com.ignacio.rickandmorty.paging.pager.AndroidPager
 import com.ignacio.rickandmorty.paging.pager.PagerFactory
 import javax.inject.Inject
 
-private const val DB_PAGE_SIZE = 40
-
 class RealCharactersPagerFactory @Inject constructor(
     private val mediatorFactory: MediatorFactory<Int, LocalRMCharacter>,
 ) : PagerFactory<Int, LocalRMCharacter> {
@@ -27,4 +25,8 @@ class RealCharactersPagerFactory @Inject constructor(
             pagingSourceFactory = pagingSourceFactory,
         )
     )
+
+    companion object {
+        const val DB_PAGE_SIZE = 40
+    }
 }
