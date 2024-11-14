@@ -19,7 +19,6 @@ import io.mockk.verify
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -29,7 +28,7 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class RMCharactersViewModelTest {
     @get:Rule
-    val coroutineTestRule = CoroutineTestRule(UnconfinedTestDispatcher())
+    val coroutineTestRule = CoroutineTestRule()
 
     private lateinit var viewModel: RMCharactersViewModelContract
     private val getRMCharacters: GetRMCharacters = mockk()

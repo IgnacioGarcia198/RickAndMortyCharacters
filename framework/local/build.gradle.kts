@@ -36,6 +36,7 @@ dependencies {
     testImplementation(libs.mockk.jvm)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(libs.androidx.paging.common.jvm)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
