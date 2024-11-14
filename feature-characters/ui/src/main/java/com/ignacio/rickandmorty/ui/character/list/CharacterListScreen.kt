@@ -31,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -75,8 +74,8 @@ fun CharacterListScreen(
 
     val characters: LazyPagingItems<UiRMCharacter> =
         viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val context = LocalContext.current
-    LaunchedEffect(key1 = characters.loadState) {
+
+    LaunchedEffect(key1 = characters.loadState) { // TODO: Move to the backend with some log report files.
         if (characters.loadState.hasError) {
             bottomSheetError = characters.loadState.getErrorText()
         }
