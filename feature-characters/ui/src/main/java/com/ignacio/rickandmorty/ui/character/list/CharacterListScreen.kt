@@ -160,6 +160,7 @@ fun CharacterListScreen(
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .padding(all = 8.dp)
         ) {
             if (characters.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
