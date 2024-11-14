@@ -21,4 +21,6 @@
     <string name="species">Species</string>
     <string name="done">Done</string>
     <string name="error_feedback_text">An error happened:\n%s</string>
+    <string name="error_sheet_title">An error happened</string>
+    <string name="error_details_section">Error details:\n%s</string>
 </resources>

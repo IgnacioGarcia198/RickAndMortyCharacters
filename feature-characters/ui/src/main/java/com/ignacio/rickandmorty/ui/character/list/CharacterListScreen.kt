@@ -1,6 +1,5 @@
 package com.ignacio.rickandmorty.ui.character.list
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,12 +41,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.paging.LoadStates
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
+import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
@@ -69,18 +70,15 @@ fun CharacterListScreen(
         mutableStateOf(false)
     }
     val searchCriteria by viewModel.query.collectAsState()
-    var showBottomSheet by rememberSaveable { mutableStateOf(false) }
+    var showAdvancedSearchBottomSheet by rememberSaveable { mutableStateOf(false) }
+    var bottomSheetError: String by rememberSaveable { mutableStateOf("") }
 
     val characters: LazyPagingItems<UiRMCharacter> =
         viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val context = LocalContext.current
     LaunchedEffect(key1 = characters.loadState) {
-        if (characters.loadState.refresh is LoadState.Error) {
-            Toast.makeText(
-                context,
-                "Error: " + (characters.loadState.refresh as LoadState.Error).error.message,
-                Toast.LENGTH_LONG
-            ).show()
+        if (characters.loadState.hasError) {
+            bottomSheetError = characters.loadState.getErrorText()
         }
     }
 
@@ -122,7 +120,7 @@ fun CharacterListScreen(
                 actions = {
                     if (showingSearchTextField) {
                         IconButton(onClick = {
-                            showBottomSheet = true
+                            showAdvancedSearchBottomSheet = true
                         }) {
                             Icon(
                                 Icons.Default.Build,
@@ -149,7 +147,6 @@ fun CharacterListScreen(
             )
         },
     ) { paddingValues ->
-
         Box(
             modifier = modifier
                 .fillMaxSize()
@@ -181,15 +178,45 @@ fun CharacterListScreen(
                     }
                 }
             }
-            AdvancedSearchBottomSheet(
-                show = showBottomSheet,
-                criteria = searchCriteria,
-                updateCriteria = { viewModel.setQuery(it) },
-                onClose = {
-                    showBottomSheet = false
-                }
-            )
         }
+    }
+
+    AdvancedSearchBottomSheet(
+        show = showAdvancedSearchBottomSheet,
+        criteria = searchCriteria,
+        updateCriteria = { viewModel.setQuery(it) },
+        onClose = {
+            showAdvancedSearchBottomSheet = false
+        }
+    )
+
+    ErrorBottomSheet(
+        errorText = bottomSheetError,
+        onClose = {
+            bottomSheetError = ""
+        }
+    )
+}
+
+private fun CombinedLoadStates.getErrorText(): String {
+    val sb = StringBuilder()
+    sb.appendError(refresh)
+    sb.appendError(append)
+    sb.appendError(prepend)
+    sb.appendError(source.refresh)
+    sb.appendError(source.append)
+    sb.appendError(source.prepend)
+    return sb.toString()
+}
+
+private fun StringBuilder.appendError(loadState: LoadState) {
+    if (loadState is LoadState.Error) {
+        if (BuildConfig.DEBUG) {
+            append(loadState.error.stackTraceToString())
+        } else {
+            append(loadState.error.message.orEmpty())
+        }
+        append("\n")
     }
 }
 
