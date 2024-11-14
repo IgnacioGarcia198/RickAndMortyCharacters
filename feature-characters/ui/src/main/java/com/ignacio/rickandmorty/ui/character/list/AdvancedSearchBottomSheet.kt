@@ -1,75 +1,31 @@
 package com.ignacio.rickandmorty.ui.character.list
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.composables.AppBottomSheet
 import com.ignacio.rickandmorty.ui_common.composables.Spinner
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdvancedSearchBottomSheet(
     show: Boolean,
     criteria: CharacterListQueryCriteria,
     updateCriteria: (CharacterListQueryCriteria) -> Unit,
     onClose: () -> Unit = {},
-    onDismissRequest: () -> Unit = {},
 ) {
-    if (show) {
-        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        val scope = rememberCoroutineScope()
-
-        ModalBottomSheet(
-            onDismissRequest = onDismissRequest,
-            sheetState = sheetState
-        ) {
-            SheetContent(
-                criteria = criteria,
-                updateCriteria = updateCriteria,
-                onClose = {
-                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                        if (!sheetState.isVisible) {
-                            onClose()
-                        }
-                    }
-                }
-            )
-        }
-    }
-}
-
-@Composable
-private fun SheetContent(
-    criteria: CharacterListQueryCriteria,
-    updateCriteria: (CharacterListQueryCriteria) -> Unit,
-    onClose: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
+    AppBottomSheet(
+        show = show,
+        title = R.string.advanced_search_title,
+        skipPartiallyExpanded = true,
+        onClose = onClose,
     ) {
-        Text(
-            stringResource(id = R.string.advanced_search_title),
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
-        )
-
         OutlinedTextField(
             value = criteria.name,
             onValueChange = { updateCriteria(criteria.copy(name = it)) },
@@ -113,17 +69,6 @@ private fun SheetContent(
             modifier = Modifier.padding(top = 8.dp)
         ) {
             updateCriteria(criteria.copy(gender = CharacterListQueryCriteria.Gender.valueOf(it)))
-        }
-
-        Button(
-            onClick = {
-                onClose()
-            },
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 16.dp, bottom = 16.dp)
-        ) {
-            Text(stringResource(id = R.string.done))
         }
     }
 }
