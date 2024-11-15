@@ -82,22 +82,22 @@ class CharacterSearchTest {
         onNodeWithContentDescription(context.getString(R.string.advanced_search_title)).performClick()
         onNodeWithText(context.getString(R.string.advanced_search_title)).assertIsDisplayed()
 
+        // enter criteria to search
         onNode(hasText(context.getString(R.string.type))).performTextInput("a")
         onNode(hasText(context.getString(R.string.name))).performTextInput("b")
         onNode(hasText(context.getString(R.string.species))).performTextInput("c")
 
-
+        // check criteria is in place
         onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_name, "b")).assertIsDisplayed()
         onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_type, "a")).assertIsDisplayed()
         onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_species, "c")).assertIsDisplayed()
 
         Espresso.pressBack() // close keyboard
 
+        // select the character status
         selectStatus(CharacterListQueryCriteria.Status.DEAD)
 
-
         onNodeWithText(context.getString(R.string.close)).performClick()
-        awaitIdle()
         delay(5000)
     }
 
