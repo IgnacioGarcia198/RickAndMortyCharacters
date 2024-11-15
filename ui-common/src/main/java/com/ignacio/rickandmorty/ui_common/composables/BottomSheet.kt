@@ -71,20 +71,3 @@ fun AppBottomSheet(
         }
     }
 }
-
-@Composable
-private fun SheetContent(
-    onClose: (() -> Unit)?
-) {
-    val scope = rememberCoroutineScope()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
-    ) {
-        Text(
-            stringResource(id = R.string.advanced_search_title),
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
-        )
-    }
-}

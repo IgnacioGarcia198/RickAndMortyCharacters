@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun <T: Any> Spinner(
+fun <T : Any> Spinner(
     selected: T,
     entries: List<T>,
     modifier: Modifier = Modifier,
@@ -43,9 +43,13 @@ fun <T: Any> Spinner(
             }
     ) {
         if (label.isNotEmpty()) {
-            Text(text = label, style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold), modifier = Modifier
-                .padding(end = 8.dp)
-                .weight(labelWeight))
+            Text(
+                text = label,
+                style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .weight(labelWeight)
+            )
         }
         Column(modifier = Modifier) {
             Row {
@@ -58,13 +62,17 @@ fun <T: Any> Spinner(
             ) {
                 entries.forEach { option ->
                     val isSelected = option == selected
-                    val modifier = if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary) else Modifier
+                    val dropDownMenuItemModifier =
+                        if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary) else Modifier
                     DropdownMenuItem(
-                        modifier = modifier.semantics { contentDescription = "${stringRepresentation(option)}BLA" },
+                        modifier = dropDownMenuItemModifier.semantics {
+                            contentDescription = "${stringRepresentation(option)}BLA"
+                        },
                         onClick = {
                             onSelection(option)
                             expanded = false
-                        }, text = {
+                        },
+                        text = {
                             val style = if (isSelected) {
                                 TextStyle(
                                     fontWeight = FontWeight.Bold,
