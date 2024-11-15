@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     //noinspection JavaPluginLanguageLevel
     id("java-library")
@@ -7,16 +9,16 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":feature-characters:data"))
-    implementation(project(":feature-characters:domain"))
-    implementation(project(":kotlin-utils"))
-    implementation(project(":paging"))
+    implementation(project(Projects.FeatureCharacters.DATA))
+    implementation(project(Projects.FeatureCharacters.DOMAIN))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
+    implementation(project(Projects.PAGING))
 
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.com.google.dagger)
     ksp(libs.com.google.dagger.compiler)
 
-    testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(testFixtures(project(Projects.Common.KOTLIN_UTILS)))
     testImplementation(libs.junit)
     testImplementation(libs.mockk.jvm)
     testImplementation(libs.kotlinx.coroutines.test)

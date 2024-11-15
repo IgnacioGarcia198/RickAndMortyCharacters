@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -10,7 +12,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":resources"))
+    implementation(project(Projects.Common.RESOURCES))
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))

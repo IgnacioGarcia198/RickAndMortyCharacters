@@ -32,5 +32,10 @@ gradlePlugin {
             id = "kotlin-module-plugin"
             implementationClass = "plugins.kotlin.KotlinModulePlugin"
         }
+
+        register("deps-class-loader-plugin") {
+            id = "deps-class-loader-plugin"
+            implementationClass = "plugins.classloader.ClassLoaderPlugin"
+        }
     }
 }

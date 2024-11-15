@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -13,11 +15,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":resources"))
-    implementation((project(":ui-common")))
-    implementation((project(":kotlin-utils")))
-    implementation(project(":feature-characters:presentation"))
-    implementation(project(":feature-characters:domain"))
+    implementation(project(Projects.Common.RESOURCES))
+    implementation((project(Projects.Common.UI_COMMON)))
+    implementation((project(Projects.Common.KOTLIN_UTILS)))
+    implementation(project(Projects.FeatureCharacters.PRESENTATION))
+    implementation(project(Projects.FeatureCharacters.DOMAIN))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -43,6 +45,15 @@ dependencies {
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.android.compiler)
+    // need to import these 2 projects for Android testing so Hilt dependencies work, not a big deal.
+    androidTestImplementation(project(Projects.Framework.DI_CONNECTOR))
+    androidTestImplementation(project(Projects.Framework.LOCAL))
+    androidTestImplementation(project(Projects.Common.ANDROID_UTILS))
+    androidTestImplementation(testFixtures(project(Projects.Common.ANDROID_UTILS)))
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

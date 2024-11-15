@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -11,10 +13,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-characters:data"))
-    implementation(project(":feature-characters:data:paging"))
-    implementation(project(":kotlin-utils"))
-    implementation(project(":framework:remote"))
+    implementation(project(Projects.FeatureCharacters.DATA))
+    implementation(project(Projects.FeatureCharacters.DATA_PAGING))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
+    implementation(project(Projects.Framework.REMOTE))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

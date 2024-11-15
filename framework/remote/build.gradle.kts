@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
@@ -7,8 +9,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":feature-characters:data:paging"))
-    implementation(project(":feature-characters:data"))
+    implementation(project(Projects.FeatureCharacters.DATA_PAGING))
+    implementation(project(Projects.FeatureCharacters.DATA))
 
     implementation(libs.io.ktor.client.cio)
     implementation(libs.io.ktor.client.logging)

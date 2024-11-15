@@ -122,3 +122,4 @@ kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 android-module-plugin = { id = "android-module-plugin", version.ref = "dummy-version" }
 kotlin-module-plugin = { id = "kotlin-module-plugin", version.ref = "dummy-version" }
 jetpack-compose-plugin = { id = "jetpack-compose-plugin", version.ref = "dummy-version" }
+deps-classes-loader-plugin = { id = "deps-class-loader-plugin", version.ref = "dummy-version" }

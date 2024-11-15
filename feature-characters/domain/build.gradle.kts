@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     //noinspection JavaPluginLanguageLevel
     id("java-library")
@@ -6,11 +8,11 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":kotlin-utils"))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
     implementation(libs.com.google.dagger)
     implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(testFixtures(project(Projects.Common.KOTLIN_UTILS)))
     testImplementation(libs.junit)
     testImplementation(libs.mockk.jvm)
     testImplementation(libs.kotlinx.coroutines.test)

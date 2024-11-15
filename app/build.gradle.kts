@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -28,11 +30,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-characters:ui"))
-    implementation((project(":ui-common")))
-    implementation((project(":kotlin-utils")))
-    implementation(project(":framework:local"))
-    implementation(project(":framework:di-connector")) // connect DI
+    implementation(project(Projects.FeatureCharacters.UI))
+    implementation((project(Projects.Common.UI_COMMON)))
+    implementation((project(Projects.Common.KOTLIN_UTILS)))
+    implementation(project(Projects.Framework.LOCAL))
+    implementation(project(Projects.Framework.DI_CONNECTOR)) // connect DI
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     //noinspection JavaPluginLanguageLevel
     id("java-library")
@@ -6,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":kotlin-utils"))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
 
     implementation(libs.androidx.paging.common.jvm)
 }

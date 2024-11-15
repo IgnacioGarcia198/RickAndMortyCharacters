@@ -1,3 +1,5 @@
+import plugins.classloader.Projects
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -16,9 +18,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature-characters:data"))
-    implementation(project(":feature-characters:data:paging"))
-    implementation(project(":kotlin-utils"))
+    implementation(project(Projects.FeatureCharacters.DATA))
+    implementation(project(Projects.FeatureCharacters.DATA_PAGING))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
@@ -37,10 +39,10 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk.jvm)
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(testFixtures(project(":kotlin-utils")))
+    testImplementation(testFixtures(project(Projects.Common.KOTLIN_UTILS)))
     testImplementation(libs.androidx.paging.common.jvm)
 
-    androidTestImplementation(testFixtures(project(":android-utils")))
+    androidTestImplementation(testFixtures(project(Projects.Common.ANDROID_UTILS)))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.paging.testing) {
