@@ -32,7 +32,7 @@ class RealRickAndMortyApi @Inject constructor(
                         NetworkConstants.RICK_AND_MORTY_BASE_PATH,
                         NetworkConstants.RICK_AND_MORTY_CHARACTERS_PATH
                     )
-                    parameter(key = "page", value = page)
+                    parameter(key = "page", value = page) // TODO: Extract constants for params
                     if (query.name.isNotEmpty()) {
                         parameter(key = "name", value = query.name)
                     }
@@ -50,11 +50,9 @@ class RealRickAndMortyApi @Inject constructor(
                     }
                 }
             }
-            println("######### RESPONSE CODE: ${response.status.value}")
-            println("######### RESPONSE BODY: ${response.bodyAsText()}")
             response.body<RMCharactersResponse>().toRMCharacters()
         }.mapError {
-            it
+            it // TODO: Map errors from network
         }.onFailure {
             it.printStackTrace()
         }

@@ -42,7 +42,7 @@ class RealCharactersLocalDataSource @Inject constructor(
     private fun CharacterQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
         val sql = StringBuilder(queryStart)
         val args = mutableListOf<String>()
-        if (name.isNotEmpty()) {
+        if (name.isNotEmpty()) { // TODO: Extract constants for params
             sql.appendQuerySegment("name LIKE ?")
             args.add("%$name%")
         }
