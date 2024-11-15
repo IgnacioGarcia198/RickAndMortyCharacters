@@ -1,6 +1,7 @@
 package com.ignacio.rickandmorty.data.paging.di
 
 import com.ignacio.rickandmorty.data.paging.mediator.RealCharactersMediatorFactory
+import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
 import com.ignacio.rickandmorty.data.paging.pager.RealCharactersPagerFactory
 import com.ignacio.rickandmorty.data.paging.repository.RealRMCharactersPagingRepository
@@ -21,11 +22,11 @@ interface DataPagingModule {
     fun bindRepository(repository: RealRMCharactersPagingRepository): RMCharactersPagingRepository
 
     @Binds
-    fun bindCharacterMediatorFactory(factory: RealCharactersMediatorFactory): MediatorFactory<Int, LocalRMCharacter>
+    fun bindCharacterMediatorFactory(factory: RealCharactersMediatorFactory): MediatorFactory<Int, LocalRMCharacter, CharacterQueryCriteria>
 
     @Binds
-    fun bindCharactersPagerFactory(factory: RealCharactersPagerFactory): PagerFactory<Int, LocalRMCharacter>
+    fun bindCharactersPagerFactory(factory: RealCharactersPagerFactory): PagerFactory<Int, LocalRMCharacter, CharacterQueryCriteria>
 
     @Binds
-    fun bindRemoteLocalUpdater(updater: RealRemoteLocalUpdater): RemoteLocalUpdater
+    fun bindRemoteLocalUpdater(updater: RealRemoteLocalUpdater): RemoteLocalUpdater<CharacterQueryCriteria, Int>
 }

@@ -4,14 +4,17 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
+import com.ignacio.rickandmorty.data.paging.updater.RemoteLocalUpdater
 
 private const val CHARACTERS_API_FIRST_PAGE = 1
 private const val CHARACTERS_API_RESULTS_PER_PAGE = 20
 
 @OptIn(ExperimentalPagingApi::class)
 class RMCharactersMediator(
-    private val updateFromRemote: suspend (page: Int, shouldClearLocalCache: Boolean) -> Result<Boolean>,
+    private val updater: RemoteLocalUpdater<CharacterQueryCriteria, Int>,
+    private val queryCriteria: CharacterQueryCriteria
 ) : RemoteMediator<Int, LocalRMCharacter>() {
 
     override suspend fun initialize(): InitializeAction {
@@ -46,7 +49,11 @@ class RMCharactersMediator(
                 }
             }
         }
-        return updateFromRemote(loadKey, loadType == LoadType.REFRESH).toMediatorResult()
+        return updater.updateFromRemote(
+            query = queryCriteria,
+            page = loadKey,
+            shouldClearLocalCache = loadType == LoadType.REFRESH
+        ).toMediatorResult()
     }
 
     companion object {

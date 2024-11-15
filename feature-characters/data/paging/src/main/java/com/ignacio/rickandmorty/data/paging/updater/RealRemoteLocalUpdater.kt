@@ -9,7 +9,7 @@ import javax.inject.Inject
 class RealRemoteLocalUpdater @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
     private val charactersLocalDataSource: CharactersLocalPagingDataSource,
-): RemoteLocalUpdater {
+): RemoteLocalUpdater<CharacterQueryCriteria, Int> {
     override suspend fun updateFromRemote(
         query: CharacterQueryCriteria,
         page: Int,

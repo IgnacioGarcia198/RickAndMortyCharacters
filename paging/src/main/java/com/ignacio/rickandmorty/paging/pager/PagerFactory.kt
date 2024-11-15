@@ -1,11 +1,9 @@
 package com.ignacio.rickandmorty.paging.pager
 
-import androidx.paging.PagingSource
 import com.ignacio.rickandmorty.kotlin_utils.paging.PagerContract
 
-interface PagerFactory<Key : Any, Value : Any> {
+interface PagerFactory<Key : Any, Value : Any, Query : Any> {
     fun create(
-        updateFromRemote: suspend (page: Key, shouldClearLocalCache: Boolean) -> Result<Boolean>,
-        pagingSourceFactory: () -> PagingSource<Key, Value>,
+        queryCriteria: Query,
     ): PagerContract<Key, Value>
 }

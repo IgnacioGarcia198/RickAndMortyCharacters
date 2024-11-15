@@ -19,7 +19,7 @@ import org.junit.Test
 class RemoteLocalUpdaterTest {
     private val rickAndMortyApi: RickAndMortyApi = mockk()
     private val localDataSource: CharactersLocalPagingDataSource = mockk()
-    private val updater: RemoteLocalUpdater = RealRemoteLocalUpdater(
+    private val updater: RemoteLocalUpdater<CharacterQueryCriteria, Int> = RealRemoteLocalUpdater(
         rickAndMortyApi = rickAndMortyApi,
         charactersLocalDataSource = localDataSource,
     )
@@ -32,7 +32,7 @@ class RemoteLocalUpdaterTest {
     fun setUp() {
         coEvery { rickAndMortyApi.getCharacters(any(), any()) }.returns(
             Result.success(
-                RMCharacters(
+                RMCharacters.Characters(
                     characters = responseCharacters,
                     hasNextPage = true,
                     hasPreviousPage = true
@@ -58,7 +58,7 @@ class RemoteLocalUpdaterTest {
         runTest {
             coEvery { rickAndMortyApi.getCharacters(any(), any()) }.returns(
                 Result.success(
-                    RMCharacters(
+                    RMCharacters.Characters(
                         characters = responseCharacters,
                         hasNextPage = false,
                         hasPreviousPage = true

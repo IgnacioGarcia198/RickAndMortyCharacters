@@ -3,9 +3,7 @@ package com.ignacio.rickandmorty.paging.mediator
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.RemoteMediator
 
-interface MediatorFactory<Key : Any, Value : Any> {
+interface MediatorFactory<Key : Any, Value : Any, Query : Any> {
     @OptIn(ExperimentalPagingApi::class)
-    fun create(
-        updateFromRemote: suspend (page: Key, shouldClearLocalCache: Boolean) -> Result<Boolean>,
-    ): RemoteMediator<Key, Value>
+    fun create(query: Query): RemoteMediator<Key, Value>
 }
