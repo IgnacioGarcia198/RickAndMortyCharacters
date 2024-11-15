@@ -25,6 +25,7 @@ fun AdvancedSearchBottomSheet(
     updateCriteria: (CharacterListQueryCriteria) -> Unit,
     onClose: () -> Unit = {},
 ) {
+    // TODO: Abstract more character update logic to the ViewModel
     AppBottomSheet(
         show = show,
         title = R.string.advanced_search_title,
