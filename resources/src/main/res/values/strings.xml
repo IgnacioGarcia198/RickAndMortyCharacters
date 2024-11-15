@@ -23,4 +23,18 @@
     <string name="error_feedback_text">An error happened:\n%s</string>
     <string name="error_sheet_title">An error happened</string>
     <string name="error_details_section">Error details:\n%s</string>
+    <string name="advanced_search_enter_name">Enter character name. Current value: %s</string>
+    <string name="advanced_search_enter_species">Enter character species. Current value: %s</string>
+    <string name="advanced_search_enter_type">Enter character type. Current value: %s</string>
+    <string name="advanced_search_select_status">Select character status. Current value: %s</string>
+    <string name="advanced_search_select_gender">Select character gender. Current value: %s</string>
+    <string name="explicit_blank_text">blank</string>
+    <string name="any">Any</string>
+    <string name="unknown">Unknown</string>
+    <string name="status_alive">Alive</string>
+    <string name="status_dead">Dead</string>
+    <string name="gender_genderless">Genderless</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+
 </resources>

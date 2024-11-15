@@ -19,33 +19,37 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Spinner(
-    selected: String,
-    entries: List<String>,
+fun <T: Any> Spinner(
+    selected: T,
+    entries: List<T>,
     modifier: Modifier = Modifier,
     label: String = "",
-    labelWeight: Float = 0.85f,
-    onSelection: (String) -> Unit = {},
+    labelWeight: Float = 0.75f,
+    stringRepresentation: (T) -> String = { it.toString() },
+    onSelection: (T) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Row(modifier = modifier) {
+    Row(
+        modifier = modifier
+            .clickable {
+                expanded = !expanded
+            }
+    ) {
         if (label.isNotEmpty()) {
             Text(text = label, style = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold), modifier = Modifier
                 .padding(end = 8.dp)
                 .weight(labelWeight))
         }
-        Column(modifier = Modifier.weight((1f - labelWeight).coerceAtLeast(0.1f))) {
-            Row(
-                modifier = Modifier.clickable {
-                    expanded = !expanded
-                }
-            ) {
-                Text(text = selected, modifier = Modifier)
+        Column(modifier = Modifier) {
+            Row {
+                Text(text = stringRepresentation(selected), modifier = Modifier)
                 Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
             }
             DropdownMenu(
@@ -54,8 +58,9 @@ fun Spinner(
             ) {
                 entries.forEach { option ->
                     val isSelected = option == selected
+                    val modifier = if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary) else Modifier
                     DropdownMenuItem(
-                        modifier = if (isSelected) Modifier.background(MaterialTheme.colorScheme.primary) else Modifier,
+                        modifier = modifier.semantics { contentDescription = "${stringRepresentation(option)}BLA" },
                         onClick = {
                             onSelection(option)
                             expanded = false
@@ -68,8 +73,8 @@ fun Spinner(
                             } else {
                                 LocalTextStyle.current
                             }
-                            Text(option, style = style)
-                        }
+                            Text(stringRepresentation(option), style = style)
+                        },
                     )
                 }
             }
