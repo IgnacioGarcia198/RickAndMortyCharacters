@@ -11,7 +11,6 @@ import org.gradle.kotlin.dsl.the
 
 class ComposePlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        println("APPLYING COMPOSE PLUGIN TO PROJECT: ${project.name}")
         val libs = project.the<LibrariesForLibs>()
         project.extensions.configure<BaseExtension> {
             when (this) {

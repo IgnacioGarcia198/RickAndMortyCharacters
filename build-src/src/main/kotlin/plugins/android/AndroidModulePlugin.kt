@@ -13,9 +13,6 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 class AndroidModulePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val libs = project.the<LibrariesForLibs>()
-        println("APPLYING ANDROID PLUGIN TO PROJECT: ${project.name}")
-        println("JAVA VERSION: ${BuildConstants.JAVA_VERSION}")
-
         project.extensions.configure<BaseExtension> {
             compileSdkVersion(libs.versions.compileSdk.get().toInt())
             defaultConfig {

@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 class KotlinModulePlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        println("APPLYING KOTLIN PLUGIN TO PROJECT: ${target.name}")
         target.extensions.configure<JavaPluginExtension> {
             sourceCompatibility = BuildConstants.JAVA_VERSION
             targetCompatibility = BuildConstants.JAVA_VERSION

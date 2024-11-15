@@ -5,14 +5,11 @@ import org.gradle.api.Project
 
 class ClassLoaderPlugin : Plugin<Project> {
     override fun apply(target: Project) {
-        println("APPLYING PLUGIN TO PROJECT: ${target.name}")
         // no-op
     }
 }
 
 object Projects {
-    const val APP = ":app"
-
     object FeatureCharacters {
         const val UI = ":feature-characters:ui"
         const val DOMAIN = ":feature-characters:domain"

@@ -6,6 +6,7 @@ import com.ignacio.rickandmorty.data.paging.models.RMCharacters
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
+import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.kotlin_utils.extensions.mapError
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -54,7 +55,9 @@ class RealRickAndMortyApi @Inject constructor(
         }.mapError {
             it // TODO: Map errors from network
         }.onFailure {
-            it.printStackTrace()
+            if (BuildConfig.DEBUG) {
+                it.printStackTrace()
+            }
         }
     }
 }
