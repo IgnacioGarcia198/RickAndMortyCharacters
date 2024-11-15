@@ -2,12 +2,10 @@ package com.ignacio.rickandmorty.ui.character.list.search
 
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.hasTextExactly
 import androidx.compose.ui.test.isDisplayed
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -16,26 +14,23 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
-import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ignacio.rickandmorty.android_utils.hilt.HiltTestActivity
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.resources.R
 import com.ignacio.rickandmorty.ui.character.mapping.localized
 import com.ignacio.rickandmorty.ui.character.navigation.CharactersFeature
+import com.ignacio.rickandmorty.ui.test_utils.ComposeTest
 import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-class CharacterSearchTest {
+class CharacterSearchTest : ComposeTest() {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
@@ -164,27 +159,5 @@ class CharacterSearchTest {
                 stringRepresentation(newValue)
             )
         ).assertIsDisplayed()
-    }
-
-    private fun composeTest(
-        composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<HiltTestActivity>, HiltTestActivity>,
-        content: @Composable () -> Unit,
-        initiallyWaitFor: (ComposeTestRule.() -> Boolean)? = null,
-        initialWaitTimeout: Long = 3000,
-        testBlock: suspend ComposeTestRule.() -> Unit,
-    ) {
-        runBlocking<Unit>(Dispatchers.Main) {
-            with(composeTestRule) {
-                setContent(content)
-                withContext(Dispatchers.Default) {
-                    initiallyWaitFor?.let {
-                        waitUntil(timeoutMillis = initialWaitTimeout) {
-                            initiallyWaitFor()
-                        }
-                    }
-                    testBlock()
-                }
-            }
-        }
     }
 }
