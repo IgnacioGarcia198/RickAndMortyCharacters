@@ -4,8 +4,6 @@ import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
@@ -58,45 +56,4 @@ sealed interface RMCharactersResponse {
             }
         }
     }
-}
-
-fun main() {
-    var response: RMCharactersResponse = RMCharactersResponse.Success(
-        info = RMCharactersResponse.Info(
-            count = 1,
-            next = "",
-            prev = "",
-            pages = 2,
-        ),
-        characters = listOf(
-            RMCharactersResponse.RMCharacter(
-                created = "created",
-                episode = emptyList(),
-                gender = "female",
-                id = 1,
-                image = "image",
-                location = RMLinkTrait(
-                    name = "here",
-                    url = null,
-                ),
-                name = "name",
-                origin = RMLinkTrait(
-                    name = "here",
-                    url = null,
-                ),
-                species = "species",
-                status = "alive",
-                type = null,
-                url = "url",
-            )
-        )
-    )
-    var stringResponse = Json.encodeToString(response)
-    println(stringResponse)
-    response = Json.decodeFromString<RMCharactersResponse>(stringResponse)
-    println(response)
-
-    stringResponse = "{\"error\":\"There is nothing here\"}"
-    val original = Json.decodeFromString<RMCharactersResponse>(stringResponse)
-    println(original)
 }

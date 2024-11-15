@@ -53,3 +53,5 @@ The project is functional, although some things need to be improved:
 - Deeper cleanup of dependencies (some modules may have dependencies they don't need)
 - Error reporting (logging errors to a file for example)
 - App settings (like enabling error logging)
+- Build scripts can be further abstracted to plugins
+- Some colors need to be adapted to the theme to keep better consistency

@@ -64,11 +64,6 @@ class RickAndMortyApiTest {
     private val errorResponse: RMCharactersResponse =
         RMCharactersResponse.Error(error = "There is nothing here")
     private val query = CharacterQueryCriteria.default
-    private val characters = RMCharacters.Characters(
-        characters = listOf(RMCharacter.dummy),
-        hasNextPage = true,
-        hasPreviousPage = true
-    )
 
 
     private fun mockEngine(string: String, status: HttpStatusCode) {
