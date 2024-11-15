@@ -1,24 +1,19 @@
 package com.ignacio.rickandmorty.ui.character.list.search
 
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.click
-import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.hasTextExactly
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.compose.ui.test.performTouchInput
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -32,7 +27,6 @@ import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.junit.Rule
@@ -88,42 +82,86 @@ class CharacterSearchTest {
         onNode(hasText(context.getString(R.string.species))).performTextInput("c")
 
         // check criteria is in place
-        onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_name, "b")).assertIsDisplayed()
-        onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_type, "a")).assertIsDisplayed()
-        onNodeWithContentDescription(context.getString(R.string.advanced_search_enter_species, "c")).assertIsDisplayed()
+        onNodeWithContentDescription(
+            context.getString(
+                R.string.advanced_search_enter_name,
+                "b"
+            )
+        ).assertIsDisplayed()
+        onNodeWithContentDescription(
+            context.getString(
+                R.string.advanced_search_enter_type,
+                "a"
+            )
+        ).assertIsDisplayed()
+        onNodeWithContentDescription(
+            context.getString(
+                R.string.advanced_search_enter_species,
+                "c"
+            )
+        ).assertIsDisplayed()
 
         Espresso.pressBack() // close keyboard
 
         // select the character status
         selectStatus(CharacterListQueryCriteria.Status.DEAD)
+        awaitIdle()
+        // select the character gender
+        selectGender(CharacterListQueryCriteria.Gender.MALE)
+        awaitIdle()
 
+        // close advanced search bottom sheet
         onNodeWithText(context.getString(R.string.close)).performClick()
-        delay(5000)
+        awaitIdle()
+        // check selected character on the screen
+        onNodeWithText("King Jellybean").assertIsDisplayed()
     }
 
     private suspend fun ComposeTestRule.selectStatus(status: CharacterListQueryCriteria.Status) {
+        selectSpinner(
+            currentValue = CharacterListQueryCriteria.Status.ANY,
+            newValue = status,
+            entries = CharacterListQueryCriteria.Status.entries,
+            spinnerContentDescription = R.string.advanced_search_select_status,
+            stringRepresentation = { it.localized(context) }
+        )
+    }
+
+    private suspend fun ComposeTestRule.selectGender(gender: CharacterListQueryCriteria.Gender) {
+        selectSpinner(
+            currentValue = CharacterListQueryCriteria.Gender.ANY,
+            newValue = gender,
+            entries = CharacterListQueryCriteria.Gender.entries,
+            spinnerContentDescription = R.string.advanced_search_select_gender,
+            stringRepresentation = { it.localized(context) }
+        )
+    }
+
+    private suspend fun <T : Any> ComposeTestRule.selectSpinner(
+        currentValue: T,
+        newValue: T,
+        entries: List<T>,
+        @StringRes spinnerContentDescription: Int,
+        stringRepresentation: (T) -> String = { it.toString() }
+    ) {
         // open status selector
         onNodeWithContentDescription(
             context.getString(
-                R.string.advanced_search_select_status,
-                CharacterListQueryCriteria.Status.ANY.localized(context)
+                spinnerContentDescription,
+                stringRepresentation(currentValue)
             )
         ).performClick()
-        awaitIdle()
         // check it's open
-        CharacterListQueryCriteria.Status.entries.forEach {
-            onNode(hasTextExactly(it.localized(context))).assertIsDisplayed()
+        entries.forEach {
+            onNode(hasTextExactly(stringRepresentation(it))).assertIsDisplayed()
         }
-        waitForIdle()
-        awaitIdle()
         // select
-        onNode(hasTextExactly(status.localized(context))).performClick()
-        waitForIdle()
-        awaitIdle()
+        onNode(hasTextExactly(stringRepresentation(newValue))).performClick()
+        // confirm selection on screen
         onNodeWithContentDescription(
             context.getString(
-                R.string.advanced_search_select_status,
-                status.localized(context)
+                spinnerContentDescription,
+                stringRepresentation(newValue)
             )
         ).assertIsDisplayed()
     }
