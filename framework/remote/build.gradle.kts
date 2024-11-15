@@ -19,4 +19,7 @@ dependencies {
     implementation(libs.io.ktor.client.serialization.kotlinx.json)
     implementation(libs.com.google.dagger)
     ksp(libs.com.google.dagger.compiler)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.io.ktor.client.mock)
 }

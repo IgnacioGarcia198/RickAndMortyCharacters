@@ -4,6 +4,7 @@ import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.paging.models.RMCharacters
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
+import com.ignacio.rickandmorty.framework.remote.exceptions.NetworkException
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
 import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
@@ -12,8 +13,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.URLProtocol
+import io.ktor.http.isSuccess
 import io.ktor.http.path
 import javax.inject.Inject
 
@@ -51,9 +52,18 @@ class RealRickAndMortyApi @Inject constructor(
                     }
                 }
             }
+            if (!response.status.isSuccess()) {
+                throw NetworkException(
+                    errorCode = response.status.value,
+                    errorDescription = response.status.description
+                )
+            }
             response.body<RMCharactersResponse>().toRMCharacters()
-        }.mapError {
-            it // TODO: Map errors from network
+        }.mapError { throwable ->
+            when (throwable) {
+                is NetworkException -> throwable
+                else -> NetworkException(cause = throwable)
+            }
         }.onFailure {
             if (BuildConfig.DEBUG) {
                 it.printStackTrace()

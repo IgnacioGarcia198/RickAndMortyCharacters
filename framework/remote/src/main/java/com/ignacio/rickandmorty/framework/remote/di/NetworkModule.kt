@@ -6,6 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -23,8 +24,8 @@ interface NetworkModule {
 
     companion object {
         @Provides
-        fun provideHttpClient(): HttpClient {
-            return HttpClient(CIO) {
+        fun provideHttpClient(engine: HttpClientEngine): HttpClient {
+            return HttpClient(engine) {
                 install(Logging) {
                     level = LogLevel.ALL
                 }
@@ -36,6 +37,11 @@ interface NetworkModule {
                     })
                 }
             }
+        }
+
+        @Provides
+        fun provideEngine(): HttpClientEngine {
+            return CIO.create()
         }
     }
 }
