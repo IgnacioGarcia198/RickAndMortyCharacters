@@ -13,8 +13,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
-import io.ktor.http.isSuccess
 import io.ktor.http.path
 import javax.inject.Inject
 
@@ -25,6 +26,7 @@ class RealRickAndMortyApi @Inject constructor(
         page: Int,
         query: CharacterQueryCriteria
     ): Result<RMCharacters> {
+        var status: HttpStatusCode? = null
         return runCatching<RMCharacters> {
             val response = client.get {
                 url {
@@ -52,18 +54,10 @@ class RealRickAndMortyApi @Inject constructor(
                     }
                 }
             }
-            if (!response.status.isSuccess()) {
-                throw NetworkException(
-                    errorCode = response.status.value,
-                    errorDescription = response.status.description
-                )
-            }
+            status = response.status
             response.body<RMCharactersResponse>().toRMCharacters()
         }.mapError { throwable ->
-            when (throwable) {
-                is NetworkException -> throwable
-                else -> NetworkException(cause = throwable)
-            }
+            NetworkException(status = status, cause = throwable)
         }.onFailure {
             if (BuildConfig.DEBUG) {
                 it.printStackTrace()

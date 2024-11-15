@@ -107,32 +107,13 @@ class RickAndMortyApiTest {
             val json = Json.encodeToString(
                 errorResponse
             )
-            mockEngine(json, HttpStatusCode.OK)
+            mockEngine(json, HttpStatusCode.NotFound)
 
             val result = api.getCharacters(1, query)
 
             assertTrue(result.isSuccess)
             assertEquals(errorResponse.toRMCharacters(), result.getOrThrow())
         }
-
-    @Test
-    fun `api returns error if http request returns a bad status`() = runBlocking {
-        val json = Json.encodeToString(
-            successResponse
-        )
-        mockEngine(json, HttpStatusCode.BadRequest)
-
-        val result = api.getCharacters(1, query)
-
-        assertTrue(result.isFailure)
-        assertEquals(
-            NetworkException(
-                errorCode = HttpStatusCode.BadRequest.value,
-                errorDescription = HttpStatusCode.BadRequest.description,
-                cause = null
-            ), result.exceptionOrNull()
-        )
-    }
 
     @Test
     fun `api returns error if http request returns a bad response`() = runBlocking {
@@ -143,8 +124,8 @@ class RickAndMortyApiTest {
 
         assertTrue(result.isFailure)
         val exception = result.exceptionOrNull() as NetworkException
-        assertEquals(-1, exception.errorCode)
-        assertEquals("empty", exception.errorDescription)
+        assertEquals(200, exception.errorCode)
+        assertEquals("OK", exception.errorDescription)
         assertTrue(exception.cause is JsonConvertException)
     }
 }
