@@ -173,6 +173,7 @@ private fun CharacterListScreenTopBar(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = Color.Transparent,
                         unfocusedBorderColor = Color.Transparent,
+                        cursorColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     ),
                     placeholder = {
                         Text(
