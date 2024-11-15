@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
+// TODO: Move to a common ui module, but it cannot be testFixtures since its Kotlin Android so probably in debug sources.
 abstract class ComposeTest {
     fun composeTest(
         composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<HiltTestActivity>, HiltTestActivity>,
