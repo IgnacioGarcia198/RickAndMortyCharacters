@@ -3,6 +3,7 @@ package com.ignacio.rickandmorty.data.paging.updater
 import com.ignacio.rickandmorty.data.paging.datasource.local.CharactersLocalPagingDataSource
 import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.data.paging.models.RMCharacters
 import javax.inject.Inject
 
 class RealRemoteLocalUpdater @Inject constructor(
@@ -19,12 +20,17 @@ class RealRemoteLocalUpdater @Inject constructor(
         // Ktor does it automatically.
         return rickAndMortyApi.getCharacters(page = page, query = query)
             .mapCatching { response ->
-                charactersLocalDataSource.upsertAll(
-                    response.characters,
-                    clear = shouldClearLocalCache,
-                    query = query
-                )
-                !response.hasNextPage
+                when (response) {
+                    is RMCharacters.Characters -> {
+                        charactersLocalDataSource.upsertAll(
+                            response.characters,
+                            clear = shouldClearLocalCache,
+                            query = query
+                        )
+                        !response.hasNextPage
+                    }
+                    RMCharacters.NoResults -> true
+                }
             }
     }
 }

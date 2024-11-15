@@ -6,10 +6,12 @@ import com.ignacio.rickandmorty.data.paging.models.RMCharacters
 import com.ignacio.rickandmorty.framework.remote.constants.NetworkConstants
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
+import com.ignacio.rickandmorty.kotlin_utils.extensions.mapError
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import javax.inject.Inject
@@ -21,7 +23,7 @@ class RealRickAndMortyApi @Inject constructor(
         page: Int,
         query: CharacterQueryCriteria
     ): Result<RMCharacters> {
-        return kotlin.runCatching<RMCharacters> {
+        return runCatching<RMCharacters> {
             val response = client.get {
                 url {
                     protocol = URLProtocol.HTTPS
@@ -48,7 +50,11 @@ class RealRickAndMortyApi @Inject constructor(
                     }
                 }
             }
+            println("######### RESPONSE CODE: ${response.status.value}")
+            println("######### RESPONSE BODY: ${response.bodyAsText()}")
             response.body<RMCharactersResponse>().toRMCharacters()
+        }.mapError {
+            it
         }.onFailure {
             it.printStackTrace()
         }
