@@ -18,6 +18,13 @@ object Projects {
         const val DATA_PAGING = ":feature-characters:data:paging"
     }
 
+    object FeatureNetworkMonitor {
+        const val UI = ":feature-network-monitor:ui"
+        const val DOMAIN = ":feature-network-monitor:domain"
+        const val DATA = ":feature-network-monitor:data"
+        const val PRESENTATION = ":feature-network-monitor:presentation"
+    }
+
     object Framework {
         const val LOCAL = ":framework:local"
         const val REMOTE = ":framework:remote"

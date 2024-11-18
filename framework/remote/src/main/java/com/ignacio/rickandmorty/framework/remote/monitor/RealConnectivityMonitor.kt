@@ -29,7 +29,7 @@ class RealConnectivityMonitor @Inject constructor(
             .stateIn(
                 scope = CoroutineScope(dispatcherProvider.io),
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = _currentNetwork.value.isConnected
+                initialValue = true
             )
 
     init {

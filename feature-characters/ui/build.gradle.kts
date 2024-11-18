@@ -20,6 +20,7 @@ dependencies {
     implementation((project(Projects.Common.KOTLIN_UTILS)))
     implementation(project(Projects.FeatureCharacters.PRESENTATION))
     implementation(project(Projects.FeatureCharacters.DOMAIN))
+    implementation(project(Projects.FeatureNetworkMonitor.UI))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

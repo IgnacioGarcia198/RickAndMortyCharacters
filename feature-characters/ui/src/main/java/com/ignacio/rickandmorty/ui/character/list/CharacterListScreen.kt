@@ -52,6 +52,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
+import com.ignacio.rickandmorty.network_monitor.ui.NetworkAwareScaffold
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
@@ -159,23 +160,6 @@ fun CharacterListScreen(
         )
     }
 
-}
-
-@Composable
-fun NetworkAwareScaffold(
-    snackbarHostState: SnackbarHostState,
-    modifier: Modifier = Modifier,
-    topBar: @Composable () -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
-) {
-    Scaffold(
-        topBar = topBar,
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-        modifier = modifier,
-        content = content,
-    )
 }
 
 @Composable

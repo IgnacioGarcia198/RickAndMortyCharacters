@@ -9,16 +9,17 @@ plugins {
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.di_connector"
+    namespace = "com.ignacio.rickandmorty.network_monitor.presentation"
 }
 
 dependencies {
-    implementation(project(Projects.FeatureCharacters.DATA))
-    implementation(project(Projects.FeatureCharacters.DATA_PAGING))
-    implementation(project(Projects.Common.KOTLIN_UTILS))
-    implementation(project(Projects.Framework.REMOTE))
-    implementation(project(Projects.FeatureNetworkMonitor.DATA))
-
+    implementation(project(Projects.FeatureNetworkMonitor.DOMAIN))
+    //implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.paging.common.jvm)
+    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.kotlinx.coroutines.core)
+
+    testImplementation(libs.junit)
 }

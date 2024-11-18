@@ -2,8 +2,8 @@ package com.ignacio.rickandmorty.di_connector
 
 import com.ignacio.rickandmorty.data.di.RMCharactersRepositoryModule
 import com.ignacio.rickandmorty.data.paging.di.DataPagingModule
-import com.ignacio.rickandmorty.framework.remote.di.NetworkModule
 import com.ignacio.rickandmorty.kotlin_utils.di.coroutines.CoroutinesModule
+import com.ignacio.rickandmorty.network_monitor.data.di.NetworkAwareDataModule
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -13,6 +13,7 @@ import dagger.hilt.components.SingletonComponent
         CoroutinesModule::class,
         RMCharactersRepositoryModule::class,
         DataPagingModule::class,
+        NetworkAwareDataModule::class,
     ]
 )
 @InstallIn(SingletonComponent::class)
