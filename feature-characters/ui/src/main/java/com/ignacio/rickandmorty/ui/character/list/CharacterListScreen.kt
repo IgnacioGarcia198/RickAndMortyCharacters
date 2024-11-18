@@ -2,7 +2,6 @@ package com.ignacio.rickandmorty.ui.character.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,8 +18,6 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -52,7 +49,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
-import com.ignacio.rickandmorty.network_monitor.ui.NetworkAwareScaffold
+import com.ignacio.rickandmorty.ui_common.composables.SnackbarScaffold
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
@@ -88,7 +85,7 @@ fun CharacterListScreen(
 
     val barContentDesc = stringResource(id = R.string.character_list_title_cd)
 
-    NetworkAwareScaffold(
+    SnackbarScaffold(
         snackbarHostState = snackbarHostState,
         topBar = {
             CharacterListScreenTopBar(

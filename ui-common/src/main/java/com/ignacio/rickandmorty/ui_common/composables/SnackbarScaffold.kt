@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.network_monitor.ui
+package com.ignacio.rickandmorty.ui_common.composables
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Scaffold
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun NetworkAwareScaffold(
+fun SnackbarScaffold(
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
