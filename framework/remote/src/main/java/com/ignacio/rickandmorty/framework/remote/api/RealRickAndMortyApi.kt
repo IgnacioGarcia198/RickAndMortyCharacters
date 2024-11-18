@@ -9,6 +9,8 @@ import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
 import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.kotlin_utils.extensions.mapError
+import com.ignacio.rickandmorty.kotlin_utils.extensions.recoverIfPossible
+import com.ignacio.rickandmorty.network.ConnectivityMonitor
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
@@ -20,7 +22,8 @@ import io.ktor.http.path
 import javax.inject.Inject
 
 class RealRickAndMortyApi @Inject constructor(
-    private val client: HttpClient
+    private val client: HttpClient,
+    private val connectivityMonitor: ConnectivityMonitor,
 ) : RickAndMortyApi {
     override suspend fun getCharacters(
         page: Int,
@@ -56,6 +59,10 @@ class RealRickAndMortyApi @Inject constructor(
             }
             status = response.status
             response.body<RMCharactersResponse>().toRMCharacters()
+        }.recoverIfPossible { _, result ->
+            if (!connectivityMonitor.isNetworkConnected) {
+                Result.success(RMCharacters.NoResults)
+            } else result
         }.mapError { throwable ->
             NetworkException(status = status, cause = throwable)
         }.onFailure {

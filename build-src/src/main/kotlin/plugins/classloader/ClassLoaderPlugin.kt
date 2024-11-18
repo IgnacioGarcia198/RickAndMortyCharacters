@@ -32,4 +32,5 @@ object Projects {
     }
 
     const val PAGING = ":paging"
+    const val NETWORK = ":network"
 }

@@ -1,6 +1,5 @@
 package com.ignacio.rickandmorty.framework.remote.api
 
-import com.ignacio.rickandmorty.data.models.RMCharacter
 import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.data.paging.models.RMCharacters
@@ -9,6 +8,7 @@ import com.ignacio.rickandmorty.framework.remote.exceptions.NetworkException
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters
 import com.ignacio.rickandmorty.framework.remote.models.RMCharactersResponse
 import com.ignacio.rickandmorty.framework.remote.models.RMLinkTrait
+import com.ignacio.rickandmorty.network.ConnectivityMonitor
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -19,6 +19,8 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import io.ktor.serialization.JsonConvertException
 import io.ktor.utils.io.ByteReadChannel
+import io.mockk.every
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
@@ -29,6 +31,9 @@ import org.junit.Test
 class RickAndMortyApiTest {
     private lateinit var httpClient: HttpClient
     private lateinit var api: RickAndMortyApi
+    private val connectivityMonitor: ConnectivityMonitor = mockk {
+        every { isNetworkConnected }.returns(true)
+    }
 
     private val successResponse: RMCharactersResponse = RMCharactersResponse.Success(
         info = RMCharactersResponse.Info(
@@ -66,9 +71,13 @@ class RickAndMortyApiTest {
     private val query = CharacterQueryCriteria.default
 
 
-    private fun mockEngine(string: String, status: HttpStatusCode) {
+    private fun mockEngine(
+        string: String = "",
+        status: HttpStatusCode = HttpStatusCode.OK,
+        throwable: Throwable? = null
+    ) {
         val mockEngine = MockEngine {
-            respond(
+            throwable?.let { throw it } ?: respond(
                 content = ByteReadChannel(string),
                 status = status,
                 headers = headersOf(HttpHeaders.ContentType, "application/json")
@@ -84,7 +93,7 @@ class RickAndMortyApiTest {
                 }
             }
         }
-        api = RealRickAndMortyApi(client = httpClient)
+        api = RealRickAndMortyApi(client = httpClient, connectivityMonitor = connectivityMonitor)
     }
 
     @Test
@@ -116,16 +125,29 @@ class RickAndMortyApiTest {
         }
 
     @Test
-    fun `api returns error if http request returns a bad response`() = runBlocking {
-        val json = "error"
-        mockEngine(json, HttpStatusCode.OK)
+    fun `api returns error if http request returns a bad response and network is connected`() =
+        runBlocking {
+            val json = "error"
+            mockEngine(json, HttpStatusCode.OK)
 
-        val result = api.getCharacters(1, query)
+            val result = api.getCharacters(1, query)
 
-        assertTrue(result.isFailure)
-        val exception = result.exceptionOrNull() as NetworkException
-        assertEquals(200, exception.errorCode)
-        assertEquals("OK", exception.errorDescription)
-        assertTrue(exception.cause is JsonConvertException)
-    }
+            assertTrue(result.isFailure)
+            val exception = result.exceptionOrNull() as NetworkException
+            assertEquals(200, exception.errorCode)
+            assertEquals("OK", exception.errorDescription)
+            assertTrue(exception.cause is JsonConvertException)
+        }
+
+    @Test
+    fun `api returns success with no results if http request fails with no network`() =
+        runBlocking {
+            every { connectivityMonitor.isNetworkConnected }.returns(false)
+            mockEngine("", HttpStatusCode.OK)
+
+            val result = api.getCharacters(1, query)
+
+            assertTrue(result.isSuccess)
+            assertEquals(RMCharacters.NoResults, result.getOrThrow())
+        }
 }

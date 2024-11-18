@@ -11,7 +11,6 @@ import dagger.hilt.components.SingletonComponent
 @Module(
     includes = [
         CoroutinesModule::class,
-        NetworkModule::class,
         RMCharactersRepositoryModule::class,
         DataPagingModule::class,
     ]
