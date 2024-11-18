@@ -21,5 +21,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.kotlinx.coroutines.core)
 
+    testImplementation(testFixtures(project(Projects.Common.KOTLIN_UTILS)))
     testImplementation(libs.junit)
+    testImplementation(libs.mockk.jvm)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
