@@ -8,4 +8,7 @@ plugins {
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.com.google.dagger)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk.jvm)
 }
