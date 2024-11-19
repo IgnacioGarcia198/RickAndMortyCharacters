@@ -42,24 +42,24 @@ class RealCharactersLocalDataSource @Inject constructor(
     private fun CharacterQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
         val sql = StringBuilder(queryStart)
         val args = mutableListOf<String>()
-        if (name.isNotEmpty()) { // TODO: Extract constants for params
-            sql.appendQuerySegment("name LIKE ?")
+        if (name.isNotEmpty()) {
+            sql.appendQuerySegment("${DbRMCharacter.NAME_COLUMN} LIKE ?")
             args.add("%$name%")
         }
         if (type.isNotEmpty()) {
-            sql.appendQuerySegment("type LIKE ?")
+            sql.appendQuerySegment("${DbRMCharacter.TYPE_COLUMN} LIKE ?")
             args.add("%$type%")
         }
         if (species.isNotEmpty()) {
-            sql.appendQuerySegment("species LIKE ?")
+            sql.appendQuerySegment("${DbRMCharacter.SPECIES_COLUMN} LIKE ?")
             args.add("%$species%")
         }
         if (status != CharacterQueryCriteria.Status.ANY) {
-            sql.appendQuerySegment("status LIKE ?")
+            sql.appendQuerySegment("${DbRMCharacter.STATUS_COLUMN} LIKE ?")
             args.add("%${status.name}%")
         }
         if (gender != CharacterQueryCriteria.Gender.ANY) {
-            sql.appendQuerySegment("gender LIKE ?")
+            sql.appendQuerySegment("${DbRMCharacter.GENDER_COLUMN} LIKE ?")
             args.add("%${gender.name}%")
         }
         return SimpleSQLiteQuery(sql.toString(), args.toTypedArray())

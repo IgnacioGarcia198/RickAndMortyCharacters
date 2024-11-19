@@ -33,5 +33,10 @@ data class DbRMCharacter(
             url = "url"
         )
         const val TABLE_NAME = "rickAndMortyCharacters"
+        const val NAME_COLUMN = "name"
+        const val SPECIES_COLUMN = "species"
+        const val TYPE_COLUMN = "type"
+        const val STATUS_COLUMN = "status"
+        const val GENDER_COLUMN = "gender"
     }
 }
