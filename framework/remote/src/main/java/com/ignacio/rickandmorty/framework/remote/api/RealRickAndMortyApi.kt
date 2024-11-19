@@ -39,21 +39,21 @@ class RealRickAndMortyApi @Inject constructor(
                         NetworkConstants.RICK_AND_MORTY_BASE_PATH,
                         NetworkConstants.RICK_AND_MORTY_CHARACTERS_PATH
                     )
-                    parameter(key = "page", value = page) // TODO: Extract constants for params
+                    parameter(key = PARAM_PAGE, value = page)
                     if (query.name.isNotEmpty()) {
-                        parameter(key = "name", value = query.name)
+                        parameter(key = PARAM_NAME, value = query.name)
                     }
                     if (query.type.isNotEmpty()) {
-                        parameter(key = "type", value = query.type)
+                        parameter(key = PARAM_TYPE, value = query.type)
                     }
                     if (query.species.isNotEmpty()) {
-                        parameter(key = "species", value = query.species)
+                        parameter(key = PARAM_SPECIES, value = query.species)
                     }
                     if (query.status != CharacterQueryCriteria.Status.ANY) {
-                        parameter(key = "status", value = query.status.name)
+                        parameter(key = PARAM_STATUS, value = query.status.name)
                     }
                     if (query.gender != CharacterQueryCriteria.Gender.ANY) {
-                        parameter(key = "gender", value = query.gender.name)
+                        parameter(key = PARAM_GENDER, value = query.gender.name)
                     }
                 }
             }
@@ -70,5 +70,14 @@ class RealRickAndMortyApi @Inject constructor(
                 it.printStackTrace()
             }
         }
+    }
+
+    companion object {
+        const val PARAM_PAGE = "page"
+        const val PARAM_NAME = "name"
+        const val PARAM_TYPE = "type"
+        const val PARAM_SPECIES = "species"
+        const val PARAM_STATUS = "status"
+        const val PARAM_GENDER = "gender"
     }
 }
