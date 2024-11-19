@@ -11,6 +11,10 @@ interface RMCharactersViewModelContract {
     val query: StateFlow<CharacterListQueryCriteria>
 
     fun justNameQuery(name: String)
-    fun setQuery(queryCriteria: CharacterListQueryCriteria)
+    fun updateName(name: String)
+    fun updateType(type: String)
+    fun updateSpecies(species: String)
+    fun updateStatus(status: CharacterListQueryCriteria.Status)
+    fun updateGender(gender: CharacterListQueryCriteria.Gender)
     fun clearQuery()
 }

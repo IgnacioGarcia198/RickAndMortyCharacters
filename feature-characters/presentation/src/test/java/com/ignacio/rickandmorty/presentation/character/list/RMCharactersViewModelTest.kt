@@ -45,7 +45,7 @@ class RMCharactersViewModelTest {
 
     private val useCaseFlow: MutableStateFlow<PagedData<RMCharacter>> =
         MutableStateFlow(AndroidPagedData(pagingData = pagingData))
-    private val query = CharacterListQueryCriteria.default.copy(name = "hello")
+    private val query = CharacterListQueryCriteria.default
 
     @Before
     fun setUp() {
@@ -64,13 +64,53 @@ class RMCharactersViewModelTest {
     }
 
     @Test
-    fun `setQuery() sets the query for use case call`() = runTest {
-        viewModel.setQuery(query)
+    fun `updateName() sets the name for use case call`() = runTest {
+        viewModel.updateName("new name")
         viewModel.pagingDataFlow.asSnapshot()
         advanceUntilIdle()
 
 
-        verify { getRMCharacters(query = query) }
+        verify { getRMCharacters(query = query.copy(name = "new name")) }
+    }
+
+    @Test
+    fun `updateSpecies() sets the species for use case call`() = runTest {
+        viewModel.updateSpecies("new species")
+        viewModel.pagingDataFlow.asSnapshot()
+        advanceUntilIdle()
+
+
+        verify { getRMCharacters(query = query.copy(species = "new species")) }
+    }
+
+    @Test
+    fun `updateType() sets the type for use case call`() = runTest {
+        viewModel.updateType("new type")
+        viewModel.pagingDataFlow.asSnapshot()
+        advanceUntilIdle()
+
+
+        verify { getRMCharacters(query = query.copy(type = "new type")) }
+    }
+
+    @Test
+    fun `updateStatus() sets the status for use case call`() = runTest {
+        viewModel.updateStatus(CharacterListQueryCriteria.Status.ALIVE)
+        viewModel.pagingDataFlow.asSnapshot()
+        advanceUntilIdle()
+
+
+        verify { getRMCharacters(query = query.copy(status = CharacterListQueryCriteria.Status.ALIVE)) }
+    }
+
+    @Test
+    fun `updateGender() sets the gender for use case call`() = runTest {
+        viewModel.updateGender(CharacterListQueryCriteria.Gender.FEMALE)
+        viewModel.pagingDataFlow.asSnapshot()
+        advanceUntilIdle()
+
+
+        verify { getRMCharacters(query = query.copy(gender = CharacterListQueryCriteria.Gender.FEMALE)) }
     }
 
     @Test
@@ -80,7 +120,7 @@ class RMCharactersViewModelTest {
         advanceUntilIdle()
 
 
-        verify { getRMCharacters(query = query) }
+        verify { getRMCharacters(query = query.copy(name = "hello")) }
     }
 
     @Test

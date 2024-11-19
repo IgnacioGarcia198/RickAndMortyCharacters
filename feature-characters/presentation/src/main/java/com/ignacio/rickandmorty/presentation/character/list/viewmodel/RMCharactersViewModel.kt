@@ -34,8 +34,24 @@ class RMCharactersViewModel @Inject constructor(
         queryMF.value = CharacterListQueryCriteria.default.copy(name = name)
     }
 
-    override fun setQuery(queryCriteria: CharacterListQueryCriteria) {
-        queryMF.value = queryCriteria
+    override fun updateName(name: String) {
+        queryMF.value = queryMF.value.copy(name = name)
+    }
+
+    override fun updateType(type: String) {
+        queryMF.value = queryMF.value.copy(type = type)
+    }
+
+    override fun updateSpecies(species: String) {
+        queryMF.value = queryMF.value.copy(species = species)
+    }
+
+    override fun updateStatus(status: CharacterListQueryCriteria.Status) {
+        queryMF.value = queryMF.value.copy(status = status)
+    }
+
+    override fun updateGender(gender: CharacterListQueryCriteria.Gender) {
+        queryMF.value = queryMF.value.copy(gender = gender)
     }
 
     override fun clearQuery() {

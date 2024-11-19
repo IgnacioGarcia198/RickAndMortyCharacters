@@ -49,11 +49,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ignacio.rickandmorty.domain.models.CharacterListQueryCriteria
 import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
-import com.ignacio.rickandmorty.ui_common.composables.SnackbarScaffold
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.presentation.character.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.presentation.character.models.UiRMCharacter
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.composables.SnackbarScaffold
 import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
 import kotlinx.coroutines.flow.Flow
@@ -143,7 +143,11 @@ fun CharacterListScreen(
         AdvancedSearchBottomSheet(
             show = showAdvancedSearchBottomSheet,
             criteria = searchCriteria,
-            updateCriteria = { viewModel.setQuery(it) },
+            updateName = viewModel::updateName,
+            updateSpecies = viewModel::updateSpecies,
+            updateType = viewModel::updateType,
+            updateStatus = viewModel::updateStatus,
+            updateGender = viewModel::updateGender,
             onClose = {
                 showAdvancedSearchBottomSheet = false
             }
@@ -268,8 +272,24 @@ fun CharacterListScreenPreview(
             queryFlow.value = CharacterListQueryCriteria.default.copy(name = name)
         }
 
-        override fun setQuery(queryCriteria: CharacterListQueryCriteria) {
-            queryFlow.value = queryCriteria
+        override fun updateName(name: String) {
+
+        }
+
+        override fun updateType(type: String) {
+
+        }
+
+        override fun updateSpecies(species: String) {
+
+        }
+
+        override fun updateStatus(status: CharacterListQueryCriteria.Status) {
+
+        }
+
+        override fun updateGender(gender: CharacterListQueryCriteria.Gender) {
+
         }
 
         override fun clearQuery() {

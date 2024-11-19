@@ -22,10 +22,13 @@ import com.ignacio.rickandmorty.ui_common.extensions.blankExplicit
 fun AdvancedSearchBottomSheet(
     show: Boolean,
     criteria: CharacterListQueryCriteria,
-    updateCriteria: (CharacterListQueryCriteria) -> Unit,
+    updateName: (String) -> Unit,
+    updateSpecies: (String) -> Unit,
+    updateType: (String) -> Unit,
+    updateStatus: (CharacterListQueryCriteria.Status) -> Unit,
+    updateGender: (CharacterListQueryCriteria.Gender) -> Unit,
     onClose: () -> Unit = {},
 ) {
-    // TODO: Abstract more character update logic to the ViewModel
     AppBottomSheet(
         show = show,
         title = R.string.advanced_search_title,
@@ -47,7 +50,7 @@ fun AdvancedSearchBottomSheet(
             context.getString(R.string.advanced_search_select_gender, criteria.gender.localized(context))
         OutlinedTextField(
             value = criteria.name,
-            onValueChange = { updateCriteria(criteria.copy(name = it)) },
+            onValueChange = { updateName(it) },
             label = { Text(stringResource(id = R.string.name)) },
             modifier = Modifier
                 .semantics {
@@ -59,7 +62,7 @@ fun AdvancedSearchBottomSheet(
 
         OutlinedTextField(
             value = criteria.species,
-            onValueChange = { updateCriteria(criteria.copy(species = it)) },
+            onValueChange = { updateSpecies(it) },
             label = { Text(stringResource(id = R.string.species)) },
             modifier = Modifier
                 .semantics { contentDescription = speciesContentDesc }
@@ -69,7 +72,7 @@ fun AdvancedSearchBottomSheet(
 
         OutlinedTextField(
             value = criteria.type,
-            onValueChange = { updateCriteria(criteria.copy(type = it)) },
+            onValueChange = { updateType(it) },
             label = { Text(stringResource(id = R.string.type)) },
             modifier = Modifier
                 .semantics { contentDescription = typeContentDesc }
@@ -88,7 +91,7 @@ fun AdvancedSearchBottomSheet(
                 .padding(top = 16.dp),
             stringRepresentation = { it.localized(context) },
         ) {
-            updateCriteria(criteria.copy(status = it))
+            updateStatus(it)
         }
 
         Spinner(
@@ -102,7 +105,7 @@ fun AdvancedSearchBottomSheet(
                 .padding(top = 8.dp),
             stringRepresentation = { it.localized(context) }
         ) {
-            updateCriteria(criteria.copy(gender = it))
+            updateGender(it)
         }
     }
 }
