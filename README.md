@@ -30,7 +30,12 @@ The app changes to light or dark theme following the system.
 │   │   └── paging  
 │   ├── domain  
 │   ├── presentation  
-│   └── ui  
+│   └── ui
+├── feature-network-monitor  
+│   ├── data   
+│   ├── domain  
+│   ├── presentation  
+│   └── ui
 ├── framework  
 │   ├── di-connector  
 │   ├── local  
