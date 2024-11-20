@@ -19,15 +19,17 @@ RUN mv cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest
 RUN rm android-sdk.zip
 RUN rm -r cmdline-tools
 
+RUN which sdkmanager
+
 # sdkmanager init
-COPY docker/packages.txt .
-RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
-RUN sdkmanager --package_file=packages.txt
-
-# Copies your code file from your action repository to the filesystem path `/` of the container
-COPY . /RickAndMorty
-
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
-WORKDIR /RickAndMorty
-
-RUN ./gradlew build
+#COPY docker/packages.txt .
+#RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
+#RUN sdkmanager --package_file=packages.txt
+#
+## Copies your code file from your action repository to the filesystem path `/` of the container
+#COPY . /RickAndMorty
+#
+## Code file to execute when the docker container starts up (`entrypoint.sh`)
+#WORKDIR /RickAndMorty
+#
+#RUN ./gradlew build
