@@ -3,16 +3,19 @@ FROM alpine:3.10
 
 RUN apk update && apk add --no-cache curl wget
 RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.13%2B11/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
-                                                                                                                                                  && tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && ls -la \
+                                                                                                                                                  && tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
                                                                                                                                                   && mv jdk-17.0.13+11 /usr/lib/jvm/
-RUN ls -la /usr/lib/jvm
-RUN ls -la /usr/lib/jvm/bin
+#RUN ls -la /usr/lib/jvm
+#RUN ls -la /usr/lib/jvm/bin
 
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 ENV JAVA_HOME=/usr/lib/jvm/jdk-17.0.13+11
-ENV PATH="$JAVA_HOME/bin:$PATH"
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+RUN echo $JAVA_HOME
+RUN ls -la $JAVA_HOME
 
 # download android sdk
 RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest
