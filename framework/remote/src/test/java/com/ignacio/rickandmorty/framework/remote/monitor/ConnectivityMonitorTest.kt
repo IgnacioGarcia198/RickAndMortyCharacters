@@ -46,13 +46,13 @@ class ConnectivityMonitorTest {
     }
 
     @Test
-    fun `on startup flow gets only false (initial default value)`() = runTest {
+    fun `on startup flow gets only true (initial default value)`() = runTest {
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false), connectedStates)
+        assertEquals(listOf(true), connectedStates)
     }
 
     @Test
-    fun `when all conditions are met flow value becomes true`() = runTest {
+    fun `when all conditions are met flow value becomes true (does not change)`() = runTest {
         networkCallbackSlot.captured.onAvailable(mockk())
         networkCallbackSlot.captured.onBlockedStatusChanged(mockk(), false)
         networkCallbackSlot.captured.onCapabilitiesChanged(mockk(), goodNetworkCapabilities)
@@ -60,7 +60,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true), connectedStates)
+        assertEquals(listOf(true), connectedStates)
     }
 
     @Test
@@ -74,7 +74,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true, false), connectedStates)
+        assertEquals(listOf(true, false), connectedStates)
     }
 
     @Test
@@ -88,7 +88,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true, false), connectedStates)
+        assertEquals(listOf(true, false), connectedStates)
     }
 
     @Test
@@ -102,7 +102,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true, false), connectedStates)
+        assertEquals(listOf(true, false), connectedStates)
     }
 
     @Test
@@ -119,7 +119,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true, false), connectedStates)
+        assertEquals(listOf(true, false), connectedStates)
     }
 
     @Test
@@ -136,7 +136,7 @@ class ConnectivityMonitorTest {
 
 
         coVerify { connectivityManager.registerDefaultNetworkCallback(any()) }
-        assertEquals(listOf(false, true, false), connectedStates)
+        assertEquals(listOf(true, false), connectedStates)
     }
 
     @Test
