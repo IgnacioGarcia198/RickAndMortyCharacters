@@ -5,9 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to say hello
     steps:
-      - name: Hello world action step
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: hello action
         id: hello
-        uses: RickAndMortyCharacters/action
+        uses: ./
         with:
           who-to-greet: 'Mona the Octocat'
       # Use the output from the `hello` step
