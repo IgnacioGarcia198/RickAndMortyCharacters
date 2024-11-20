@@ -4,8 +4,8 @@ FROM debian:bullseye
 RUN apt-get update && apt-get upgrade -yqq
 # RUN apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main'
 RUN apt-get install -yqq apt-utils git clang libclang-dev \
-    build-essential curl wget software-properties-common libtool patch \
-    ant gettext unzip vim bash-completion android-sdk* locales
+    build-essential curl wget software-properties-common \
+    unzip bash-completion android-sdk* locales
 
 # Install Java 17
 RUN apt-get update -yqq && \
