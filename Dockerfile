@@ -10,7 +10,7 @@ RUN ls -la /usr/lib/jvm
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-ENV JAVA_HOME="/usr/lib/jvm/jdk-17.0.13+11"
+ENV JAVA_HOME="/usr/lib/jvm"
 
 # download android sdk
 RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest
