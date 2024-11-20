@@ -1,6 +1,11 @@
 name: Android Build
 
-on: [push]
+on:
+  push:
+  workflow_run:
+    workflows: ["Build and Push Docker Image"]
+    types:
+      - completed
 
 jobs:
   build:
