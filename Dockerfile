@@ -1,23 +1,38 @@
-# Container image that runs your code
-FROM alpine:3.10
+FROM debian:bullseye
 
-RUN apk update && apk add --no-cache curl wget clang llvm-dev
-RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.13%2B11/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
-&& tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz
-RUN ls -la
-RUN mkdir -p /usr/lib/jvm/jdk-17.0.13+11 && mv jdk-17.0.13+11/* /usr/lib/jvm/jdk-17.0.13+11/
-RUN ls -la /usr/lib/jvm
-#RUN ls -la /usr/lib/jvm/bin
+# dependencies
+RUN apt-get update && apt-get upgrade -yqq
+# RUN apt-add-repository 'deb http://security.debian.org/debian-security stretch/updates main'
+RUN apt-get install -yqq apt-utils git clang libclang-dev \
+    build-essential curl wget software-properties-common libtool patch \
+    ant gettext unzip vim bash-completion android-sdk* locales
+
+# Install Java 17
+RUN apt-get update -yqq && \
+    apt-get install -yqq apt-transport-https ca-certificates wget dirmngr gnupg2 software-properties-common && \
+    wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.13%2B11/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && \
+    tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && ls -la && \
+    cp -r jdk-17.0.13+11 /usr/lib/jvm/
+RUN update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk-17.0.13+11/bin/javac 2222
+RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk-17.0.13+11/bin/java 2222
+RUN update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk-17.0.13+11/bin/jar 2222
+RUN update-alternatives --list java --verbose
+RUN update-alternatives --set java /usr/lib/jvm/jdk-17.0.13+11/bin/java
+#RUN update-alternatives --config java # can be used to see the priority of each alternative just in case.
+
+# setup locales
+RUN DEBIAN_FRONTEND="noninteractive" apt-get update -yqq && \
+    apt-get install -yqq locales-all && \
+    rm -rf /var/lib/apt/lists/*
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+RUN locale-gen en_US.UTF-8 && \
+    dpkg-reconfigure --frontend=noninteractive locales
 
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-ENV JAVA_HOME="/usr/lib/jvm/jdk-17.0.13+11"
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-RUN echo $JAVA_HOME
-RUN ls -la $JAVA_HOME
-RUN ls -la $JAVA_HOME/bin
 
 # download android sdk
 RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest
@@ -28,13 +43,13 @@ RUN mv cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest
 RUN rm android-sdk.zip
 RUN rm -r cmdline-tools
 
-RUN which sdkmanager
-RUN sdkmanager --list
-
 # sdkmanager init
-#COPY docker/packages.txt .
-#RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
-#RUN sdkmanager --package_file=packages.txt
+COPY docker/packages.txt .
+RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
+RUN sdkmanager --package_file=packages.txt
+
+
+
 #
 ## Copies your code file from your action repository to the filesystem path `/` of the container
 #COPY . /RickAndMorty
