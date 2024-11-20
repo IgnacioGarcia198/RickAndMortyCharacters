@@ -1,7 +1,7 @@
 # Container image that runs your code
 FROM alpine:3.10
 
-RUN apt-get install -yqq curl wget
+RUN apk update && apk add --no-cache curl wget
 RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.13%2B11/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && \
                                                                                                                                                   tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && ls -la && \
                                                                                                                                                   cp -r jdk-11.0.20.1+1 /usr/lib/jvm/
