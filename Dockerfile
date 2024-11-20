@@ -20,6 +20,7 @@ RUN rm android-sdk.zip
 RUN rm -r cmdline-tools
 
 RUN which sdkmanager
+RUN sdkmanager --list
 
 # sdkmanager init
 #COPY docker/packages.txt .
