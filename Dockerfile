@@ -5,6 +5,7 @@ RUN apk update && apk add --no-cache curl wget
 RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.13%2B11/OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz \
                                                                                                                                                   && tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && ls -la \
                                                                                                                                                   && cp -r jdk-17.0.13+11 /usr/lib/jvm/
+RUN ls -la /usr/lib/jvm
 
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
