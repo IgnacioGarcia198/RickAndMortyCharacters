@@ -21,10 +21,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Convert repository name to lowercase
+        id: repo_name
+        run: echo "repo_lowercase=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
+
       - name: Pull pre-built Docker image
-        run: docker pull ghcr.io/${{ github.repository }}/android-dependencies:latest
+        run: docker pull ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest
 
       - name: Build app using pre-built image
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace \
-          -w /workspace ghcr.io/${{ github.repository }}/android-dependencies:latest ./gradlew build
+          -w /workspace ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest ./gradlew build
