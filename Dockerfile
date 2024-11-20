@@ -9,6 +9,7 @@ RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
 ENV PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
+ENV JAVA_HOME="/usr/lib/jvm/jdk-17.0.13+11"
 
 # download android sdk
 RUN mkdir -p $ANDROID_HOME/cmdline-tools/latest
