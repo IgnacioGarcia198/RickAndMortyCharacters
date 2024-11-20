@@ -6,6 +6,7 @@ RUN wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17
                                                                                                                                                   && tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.13_11.tar.gz && ls -la \
                                                                                                                                                   && cp -r jdk-17.0.13+11 /usr/lib/jvm/
 RUN ls -la /usr/lib/jvm
+RUN ls -la /usr/lib/jvm/bin
 
 # paths and aliases
 ENV ANDROID_HOME=/usr/lib/android-sdk
