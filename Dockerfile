@@ -49,12 +49,10 @@ RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
 RUN sdkmanager --package_file=packages.txt
 
 
+# Copies your code file from your action repository to the filesystem path `/` of the container
+COPY . /RickAndMorty
 
-#
-## Copies your code file from your action repository to the filesystem path `/` of the container
-#COPY . /RickAndMorty
-#
-## Code file to execute when the docker container starts up (`entrypoint.sh`)
-#WORKDIR /RickAndMorty
-#
-#RUN ./gradlew build
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
+WORKDIR /RickAndMorty
+
+RUN ./gradlew build
