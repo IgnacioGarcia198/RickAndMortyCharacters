@@ -47,3 +47,4 @@ RUN rm -r cmdline-tools
 COPY docker/packages.txt .
 RUN yes | sdkmanager --licenses | grep "All SDK package licenses accepted"
 RUN sdkmanager --package_file=packages.txt
+
