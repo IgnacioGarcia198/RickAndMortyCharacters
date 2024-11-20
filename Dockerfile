@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 
 # dependencies
 RUN apt-get update && apt-get upgrade -yqq
