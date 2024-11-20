@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.ui.characters
+package com.ignacio.rickandmorty.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
