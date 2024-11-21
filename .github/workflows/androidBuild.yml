@@ -10,7 +10,7 @@ on:
 #    types:
 #    - completed
 # But for that the workflow files need to be in the default branch, or at least the first workflow.
-# When project scalates we can separate the jobs in two different workflows, adding at least the first of them to the default branch.
+# When project escalates we can separate the jobs in two different workflows, adding at least the first of them to the default branch.
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
