@@ -1,0 +1,7 @@
+build-tools;30.0.2
+build-tools;30.0.3
+extras;android;m2repository
+extras;google;m2repository
+platform-tools
+platforms;android-30
+tools

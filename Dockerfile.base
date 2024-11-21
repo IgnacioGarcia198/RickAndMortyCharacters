@@ -1,0 +1,2 @@
+# Copy the folder and do any other required configuration
+COPY . /RickAndMorty

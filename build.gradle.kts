@@ -12,3 +12,4 @@ plugins {
     id(libs.plugins.jetpack.compose.plugin.get().pluginId) apply false
     id(libs.plugins.deps.classes.loader.plugin.get().pluginId)
 }
+
