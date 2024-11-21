@@ -73,5 +73,16 @@ jobs:
 
       - name: Build app using pre-built image
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace \
-          -w /workspace ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest ./gradlew build
+          docker run --rm \
+          -v ${{ github.workspace }}:/workspace \
+          -v ${{ runner.temp }}/output:/output \ # Mount a directory for artifacts
+          -w /workspace \
+          ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
+          ./gradlew build -p /workspace
+
+          - name: Upload APK
+            uses: actions/upload-artifact@v3
+            with:
+              name: app-debug-apk
+              path: ${{ runner.temp }}/output/app/build/intermediates/apk/debug/app-debug.apk
+      
