@@ -80,6 +80,11 @@ jobs:
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
             ./gradlew assembleDebug
 
+      - name: Check paths
+        run: |
+          ls -la ${{ github.workspace }}
+          ls -la ${{ runner.temp }}/output
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
         with:
