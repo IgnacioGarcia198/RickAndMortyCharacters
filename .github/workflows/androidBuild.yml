@@ -74,12 +74,12 @@ jobs:
       # Step 1: Decode and save the keystore file
       - name: Decode keystore
         run: |
-          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > ${{ github.workspace }}/release.keystore
 
       # Step 2: Write the key.properties file
       - name: Write key.properties
         run: |
-         cat <<EOF > key.properties
+         cat <<EOF > ${{ github.workspace }}/key.properties
          rickAndMortyKeyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
          rickAndMortyKeyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
          rickAndMortyStoreFile=release.keystore
@@ -104,7 +104,7 @@ jobs:
           ls -la ${{ github.workspace }}
           ls -la ${{ runner.temp }}/output
 
-      - name: Upload Debug APK
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
