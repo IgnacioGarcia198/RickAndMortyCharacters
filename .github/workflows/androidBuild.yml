@@ -92,6 +92,8 @@ jobs:
           mkdir -p ${{ runner.temp }}/output
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
+            -v ${{ github.workspace }}/release.keystore:/workspace/release.keystore \
+            -v ${{ github.workspace }}/key.properties:/workspace/key.properties \
             -v ${{ runner.temp }}/output:/workspace/app/build/outputs \
             -w /workspace \
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
