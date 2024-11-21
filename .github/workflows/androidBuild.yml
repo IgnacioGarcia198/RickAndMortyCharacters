@@ -67,7 +67,7 @@ jobs:
           cat <<EOF > key.properties
           rickAndMortyKeyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
           rickAndMortyKeyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
-          rickAndMortyStoreFile=${{ github.workspace }}/release.keystore
+          rickAndMortyStoreFile=$GITHUB_WORKSPACE/release.keystore
           rickAndMortyStorePassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
           EOF
 
