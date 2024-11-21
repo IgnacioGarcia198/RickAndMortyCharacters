@@ -13,6 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RickAndMorty">
+        <activity
+            android:name=".ui.characters.CharactersActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RickAndMorty">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
