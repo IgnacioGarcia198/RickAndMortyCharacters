@@ -1,4 +1,6 @@
 import plugins.classloader.Projects
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,6 +9,22 @@ plugins {
     id(libs.plugins.jetpack.compose.plugin.get().pluginId)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
+}
+
+val isRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("Release") }
+val keystoreProperties = loadKeystoreProperties()
+
+fun loadKeystoreProperties(): Properties {
+    return if (isRelease) {
+        val keystorePropertiesFile = rootProject.file("key.properties")
+        if (keystorePropertiesFile.exists()) {
+            Properties().apply {
+                FileInputStream(keystorePropertiesFile).use { load(it) }
+            }
+        } else {
+            throw GradleException("CANNOT SIGN RELEASE: key.properties FILE MISSING!")
+        }
+    } else Properties()
 }
 
 android {
@@ -27,6 +45,25 @@ android {
     }
 
     buildFeatures.buildConfig = true
+
+    signingConfigs {
+        create("release") {
+            if (isRelease) {
+                keyAlias = keystoreProperties["rickAndMortyKeyAlias"] as String
+                keyPassword = keystoreProperties["rickAndMortyKeyPassword"] as String
+                storeFile = file(keystoreProperties["rickAndMortyStoreFile"] as String)
+                storePassword = keystoreProperties["rickAndMortyStorePassword"] as String
+            }
+        }
+    }
+
+    buildTypes {
+        getByName("release") {
+            if (isRelease) {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+    }
 }
 
 dependencies {
