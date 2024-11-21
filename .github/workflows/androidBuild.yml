@@ -54,7 +54,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository }}/android-dependencies:latest
+      image: ghcr.io/ignaciogarcia198/rickandmortycharacters/android-dependencies:latest
 
     steps:
       - name: Checkout code
