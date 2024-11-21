@@ -97,8 +97,7 @@ jobs:
             -v ${{ runner.temp }}/output:/workspace/app/build/outputs \
             -w /workspace \
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
-            ls -la /workspace
-#            ./gradlew assembleRelease
+            ./gradlew assembleRelease
 
       - name: Check paths
         run: |
