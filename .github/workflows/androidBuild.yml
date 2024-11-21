@@ -50,7 +50,7 @@ jobs:
         run: docker push ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest
 
 
-  build:
+  build-release:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
@@ -71,6 +71,22 @@ jobs:
       - name: Pull pre-built Docker image
         run: docker pull ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest
 
+      # Step 1: Decode and save the keystore file
+      - name: Decode keystore
+        run: |
+          echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+
+      # Step 2: Write the key.properties file
+      - name: Write key.properties
+        run: |
+         cat <<EOF > key.properties
+         rickAndMortyKeyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
+         rickAndMortyKeyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
+         rickAndMortyStoreFile=release.keystore
+         rickAndMortyStorePassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+         EOF
+
+
       - name: Build app using pre-built image
         run: |
           mkdir -p ${{ runner.temp }}/output
@@ -79,7 +95,7 @@ jobs:
             -v ${{ runner.temp }}/output:/workspace/app/build/outputs \
             -w /workspace \
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
-            ./gradlew assembleDebug
+            ./gradlew assembleRelease
 
       - name: Check paths
         run: |
@@ -90,5 +106,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: ${{ runner.temp }}/output/apk/debug/app-debug.apk
+          path: ${{ runner.temp }}/output/apk/release/app-release.apk
       
