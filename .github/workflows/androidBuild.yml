@@ -73,10 +73,10 @@ jobs:
 
       - name: Debug file paths
         run: |
-          echo "Workspace contents:"
-          ls -la ${{ github.workspace }}
           echo "current path:"
           pwd
+#          echo "Workspace contents:"
+#          ls -la ${{ github.workspace }}
           echo "Key.properties:"
           cat key.properties
 
