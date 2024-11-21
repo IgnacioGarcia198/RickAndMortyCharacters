@@ -85,7 +85,7 @@ jobs:
         run: |
           ls -la ${{ github.workspace }}
           ls -la ${{ runner.temp }}/output
-          ls -la ${{ github.workspace }}/app/build/outputs/apk/debug
+#          ls -la ${{ github.workspace }}/app/build/outputs/apk/debug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
