@@ -82,7 +82,7 @@ jobs:
          cat <<EOF > ${{ github.workspace }}/key.properties
          rickAndMortyKeyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
          rickAndMortyKeyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
-         rickAndMortyStoreFile=release.keystore
+         rickAndMortyStoreFile=/workspace/release.keystore
          rickAndMortyStorePassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
          EOF
 
@@ -97,7 +97,8 @@ jobs:
             -v ${{ runner.temp }}/output:/workspace/app/build/outputs \
             -w /workspace \
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
-            ./gradlew assembleRelease
+            ls -la /workspace
+#            ./gradlew assembleRelease
 
       - name: Check paths
         run: |
