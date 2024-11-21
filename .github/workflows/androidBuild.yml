@@ -73,9 +73,10 @@ jobs:
 
       - name: Build app using pre-built image
         run: |
+          mkdir -p ${{ runner.temp }}/output
           docker run --rm \
             -v ${{ github.workspace }}:/workspace \
-            -v ${{ runner.temp }}/output:/output \
+            -v ${{ runner.temp }}/output:/workspace/app/build/outputs \
             -w /workspace \
             ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
             ./gradlew assembleDebug
@@ -84,10 +85,11 @@ jobs:
         run: |
           ls -la ${{ github.workspace }}
           ls -la ${{ runner.temp }}/output
+          ls -la ${{ github.workspace }}/app/build/outputs/apk/debug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: ${{ runner.temp }}/output/app/build/outputs/apk/debug/app-debug.apk
+          path: ${{ runner.temp }}/output/apk/debug/app-debug.apk
       
