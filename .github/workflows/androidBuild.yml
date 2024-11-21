@@ -75,14 +75,14 @@ jobs:
         run: |
           docker run --rm \
           -v ${{ github.workspace }}:/workspace \
-          -v ${{ runner.temp }}/output:/output \ # Mount a directory for artifacts
+          -v ${{ runner.temp }}/output:/output \
           -w /workspace \
-          ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
-          ./gradlew build -p /workspace
+          ghcr.io/${{ env.repo_name }}/android-dependencies:latest \
+          ./gradlew assembleDebug
 
-          - name: Upload APK
-            uses: actions/upload-artifact@v3
-            with:
-              name: app-debug-apk
-              path: ${{ runner.temp }}/output/app/build/intermediates/apk/debug/app-debug.apk
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug-apk
+          path: ${{ runner.temp }}/output/app/build/outputs/apk/debug/app-debug.apk
       
