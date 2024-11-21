@@ -75,6 +75,8 @@ jobs:
         run: |
           echo "current path:"
           pwd
+          echo "github workspace:"
+          echo $GITHUB_WORKSPACE
           echo "Key.properties:"
           cat key.properties
 
