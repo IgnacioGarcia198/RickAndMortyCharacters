@@ -74,11 +74,11 @@ jobs:
       - name: Build app using pre-built image
         run: |
           docker run --rm \
-          -v ${{ github.workspace }}:/workspace \
-          -v ${{ runner.temp }}/output:/output \
-          -w /workspace \
-          ghcr.io/${{ env.repo_name }}/android-dependencies:latest \
-          ./gradlew assembleDebug
+            -v ${{ github.workspace }}:/workspace \
+            -v ${{ runner.temp }}/output:/output \
+            -w /workspace \
+            ghcr.io/${{ env.repo_lowercase }}/android-dependencies:latest \
+            ./gradlew assembleDebug
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
