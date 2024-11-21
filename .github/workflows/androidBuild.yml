@@ -67,9 +67,18 @@ jobs:
           cat <<EOF > key.properties
           rickAndMortyKeyAlias=${{ secrets.RELEASE_KEY_ALIAS }}
           rickAndMortyKeyPassword=${{ secrets.RELEASE_KEY_PASSWORD }}
-          rickAndMortyStoreFile=release.keystore
+          rickAndMortyStoreFile=${{ github.workspace }}/release.keystore
           rickAndMortyStorePassword=${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
           EOF
+
+      - name: Debug file paths
+        run: |
+          echo "Workspace contents:"
+          ls -la ${{ github.workspace }}
+          echo "current path:"
+          pwd
+          echo "Key.properties:"
+          cat key.properties
 
       # Build the APK
       - name: Build Release APK
