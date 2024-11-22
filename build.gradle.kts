@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.androidx.room) apply false
     alias(libs.plugins.com.google.dagger.hilt.android) apply false
     alias(libs.plugins.com.google.devtools.ksp) apply false
+    alias(libs.plugins.com.google.services) apply false
+
     id(libs.plugins.android.module.plugin.get().pluginId) apply false
     id(libs.plugins.kotlin.module.plugin.get().pluginId) apply false
     id(libs.plugins.jetpack.compose.plugin.get().pluginId) apply false

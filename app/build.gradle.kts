@@ -9,6 +9,7 @@ plugins {
     id(libs.plugins.jetpack.compose.plugin.get().pluginId)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.com.google.services)
 }
 
 val isRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("Release") }
@@ -84,6 +85,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.io.coil.android)
+
+    implementation(platform(libs.com.google.firebase.bom))
+    //implementation(libs.com.google.firebase.analytics)
 
     testImplementation(libs.junit)
 
