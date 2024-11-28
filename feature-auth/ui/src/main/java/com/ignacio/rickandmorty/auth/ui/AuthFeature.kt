@@ -72,6 +72,7 @@ fun AuthFeature(
         state = state,
         onSignInClick = {
             coroutineScope.launch {
+                viewModel.loading()
                 val result = googleAuthUiClient.signIn()
                 result.onSuccess { signIntentSender ->
                     signIntentSender?.let {

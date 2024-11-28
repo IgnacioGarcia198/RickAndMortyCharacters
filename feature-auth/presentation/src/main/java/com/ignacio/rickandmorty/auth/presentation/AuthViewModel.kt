@@ -20,12 +20,17 @@ class AuthViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isSignInSuccessful = result.data != null,
-                signInError = result.error
+                signInError = result.error,
+                status = Status.DONE,
             )
         }
     }
 
     fun resetState() {
         _state.update { SignInState() }
+    }
+
+    fun loading() {
+        _state.update { it.copy(status = Status.LOADING) }
     }
 }
