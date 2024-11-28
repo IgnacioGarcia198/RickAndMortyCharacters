@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.auth.presentation
+package com.ignacio.rickandmorty.auth.domain.models
 
 data class SignInResult(
     val data: UserData?,

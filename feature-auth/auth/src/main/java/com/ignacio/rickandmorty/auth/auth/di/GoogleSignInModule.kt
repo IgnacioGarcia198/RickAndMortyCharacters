@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.auth.ui.di
+package com.ignacio.rickandmorty.auth.auth.di
 
 import android.content.Context
 import com.google.android.gms.auth.api.identity.Identity

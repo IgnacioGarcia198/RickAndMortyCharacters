@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
-import com.ignacio.rickandmorty.auth.ui.di.GoogleAuthClientEntryPoint
+import com.ignacio.rickandmorty.auth.auth.di.GoogleAuthClientEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 

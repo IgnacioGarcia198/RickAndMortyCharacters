@@ -28,6 +28,8 @@ object Projects {
     object FeatureAuth {
         const val UI = ":feature-auth:ui"
         const val PRESENTATION = ":feature-auth:presentation"
+        const val AUTH = ":feature-auth:auth"
+        const val DOMAIN = ":feature-auth:domain"
     }
 
     object Framework {

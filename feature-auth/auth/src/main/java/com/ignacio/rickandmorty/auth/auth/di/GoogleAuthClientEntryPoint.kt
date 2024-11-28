@@ -1,6 +1,6 @@
-package com.ignacio.rickandmorty.auth.ui.di
+package com.ignacio.rickandmorty.auth.auth.di
 
-import com.ignacio.rickandmorty.auth.ui.google.GoogleAuthUiClient
+import com.ignacio.rickandmorty.auth.auth.google.GoogleAuthUiClient
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent

@@ -18,6 +18,8 @@ dependencies {
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
     implementation(project(Projects.FeatureAuth.PRESENTATION))
+    implementation(project(Projects.FeatureAuth.AUTH)) // imported in ui module as auth is a framework module
+    implementation(project(Projects.FeatureAuth.DOMAIN))
     implementation(project(Projects.FeatureNetworkMonitor.UI))
 
     implementation(libs.androidx.core.ktx)
