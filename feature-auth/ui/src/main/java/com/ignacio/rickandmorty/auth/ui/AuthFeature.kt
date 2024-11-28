@@ -8,16 +8,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
-import com.ignacio.rickandmorty.auth.presentation.GoogleAuthUiClient
+import com.ignacio.rickandmorty.auth.ui.di.GoogleAuthClientEntryPoint
+import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 
 @Composable
@@ -25,14 +22,10 @@ fun AuthFeature() {
     val context = LocalContext.current.applicationContext
     val viewModel: AuthViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val googleAuthUiClient by remember {
-        lazy {
-            GoogleAuthUiClient(
-                oneTapClient = Identity.getSignInClient(context),
-                auth = Firebase.auth,
-            )
-        }
-    }
+    val entryPoint =
+        EntryPointAccessors.fromApplication(context, GoogleAuthClientEntryPoint::class.java)
+    val googleAuthUiClient = entryPoint.googleAuthUiClient()
+
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = Unit) {

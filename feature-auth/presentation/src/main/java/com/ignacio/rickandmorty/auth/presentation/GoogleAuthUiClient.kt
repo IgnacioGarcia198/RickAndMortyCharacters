@@ -7,13 +7,14 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 
 private const val WEB_CLIENT_ID =
     "290149356907-bn871n1qv1kktb5g2c4ni8g6flqtstl5.apps.googleusercontent.com"
 
-class GoogleAuthUiClient(
+class GoogleAuthUiClient @Inject constructor(
     private val oneTapClient: SignInClient,
     private val auth: FirebaseAuth,
 ) {
