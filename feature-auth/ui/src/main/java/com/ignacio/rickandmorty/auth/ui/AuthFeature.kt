@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,11 +25,13 @@ fun AuthFeature() {
     val context = LocalContext.current.applicationContext
     val viewModel: AuthViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            oneTapClient = Identity.getSignInClient(context),
-            auth = Firebase.auth,
-        )
+    val googleAuthUiClient by remember {
+        lazy {
+            GoogleAuthUiClient(
+                oneTapClient = Identity.getSignInClient(context),
+                auth = Firebase.auth,
+            )
+        }
     }
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,7 +65,7 @@ fun AuthFeature() {
             ).show()
 
             //navController.navigate("profile") // here navigate to app content
-            viewModel.resetState()
+            //viewModel.resetState()
         } else {
             state.signInError?.let {
                 Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
