@@ -1,9 +1,8 @@
 package com.ignacio.rickandmorty.auth.ui.di
 
-import com.ignacio.rickandmorty.auth.presentation.GoogleAuthUiClient
+import com.ignacio.rickandmorty.auth.ui.google.GoogleAuthUiClient
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.components.SingletonComponent
 
 @EntryPoint

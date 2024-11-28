@@ -21,8 +21,4 @@ dependencies {
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.androidx.lifecycle.viewmodel)
     //implementation(libs.androidx.compose.runtime)
-
-    implementation(platform(libs.com.google.firebase.bom))
-    implementation(libs.com.google.firebase.auth)
-    implementation(libs.com.google.android.play.auth)
 }
