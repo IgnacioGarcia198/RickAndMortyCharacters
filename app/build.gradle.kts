@@ -69,6 +69,7 @@ android {
 
 dependencies {
     implementation(project(Projects.FeatureCharacters.UI))
+    implementation(project(Projects.FeatureAuth.UI))
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
     implementation(project(Projects.Framework.LOCAL))
@@ -88,6 +89,7 @@ dependencies {
 
     implementation(platform(libs.com.google.firebase.bom))
     //implementation(libs.com.google.firebase.analytics)
+    implementation(libs.com.google.firebase.auth)
 
     testImplementation(libs.junit)
 
