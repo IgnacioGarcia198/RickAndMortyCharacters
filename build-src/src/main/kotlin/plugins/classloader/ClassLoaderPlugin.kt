@@ -32,6 +32,10 @@ object Projects {
         const val DOMAIN = ":feature-auth:domain"
     }
 
+    object FeatureMainNavigation {
+        const val UI = ":main-navigation:ui"
+    }
+
     object Framework {
         const val LOCAL = ":framework:local"
         const val REMOTE = ":framework:remote"

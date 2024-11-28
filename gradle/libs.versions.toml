@@ -95,6 +95,7 @@ io-coil-network-ktor2 = { group = "io.coil-kt.coil3", name = "coil-network-ktor2
 
 # Firebase
 com-google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+com-google-firebase-common = { group = "com.google.firebase", name = "firebase-common" }
 com-google-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 com-google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 com-google-android-play-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleAuth" }

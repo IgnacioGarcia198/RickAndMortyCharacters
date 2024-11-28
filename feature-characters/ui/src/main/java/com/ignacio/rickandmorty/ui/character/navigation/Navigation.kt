@@ -1,5 +1,6 @@
 package com.ignacio.rickandmorty.ui.character.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -18,27 +19,24 @@ data class RMCharacterDetail(val id: Int)
 data object RMCharacterList
 
 @Composable
-fun CharactersFeature() {
-    NetworkAwareBox { snackbarHostState ->
+fun CharactersFeature(snackbarHostState: SnackbarHostState) {
+    val navController = rememberNavController()
 
-        val navController = rememberNavController()
-
-        NavHost(
-            navController = navController,
-            startDestination = RMCharacterList,
-            modifier = Modifier
-        ) {
-            composable<RMCharacterList> {
-                CharacterListScreen(snackbarHostState) {
-                    navController.navigate(route = RMCharacterDetail(id = it))
-                }
+    NavHost(
+        navController = navController,
+        startDestination = RMCharacterList,
+        modifier = Modifier
+    ) {
+        composable<RMCharacterList> {
+            CharacterListScreen(snackbarHostState) {
+                navController.navigate(route = RMCharacterDetail(id = it))
             }
-            composable<RMCharacterDetail> { backStackEntry ->
-                val rmCharacterDetail: RMCharacterDetail = backStackEntry.toRoute()
-                val id = rmCharacterDetail.id
-                CharacterDetailScreen(id = id) {
-                    navController.popBackStack()
-                }
+        }
+        composable<RMCharacterDetail> { backStackEntry ->
+            val rmCharacterDetail: RMCharacterDetail = backStackEntry.toRoute()
+            val id = rmCharacterDetail.id
+            CharacterDetailScreen(id = id) {
+                navController.popBackStack()
             }
         }
     }

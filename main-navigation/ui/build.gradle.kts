@@ -5,22 +5,17 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id(libs.plugins.android.module.plugin.get().pluginId)
     id(libs.plugins.jetpack.compose.plugin.get().pluginId)
-    alias(libs.plugins.com.google.dagger.hilt.android)
-    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.auth.ui"
+    namespace = "com.ignacio.rickandmorty.main_navigation.ui"
 }
 
 dependencies {
-    implementation(project(Projects.Common.RESOURCES))
-    implementation((project(Projects.Common.UI_COMMON)))
-    implementation((project(Projects.Common.KOTLIN_UTILS)))
-    implementation(project(Projects.FeatureAuth.PRESENTATION))
-    implementation(project(Projects.FeatureAuth.AUTH)) // imported in ui module as auth is a framework module
-    implementation(project(Projects.FeatureAuth.DOMAIN))
     implementation(project(Projects.FeatureNetworkMonitor.UI))
+    implementation(project(Projects.FeatureCharacters.UI))
+    implementation(project(Projects.FeatureAuth.UI))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -29,9 +24,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.viewmodel.compose)
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.android.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

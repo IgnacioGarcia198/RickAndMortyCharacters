@@ -18,7 +18,9 @@ import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 
 @Composable
-fun AuthFeature() {
+fun AuthFeature(
+    onUserSigned: () -> Unit,
+) {
     val context = LocalContext.current.applicationContext
     val viewModel: AuthViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -30,8 +32,8 @@ fun AuthFeature() {
 
     LaunchedEffect(key1 = Unit) {
         if (googleAuthUiClient.getSignedInUser() != null) {
-            //navController.navigate("profile")
             // navigate to the app content
+            onUserSigned()
         }
     }
 
@@ -57,8 +59,8 @@ fun AuthFeature() {
                 Toast.LENGTH_LONG
             ).show()
 
-            //navController.navigate("profile") // here navigate to app content
-            //viewModel.resetState()
+            onUserSigned() // here navigate to app content
+            viewModel.resetState()
         } else {
             state.signInError?.let {
                 Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
