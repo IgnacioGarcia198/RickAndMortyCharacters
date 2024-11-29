@@ -9,6 +9,7 @@ plugins {
     id(libs.plugins.jetpack.compose.plugin.get().pluginId)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.com.google.services)
 }
 
 val isRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("Release") }
@@ -68,6 +69,8 @@ android {
 
 dependencies {
     implementation(project(Projects.FeatureCharacters.UI))
+    implementation(project(Projects.FeatureAuth.UI))
+    implementation(project(Projects.FeatureMainNavigation.UI))
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
     implementation(project(Projects.Framework.LOCAL))
@@ -84,6 +87,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.io.coil.android)
+
+    implementation(platform(libs.com.google.firebase.bom))
+    implementation(libs.com.google.firebase.common)
 
     testImplementation(libs.junit)
 

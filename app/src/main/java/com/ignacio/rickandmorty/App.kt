@@ -9,6 +9,7 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.CachePolicy
 import coil3.util.DebugLogger
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -35,6 +36,7 @@ class App: Application(), SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         if (BuildConfig.DEBUG) {
             com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig.setDebugOnStartup()
         }

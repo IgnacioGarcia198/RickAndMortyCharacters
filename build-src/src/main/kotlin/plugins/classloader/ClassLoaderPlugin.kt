@@ -25,6 +25,17 @@ object Projects {
         const val PRESENTATION = ":feature-network-monitor:presentation"
     }
 
+    object FeatureAuth {
+        const val UI = ":feature-auth:ui"
+        const val PRESENTATION = ":feature-auth:presentation"
+        const val AUTH = ":feature-auth:auth"
+        const val DOMAIN = ":feature-auth:domain"
+    }
+
+    object FeatureMainNavigation {
+        const val UI = ":main-navigation:ui"
+    }
+
     object Framework {
         const val LOCAL = ":framework:local"
         const val REMOTE = ":framework:remote"

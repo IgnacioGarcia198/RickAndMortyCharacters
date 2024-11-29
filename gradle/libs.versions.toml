@@ -36,6 +36,10 @@ ktor = "2.3.12"
 paging = "3.3.2"
 coil = "3.0.2"
 dummy-version = "1"
+googleServices = "4.4.2"
+firebaseBom = "33.6.0"
+firebaseAnalytics = "22.1.2"
+googleAuth = "20.4.1"
 
 [libraries]
 # android deps
@@ -89,6 +93,13 @@ io-coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.r
 io-coil-android = { group = "io.coil-kt.coil3", name = "coil-android", version.ref = "coil" }
 io-coil-network-ktor2 = { group = "io.coil-kt.coil3", name = "coil-network-ktor2", version.ref = "coil" }
 
+# Firebase
+com-google-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+com-google-firebase-common = { group = "com.google.firebase", name = "firebase-common" }
+com-google-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
+com-google-firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+com-google-android-play-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleAuth" }
+
 # kotlin-only deps
 com-google-dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 com-google-dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
@@ -124,3 +135,4 @@ android-module-plugin = { id = "android-module-plugin", version.ref = "dummy-ver
 kotlin-module-plugin = { id = "kotlin-module-plugin", version.ref = "dummy-version" }
 jetpack-compose-plugin = { id = "jetpack-compose-plugin", version.ref = "dummy-version" }
 deps-classes-loader-plugin = { id = "deps-class-loader-plugin", version.ref = "dummy-version" }
+com-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
