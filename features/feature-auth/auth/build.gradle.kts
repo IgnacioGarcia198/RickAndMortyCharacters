@@ -14,7 +14,7 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureAuth.DOMAIN))
+    implementation(project(Projects.Features.Auth.DOMAIN))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

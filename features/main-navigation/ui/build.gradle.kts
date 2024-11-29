@@ -13,9 +13,9 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureNetworkMonitor.UI))
-    implementation(project(Projects.FeatureCharacters.UI))
-    implementation(project(Projects.FeatureAuth.UI))
+    implementation(project(Projects.Features.NetworkMonitor.UI))
+    implementation(project(Projects.Features.Characters.UI))
+    implementation(project(Projects.Features.Auth.UI))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

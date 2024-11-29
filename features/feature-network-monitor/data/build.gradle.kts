@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     implementation(project(Projects.Common.NETWORK))
-    implementation(project(Projects.FeatureNetworkMonitor.DOMAIN))
+    implementation(project(Projects.Features.NetworkMonitor.DOMAIN))
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.com.google.dagger)

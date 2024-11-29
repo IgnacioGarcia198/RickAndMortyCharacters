@@ -13,7 +13,7 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureNetworkMonitor.DOMAIN))
+    implementation(project(Projects.Features.NetworkMonitor.DOMAIN))
     //implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

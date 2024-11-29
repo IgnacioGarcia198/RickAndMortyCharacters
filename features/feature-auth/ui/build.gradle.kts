@@ -17,10 +17,10 @@ dependencies {
     implementation(project(Projects.Common.RESOURCES))
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
-    implementation(project(Projects.FeatureAuth.PRESENTATION))
-    implementation(project(Projects.FeatureAuth.AUTH)) // imported in ui module as auth is a framework module
-    implementation(project(Projects.FeatureAuth.DOMAIN))
-    implementation(project(Projects.FeatureNetworkMonitor.UI))
+    implementation(project(Projects.Features.Auth.PRESENTATION))
+    implementation(project(Projects.Features.Auth.AUTH)) // imported in ui module as auth is a framework module
+    implementation(project(Projects.Features.Auth.DOMAIN))
+    implementation(project(Projects.Features.NetworkMonitor.UI))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

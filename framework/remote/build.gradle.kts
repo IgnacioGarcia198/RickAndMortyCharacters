@@ -14,8 +14,8 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureCharacters.DATA_PAGING))
-    implementation(project(Projects.FeatureCharacters.DATA))
+    implementation(project(Projects.Features.Characters.DATA_PAGING))
+    implementation(project(Projects.Features.Characters.DATA))
     implementation(project(Projects.Common.KOTLIN_UTILS))
     implementation(project(Projects.Common.NETWORK))
 

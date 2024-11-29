@@ -14,7 +14,7 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureNetworkMonitor.PRESENTATION))
+    implementation(project(Projects.Features.NetworkMonitor.PRESENTATION))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

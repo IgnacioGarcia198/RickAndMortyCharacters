@@ -14,7 +14,7 @@ android {
 
 dependencies {
     implementation(project(Projects.Common.KOTLIN_UTILS))
-    implementation(project(Projects.FeatureAuth.DOMAIN))
+    implementation(project(Projects.Features.Auth.DOMAIN))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)

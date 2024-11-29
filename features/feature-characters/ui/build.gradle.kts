@@ -18,9 +18,9 @@ dependencies {
     implementation(project(Projects.Common.RESOURCES))
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
-    implementation(project(Projects.FeatureCharacters.PRESENTATION))
-    implementation(project(Projects.FeatureCharacters.DOMAIN))
-    implementation(project(Projects.FeatureNetworkMonitor.UI))
+    implementation(project(Projects.Features.Characters.PRESENTATION))
+    implementation(project(Projects.Features.Characters.DOMAIN))
+    implementation(project(Projects.Features.NetworkMonitor.UI))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

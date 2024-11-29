@@ -13,7 +13,7 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.FeatureCharacters.DOMAIN))
+    implementation(project(Projects.Features.Characters.DOMAIN))
     implementation(project(Projects.Common.KOTLIN_UTILS))
     implementation(project(Projects.Common.PAGING))
 
