@@ -12,25 +12,25 @@ class ClassLoaderPlugin : Plugin<Project> {
 object Projects {
     object Features {
         object Characters {
-            const val UI = ":features:feature-characters:ui"
-            const val DOMAIN = ":features:feature-characters:domain"
-            const val DATA = ":features:feature-characters:data"
-            const val PRESENTATION = ":features:feature-characters:presentation"
-            const val DATA_PAGING = ":features:feature-characters:data:paging"
+            const val UI = ":features:characters:ui"
+            const val DOMAIN = ":features:characters:domain"
+            const val DATA = ":features:characters:data"
+            const val PRESENTATION = ":features:characters:presentation"
+            const val DATA_PAGING = ":features:characters:data:paging"
         }
 
         object NetworkMonitor {
-            const val UI = ":features:feature-network-monitor:ui"
-            const val DOMAIN = ":features:feature-network-monitor:domain"
-            const val DATA = ":features:feature-network-monitor:data"
-            const val PRESENTATION = ":features:feature-network-monitor:presentation"
+            const val UI = ":features:network-monitor:ui"
+            const val DOMAIN = ":features:network-monitor:domain"
+            const val DATA = ":features:network-monitor:data"
+            const val PRESENTATION = ":features:network-monitor:presentation"
         }
 
         object Auth {
-            const val UI = ":features:feature-auth:ui"
-            const val PRESENTATION = ":features:feature-auth:presentation"
-            const val AUTH = ":features:feature-auth:auth"
-            const val DOMAIN = ":features:feature-auth:domain"
+            const val UI = ":features:auth:ui"
+            const val PRESENTATION = ":features:auth:presentation"
+            const val AUTH = ":features:auth:auth"
+            const val DOMAIN = ":features:auth:domain"
         }
 
         object MainNavigation {
