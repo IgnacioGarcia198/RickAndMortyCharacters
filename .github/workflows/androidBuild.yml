@@ -60,6 +60,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Run unit tests
+        run: ./gradlew test
+
       # Decode the keystore and write key.properties
       - name: Setup signing configuration
         run: |
