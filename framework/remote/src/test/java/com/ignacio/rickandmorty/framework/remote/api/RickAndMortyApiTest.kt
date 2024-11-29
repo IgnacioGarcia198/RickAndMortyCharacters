@@ -1,8 +1,8 @@
 package com.ignacio.rickandmorty.framework.remote.api
 
-import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
-import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.data.paging.models.RMCharacters
+import com.ignacio.rickandmorty.characters.data.paging.datasource.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.characters.data.paging.models.RMCharacters
 import com.ignacio.rickandmorty.framework.remote.di.NetworkModule
 import com.ignacio.rickandmorty.framework.remote.exceptions.NetworkException
 import com.ignacio.rickandmorty.framework.remote.mapping.toRMCharacters

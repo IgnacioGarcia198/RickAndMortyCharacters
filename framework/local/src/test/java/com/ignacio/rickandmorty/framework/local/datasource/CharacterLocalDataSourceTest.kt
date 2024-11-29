@@ -1,7 +1,7 @@
 package com.ignacio.rickandmorty.framework.local.datasource
 
-import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
-import com.ignacio.rickandmorty.data.models.RMCharacter
+import com.ignacio.rickandmorty.characters.data.datasources.local.CharactersLocalDataSource
+import com.ignacio.rickandmorty.characters.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.datasource.RealCharactersLocalDataSource
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.db.dao.RMCharacterDao

@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.presentation"
+    namespace = "com.ignacio.rickandmorty.characters.presentation"
 }
 
 dependencies {

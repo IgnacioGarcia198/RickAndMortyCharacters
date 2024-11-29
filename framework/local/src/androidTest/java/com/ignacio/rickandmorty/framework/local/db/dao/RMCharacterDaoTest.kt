@@ -7,9 +7,9 @@ import androidx.paging.testing.asPagingSourceFactory
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.ignacio.rickandmorty.data.paging.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.data.paging.models.LocalRMCharacter
-import com.ignacio.rickandmorty.data.paging.pager.RealCharactersPagerFactory
+import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.characters.data.paging.models.LocalRMCharacter
+import com.ignacio.rickandmorty.characters.data.paging.pager.RealCharactersPagerFactory
 import com.ignacio.rickandmorty.framework.local.db.DatabaseTest
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
 import junit.framework.TestCase.assertEquals

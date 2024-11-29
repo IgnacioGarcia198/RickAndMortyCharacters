@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ignacio.rickandmorty.auth.ui.AuthFeature
 import com.ignacio.rickandmorty.network_monitor.ui.NetworkAwareBox
-import com.ignacio.rickandmorty.ui.character.navigation.CharactersFeature
+import com.ignacio.rickandmorty.characters.ui.navigation.CharactersFeature
 import kotlinx.serialization.Serializable
 
 @Serializable

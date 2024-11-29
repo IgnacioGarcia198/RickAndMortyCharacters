@@ -3,7 +3,7 @@ package com.ignacio.rickandmorty.framework.remote.di
 import android.app.Application
 import android.net.ConnectivityManager
 import androidx.core.content.ContextCompat
-import com.ignacio.rickandmorty.data.paging.datasource.remote.RickAndMortyApi
+import com.ignacio.rickandmorty.characters.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.framework.remote.api.RealRickAndMortyApi
 import com.ignacio.rickandmorty.framework.remote.monitor.RealConnectivityMonitor
 import com.ignacio.rickandmorty.network.ConnectivityMonitor

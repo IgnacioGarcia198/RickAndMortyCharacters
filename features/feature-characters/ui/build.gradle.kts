@@ -11,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ignacio.rickandmorty.ui"
+    namespace = "com.ignacio.rickandmorty.characters.ui"
 }
 
 dependencies {

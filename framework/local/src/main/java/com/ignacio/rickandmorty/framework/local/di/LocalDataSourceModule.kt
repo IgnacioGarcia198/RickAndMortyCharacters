@@ -1,7 +1,7 @@
 package com.ignacio.rickandmorty.framework.local.di
 
-import com.ignacio.rickandmorty.data.datasources.local.CharactersLocalDataSource
-import com.ignacio.rickandmorty.data.paging.datasource.local.CharactersLocalPagingDataSource
+import com.ignacio.rickandmorty.characters.data.datasources.local.CharactersLocalDataSource
+import com.ignacio.rickandmorty.characters.data.paging.datasource.local.CharactersLocalPagingDataSource
 import com.ignacio.rickandmorty.framework.local.datasource.RealCharactersLocalDataSource
 import dagger.Binds
 import dagger.Module

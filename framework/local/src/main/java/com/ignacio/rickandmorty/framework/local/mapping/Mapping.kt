@@ -1,6 +1,6 @@
 package com.ignacio.rickandmorty.framework.local.mapping
 
-import com.ignacio.rickandmorty.data.models.RMCharacter
+import com.ignacio.rickandmorty.characters.data.models.RMCharacter
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
 
 fun RMCharacter.toDb(): DbRMCharacter = DbRMCharacter(
