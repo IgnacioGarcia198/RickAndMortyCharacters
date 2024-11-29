@@ -17,7 +17,7 @@ dependencies {
     implementation(project(Projects.FeatureCharacters.DATA_PAGING))
     implementation(project(Projects.FeatureCharacters.DATA))
     implementation(project(Projects.Common.KOTLIN_UTILS))
-    implementation(project(Projects.NETWORK))
+    implementation(project(Projects.Common.NETWORK))
 
     implementation(libs.io.ktor.client.cio)
     implementation(libs.io.ktor.client.logging)

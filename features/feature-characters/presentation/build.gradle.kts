@@ -15,7 +15,7 @@ android {
 dependencies {
     implementation(project(Projects.FeatureCharacters.DOMAIN))
     implementation(project(Projects.Common.KOTLIN_UTILS))
-    implementation(project(Projects.PAGING))
+    implementation(project(Projects.Common.PAGING))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)

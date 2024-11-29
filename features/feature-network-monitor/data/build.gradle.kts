@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Projects.NETWORK))
+    implementation(project(Projects.Common.NETWORK))
     implementation(project(Projects.FeatureNetworkMonitor.DOMAIN))
 
     implementation(libs.kotlinx.coroutines.core)

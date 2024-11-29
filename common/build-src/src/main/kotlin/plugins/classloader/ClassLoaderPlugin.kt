@@ -47,8 +47,7 @@ object Projects {
         const val KOTLIN_UTILS = ":common:kotlin-utils"
         const val UI_COMMON = ":common:ui-common"
         const val RESOURCES = ":common:resources"
+        const val PAGING = ":common:paging"
+        const val NETWORK = ":common:network"
     }
-
-    const val PAGING = ":paging"
-    const val NETWORK = ":network"
 }

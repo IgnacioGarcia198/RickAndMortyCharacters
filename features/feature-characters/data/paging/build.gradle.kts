@@ -12,7 +12,7 @@ dependencies {
     implementation(project(Projects.FeatureCharacters.DATA))
     implementation(project(Projects.FeatureCharacters.DOMAIN))
     implementation(project(Projects.Common.KOTLIN_UTILS))
-    implementation(project(Projects.PAGING))
+    implementation(project(Projects.Common.PAGING))
 
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.com.google.dagger)
