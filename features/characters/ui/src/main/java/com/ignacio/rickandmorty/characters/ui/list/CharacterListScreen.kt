@@ -125,31 +125,25 @@ fun CharacterListScreen(
                 characters.refresh()
             }
         ) {
-            if (characters.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    items(characters.itemCount) { index ->
-                        characters[index]?.let { character ->
-                            RMCharacterItem(
-                                character = character,
-                                onCharacterClick = onCharacterClick
-                            )
-                        }
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(characters.itemCount) { index ->
+                    characters[index]?.let { character ->
+                        RMCharacterItem(
+                            character = character,
+                            onCharacterClick = onCharacterClick
+                        )
                     }
-                    item {
-                        val appendState = characters.loadState.append
-                        if (appendState is LoadState.Loading) {
-                            CircularProgressIndicator()
-                        } else if (appendState is LoadState.Error) {
-                            Text("Error loading more data: ${appendState.error.message}")
-                        }
+                }
+                item {
+                    val appendState = characters.loadState.append
+                    if (appendState is LoadState.Loading) {
+                        CircularProgressIndicator()
+                    } else if (appendState is LoadState.Error) {
+                        Text("Error loading more data: ${appendState.error.message}")
                     }
                 }
             }
