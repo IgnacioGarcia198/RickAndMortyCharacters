@@ -4,7 +4,9 @@ import com.ignacio.rickandmorty.characters.data.paging.datasource.local.Characte
 import com.ignacio.rickandmorty.characters.data.paging.datasource.remote.RickAndMortyApi
 import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
 import com.ignacio.rickandmorty.characters.data.paging.models.RMCharacters
+import com.ignacio.rickandmorty.kotlin_utils.extensions.mapError
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class RealRemoteLocalUpdater @Inject constructor(
     private val rickAndMortyApi: RickAndMortyApi,
@@ -31,6 +33,8 @@ class RealRemoteLocalUpdater @Inject constructor(
                     }
                     RMCharacters.NoResults -> true
                 }
+            }.onFailure {
+                if (it is CancellationException) throw it
             }
     }
 }
