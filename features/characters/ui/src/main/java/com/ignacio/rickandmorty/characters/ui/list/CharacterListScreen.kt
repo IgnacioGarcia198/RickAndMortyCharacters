@@ -1,7 +1,6 @@
 package com.ignacio.rickandmorty.characters.ui.list
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,9 +20,11 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,10 +49,10 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.ignacio.rickandmorty.characters.domain.models.CharacterListQueryCriteria
-import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.characters.presentation.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.characters.presentation.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.characters.presentation.models.UiRMCharacter
+import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
 import com.ignacio.rickandmorty.resources.R
 import com.ignacio.rickandmorty.ui_common.composables.SnackbarScaffold
 import com.ignacio.rickandmorty.ui_common.theme.AppTheme
@@ -60,6 +61,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterListScreen(
     snackbarHostState: SnackbarHostState,
@@ -76,6 +78,12 @@ fun CharacterListScreen(
 
     val characters: LazyPagingItems<UiRMCharacter> =
         viewModel.pagingDataFlow.collectAsLazyPagingItems()
+
+    val isRefreshing by remember {
+        derivedStateOf {
+            characters.loadState.refresh is LoadState.Loading
+        }
+    }
 
     LaunchedEffect(key1 = characters.loadState) { // TODO: Move to the backend with some log report files.
         if (characters.loadState.hasError) {
@@ -107,11 +115,15 @@ fun CharacterListScreen(
             )
         },
     ) { paddingValues ->
-        Box(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(all = 8.dp)
+                .padding(all = 8.dp),
+            onRefresh = {
+                characters.refresh()
+            }
         ) {
             if (characters.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(
@@ -132,8 +144,11 @@ fun CharacterListScreen(
                         }
                     }
                     item {
-                        if (characters.loadState.append is LoadState.Loading) {
+                        val appendState = characters.loadState.append
+                        if (appendState is LoadState.Loading) {
                             CircularProgressIndicator()
+                        } else if (appendState is LoadState.Error) {
+                            Text("Error loading more data: ${appendState.error.message}")
                         }
                     }
                 }
