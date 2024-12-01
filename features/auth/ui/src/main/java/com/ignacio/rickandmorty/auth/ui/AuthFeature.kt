@@ -8,12 +8,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
 import com.ignacio.rickandmorty.auth.auth.di.GoogleAuthClientEntryPoint
+import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
+import com.ignacio.rickandmorty.kotlin_utils.extensions.getDebugOrProductionText
+import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.composables.ErrorBottomSheet
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.launch
 
@@ -29,6 +35,7 @@ fun AuthFeature(
     val googleAuthUiClient = entryPoint.googleAuthUiClient()
 
     val coroutineScope = rememberCoroutineScope()
+    var bottomSheetError: String by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
         if (googleAuthUiClient.getSignedInUser() != null) {
@@ -51,11 +58,14 @@ fun AuthFeature(
         }
     )
 
-    LaunchedEffect(key1 = state.isSignInSuccessful) {
+    LaunchedEffect(
+        key1 = state.isSignInSuccessful,
+        key2 = state.signInError,
+    ) {
         if (state.isSignInSuccessful) {
             Toast.makeText(
                 context,
-                "Sign in successful",
+                context.getString(R.string.sign_in_successful_feedback),
                 Toast.LENGTH_LONG
             ).show()
 
@@ -63,7 +73,7 @@ fun AuthFeature(
             viewModel.resetState()
         } else {
             state.signInError?.let {
-                Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                bottomSheetError = it.getDebugOrProductionText()
             }
         }
     }
@@ -83,9 +93,16 @@ fun AuthFeature(
                         )
                     }
                 }.onFailure {
-                    Toast.makeText(context, it.message, Toast.LENGTH_LONG).show()
+                    bottomSheetError = it.getDebugOrProductionText()
                 }
             }
+        }
+    )
+
+    ErrorBottomSheet(
+        errorText = bottomSheetError,
+        onClose = {
+            bottomSheetError = ""
         }
     )
 }

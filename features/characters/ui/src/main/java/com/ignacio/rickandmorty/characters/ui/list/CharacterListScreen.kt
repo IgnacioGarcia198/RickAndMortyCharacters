@@ -52,8 +52,9 @@ import com.ignacio.rickandmorty.characters.domain.models.CharacterListQueryCrite
 import com.ignacio.rickandmorty.characters.presentation.list.viewmodel.RMCharactersViewModel
 import com.ignacio.rickandmorty.characters.presentation.list.viewmodel.RMCharactersViewModelContract
 import com.ignacio.rickandmorty.characters.presentation.models.UiRMCharacter
-import com.ignacio.rickandmorty.kotlin_utils.build_config.BuildConfig
+import com.ignacio.rickandmorty.kotlin_utils.extensions.getDebugOrProductionText
 import com.ignacio.rickandmorty.resources.R
+import com.ignacio.rickandmorty.ui_common.composables.ErrorBottomSheet
 import com.ignacio.rickandmorty.ui_common.composables.SnackbarScaffold
 import com.ignacio.rickandmorty.ui_common.theme.AppTheme
 import com.ignacio.rickandmorty.ui_common.theme.AppTopBarColors
@@ -246,11 +247,7 @@ private fun CombinedLoadStates.getErrorText(): String {
 
 private fun StringBuilder.appendError(loadState: LoadState) {
     if (loadState is LoadState.Error) {
-        if (BuildConfig.DEBUG) {
-            append(loadState.error.stackTraceToString())
-        } else {
-            append(loadState.error.message.orEmpty())
-        }
+        append(loadState.error.getDebugOrProductionText())
         append("\n")
     }
 }

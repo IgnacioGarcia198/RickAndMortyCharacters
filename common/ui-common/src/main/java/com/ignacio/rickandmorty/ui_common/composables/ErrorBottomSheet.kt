@@ -1,4 +1,4 @@
-package com.ignacio.rickandmorty.characters.ui.list
+package com.ignacio.rickandmorty.ui_common.composables
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ignacio.rickandmorty.resources.R
-import com.ignacio.rickandmorty.ui_common.composables.AppBottomSheet
 
 @Composable
 fun ErrorBottomSheet(

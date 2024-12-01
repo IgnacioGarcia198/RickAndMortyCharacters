@@ -36,5 +36,6 @@
     <string name="gender_genderless">Genderless</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
-
+    <string name="sign_in_action">Sign in</string>
+    <string name="sign_in_successful_feedback">Sign in successful</string>
 </resources>
