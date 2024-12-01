@@ -15,11 +15,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class RealRickAndMortyApi @Inject constructor(
     private val client: HttpClient,
@@ -63,6 +63,8 @@ class RealRickAndMortyApi @Inject constructor(
             if (!connectivityMonitor.isNetworkConnected) {
                 Result.success(RMCharacters.NoResults)
             } else result
+        }.onFailure {
+            if (it is CancellationException) throw it
         }.mapError { throwable ->
             NetworkException(status = status, cause = throwable)
         }.onFailure {
