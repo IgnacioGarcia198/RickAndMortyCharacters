@@ -6,23 +6,33 @@ import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.room.Upsert
 import androidx.sqlite.db.SupportSQLiteQuery
+import com.ignacio.rickandmorty.framework.local.extensions.toSupportSQLiteQuery
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
+import com.ignacio.rickandmorty.framework.local.sql.SqlQueryBuilder
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface RMCharacterDao {
+abstract class RMCharacterDao {
     @Upsert
-    fun upsertAll(characters: List<DbRMCharacter>)
+    abstract fun upsertAll(characters: List<DbRMCharacter>)
+
+    fun deleteByQuery(query: SqlQueryBuilder.SqlQueryData): Int {
+        return deleteByQuery(query.toSupportSQLiteQuery())
+    }
 
     @RawQuery
-    fun deleteByQuery(query: SupportSQLiteQuery): Int
+    abstract fun deleteByQuery(query: SupportSQLiteQuery): Int
 
     @Query("DELETE FROM rickAndMortyCharacters")
-    fun clearAll()
+    abstract fun clearAll()
+
+    fun getRMCharacters(query: SqlQueryBuilder.SqlQueryData): PagingSource<Int, DbRMCharacter> {
+        return getRMCharacters(query.toSupportSQLiteQuery())
+    }
 
     @RawQuery(observedEntities = [DbRMCharacter::class])
-    fun getRMCharacters(query: SupportSQLiteQuery): PagingSource<Int, DbRMCharacter>
+    abstract fun getRMCharacters(query: SupportSQLiteQuery): PagingSource<Int, DbRMCharacter>
 
     @Query("SELECT * FROM rickAndMortyCharacters WHERE id = :id")
-    fun getRMCharacterById(id: Int): Flow<DbRMCharacter?>
+    abstract fun getRMCharacterById(id: Int): Flow<DbRMCharacter?>
 }

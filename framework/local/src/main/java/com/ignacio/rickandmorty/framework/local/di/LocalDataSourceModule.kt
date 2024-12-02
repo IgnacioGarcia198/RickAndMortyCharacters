@@ -3,6 +3,8 @@ package com.ignacio.rickandmorty.framework.local.di
 import com.ignacio.rickandmorty.characters.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.characters.data.paging.datasource.local.CharactersLocalPagingDataSource
 import com.ignacio.rickandmorty.framework.local.datasource.RealCharactersLocalDataSource
+import com.ignacio.rickandmorty.framework.local.sql.RealSqlQueryBuilder
+import com.ignacio.rickandmorty.framework.local.sql.SqlQueryBuilder
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,4 +22,7 @@ interface LocalDataSourceModule {
     @Binds
     @Singleton
     fun bindCharactersPagingLocalDataSource(dataSource: RealCharactersLocalDataSource): CharactersLocalPagingDataSource
+
+    @Binds
+    fun bindSqlQueryBuilder(builder: RealSqlQueryBuilder): SqlQueryBuilder
 }

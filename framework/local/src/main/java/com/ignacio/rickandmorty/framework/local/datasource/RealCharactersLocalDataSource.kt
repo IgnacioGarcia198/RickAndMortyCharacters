@@ -2,22 +2,24 @@ package com.ignacio.rickandmorty.framework.local.datasource
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
-import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ignacio.rickandmorty.characters.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.characters.data.models.RMCharacter
+import com.ignacio.rickandmorty.characters.data.paging.datasource.local.CharactersLocalPagingDataSource
+import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
+import com.ignacio.rickandmorty.characters.data.paging.models.LocalRMCharacter
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
+import com.ignacio.rickandmorty.framework.local.sql.SqlQueryBuilder
+import com.ignacio.rickandmorty.framework.local.sql.addSegment
 import com.ignacio.rickandmorty.kotlin_utils.extensions.asResultFlow
-import com.ignacio.rickandmorty.characters.data.paging.datasource.local.CharactersLocalPagingDataSource
-import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
-import com.ignacio.rickandmorty.characters.data.paging.models.LocalRMCharacter
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RealCharactersLocalDataSource @Inject constructor(
-    private val database: AppDatabase
+    private val database: AppDatabase,
+    private val sqlQueryBuilder: SqlQueryBuilder,
 ) : CharactersLocalDataSource, CharactersLocalPagingDataSource {
     private val rmCharacterDao get() = database.rmCharacterDao()
     override suspend fun upsertAll(
@@ -39,35 +41,24 @@ class RealCharactersLocalDataSource @Inject constructor(
         return rmCharacterDao.getRMCharacters(sql) as PagingSource<Int, LocalRMCharacter>
     }
 
-    private fun CharacterQueryCriteria.toQuery(queryStart: String): SimpleSQLiteQuery {
-        val sql = StringBuilder(queryStart)
-        val args = mutableListOf<String>()
+    private fun CharacterQueryCriteria.toQuery(queryStart: String): SqlQueryBuilder.SqlQueryData {
+        val segments = mutableListOf<SqlQueryBuilder.SqlQuerySegment>()
         if (name.isNotEmpty()) {
-            sql.appendQuerySegment("${DbRMCharacter.NAME_COLUMN} LIKE ?")
-            args.add("%$name%")
+            segments.addSegment("${DbRMCharacter.NAME_COLUMN} LIKE ?", "%$name%")
         }
         if (type.isNotEmpty()) {
-            sql.appendQuerySegment("${DbRMCharacter.TYPE_COLUMN} LIKE ?")
-            args.add("%$type%")
+            segments.addSegment("${DbRMCharacter.TYPE_COLUMN} LIKE ?", "%$type%")
         }
         if (species.isNotEmpty()) {
-            sql.appendQuerySegment("${DbRMCharacter.SPECIES_COLUMN} LIKE ?")
-            args.add("%$species%")
+            segments.addSegment("${DbRMCharacter.SPECIES_COLUMN} LIKE ?", "%$species%")
         }
         if (status != CharacterQueryCriteria.Status.ANY) {
-            sql.appendQuerySegment("${DbRMCharacter.STATUS_COLUMN} LIKE ?")
-            args.add("%${status.name}%")
+            segments.addSegment("${DbRMCharacter.STATUS_COLUMN} LIKE ?", "%${status.name}%")
         }
         if (gender != CharacterQueryCriteria.Gender.ANY) {
-            sql.appendQuerySegment("${DbRMCharacter.GENDER_COLUMN} LIKE ?")
-            args.add("%${gender.name}%")
+            segments.addSegment("${DbRMCharacter.GENDER_COLUMN} LIKE ?", "%${gender.name}%")
         }
-        return SimpleSQLiteQuery(sql.toString(), args.toTypedArray())
-    }
-
-    private fun StringBuilder.appendQuerySegment(segment: String) {
-        if (endsWith(DbRMCharacter.TABLE_NAME)) append(" WHERE $segment")
-        else append(" AND $segment")
+        return sqlQueryBuilder.buildWhereQuery(queryStart, segments)
     }
 
 
