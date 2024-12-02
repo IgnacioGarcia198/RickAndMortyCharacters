@@ -13,6 +13,7 @@ android {
 
 dependencies {
     implementation(project(Projects.Common.RESOURCES))
+    implementation(project(Projects.Common.KOTLIN_UTILS))
 
     implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))

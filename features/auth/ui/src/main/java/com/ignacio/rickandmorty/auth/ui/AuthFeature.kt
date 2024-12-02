@@ -1,5 +1,6 @@
 package com.ignacio.rickandmorty.auth.ui
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -15,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ignacio.rickandmorty.auth.auth.di.GithubAuthClientEntryPoint
 import com.ignacio.rickandmorty.auth.auth.di.GoogleAuthClientEntryPoint
 import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
 import com.ignacio.rickandmorty.kotlin_utils.extensions.getDebugOrProductionText
@@ -32,13 +34,24 @@ fun AuthFeature(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val entryPoint =
         EntryPointAccessors.fromApplication(context, GoogleAuthClientEntryPoint::class.java)
+    val githubEntryPoint =
+        EntryPointAccessors.fromApplication(context, GithubAuthClientEntryPoint::class.java)
     val googleAuthUiClient = entryPoint.googleAuthUiClient()
+    val githubAuthUiClient = githubEntryPoint.githubUiClient()
 
     val coroutineScope = rememberCoroutineScope()
     var bottomSheetError: String by rememberSaveable { mutableStateOf("") }
+    val activity = LocalContext.current as Activity
 
     LaunchedEffect(key1 = Unit) {
         if (googleAuthUiClient.getSignedInUser() != null) {
+            // navigate to the app content
+            onUserSigned()
+        }
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        if (githubAuthUiClient.getSignedInUser() != null) {
             // navigate to the app content
             onUserSigned()
         }
@@ -80,7 +93,7 @@ fun AuthFeature(
 
     AuthScreen(
         state = state,
-        onSignInClick = {
+        onGoogleSignInClick = {
             coroutineScope.launch {
                 viewModel.loading()
                 val result = googleAuthUiClient.signIn()
@@ -96,7 +109,15 @@ fun AuthFeature(
                     bottomSheetError = it.getDebugOrProductionText()
                 }
             }
-        }
+        },
+        onGithubSignInClick = {
+            coroutineScope.launch {
+                viewModel.loading()
+                val signInResult = githubAuthUiClient.startGitHubLogin(activity = activity, state.userEmail.value)
+                viewModel.onSignInResult(signInResult)
+            }
+        },
+        onEmailChanged = viewModel::updateEmail
     )
 
     ErrorBottomSheet(

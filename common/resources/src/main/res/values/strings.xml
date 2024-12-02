@@ -36,6 +36,8 @@
     <string name="gender_genderless">Genderless</string>
     <string name="gender_male">Male</string>
     <string name="gender_female">Female</string>
-    <string name="sign_in_action">Sign in</string>
+    <string name="google_sign_in_action">Sign in with Google</string>
+    <string name="github_sign_in_action">Sign in with GitHub</string>
+    <string name="email_text_field_hint">Enter email</string>
     <string name="sign_in_successful_feedback">Sign in successful</string>
 </resources>

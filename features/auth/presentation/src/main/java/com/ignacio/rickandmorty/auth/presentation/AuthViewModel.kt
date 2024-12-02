@@ -3,6 +3,8 @@ package com.ignacio.rickandmorty.auth.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.ignacio.rickandmorty.auth.domain.models.SignInResult
+import com.ignacio.rickandmorty.kotlin_utils.extensions.isValidEmail
+import com.ignacio.rickandmorty.kotlin_utils.ui.UiField
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,5 +34,13 @@ class AuthViewModel @Inject constructor(
 
     fun loading() {
         _state.update { it.copy(status = Status.LOADING) }
+    }
+
+    fun updateEmail(email: String) {
+        val inputErrors = mutableListOf<String>()
+        if (!email.trim().isValidEmail()) {
+            inputErrors.add("Not a valid email")
+        }
+        _state.update { it.copy(userEmail = UiField(value = email, inputErrors = inputErrors)) }
     }
 }
