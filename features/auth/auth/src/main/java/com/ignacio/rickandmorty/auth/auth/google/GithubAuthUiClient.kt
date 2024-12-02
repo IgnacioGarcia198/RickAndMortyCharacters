@@ -18,11 +18,15 @@ class GithubAuthUiClient @Inject constructor(
     private val auth: FirebaseAuth,
 ) {
     suspend fun startGitHubLogin(activity: Activity, email: String): SignInResult {
-        val provider = OAuthProvider.newBuilder("github.com")
-        provider.addCustomParameter("login", email)
-        provider.scopes = listOf("user:email")
+        val loginTask = auth.pendingAuthResult ?: let {
+            val provider = OAuthProvider.newBuilder("github.com")
+            provider.addCustomParameter("login", email)
+            provider.scopes = listOf("user:email")
+            auth.startActivityForSignInWithProvider(activity, provider.build())
+        }
+
         return try {
-            val user = auth.startActivityForSignInWithProvider(activity, provider.build()).await().user
+            val user = loginTask.await().user
             SignInResult(
                 data = user?.run {
                     UserData(
