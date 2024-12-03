@@ -6,7 +6,6 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.ignacio.rickandmorty.auth.domain.models.SignInResult
 import com.ignacio.rickandmorty.auth.domain.models.UserData
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -20,39 +19,28 @@ class GoogleAuthUiClient @Inject constructor(
     private val oneTapClient: SignInClient,
     private val auth: FirebaseAuth,
 ) {
-    suspend fun signIn(): Result<IntentSender?> {
-        return kotlin.runCatching {
-            oneTapClient.beginSignIn(
-                buildSignInRequest()
-            ).await().pendingIntent.intentSender
-        }.onFailure {
-            if (it is CancellationException) throw it
-        }
+    suspend fun signIn(): IntentSender {
+        return oneTapClient.beginSignIn(
+            buildSignInRequest()
+        ).await().pendingIntent.intentSender
     }
 
-    suspend fun signInWithIntent(intent: Intent): SignInResult {
+    suspend fun signInWithIntent(intent: Intent): Result<UserData?> {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
-        return try {
+        return kotlin.runCatching {
             val user = auth.signInWithCredential(googleCredentials).await().user
-            SignInResult(
-                data = user?.run {
-                    UserData(
-                        userId = uid,
-                        username = displayName,
-                        profilePictureUrl = photoUrl?.toString()
-                    )
-                },
-                error = null
-            )
-        } catch (e: Exception) {
+            user?.run {
+                UserData(
+                    userId = uid,
+                    username = displayName,
+                    profilePictureUrl = photoUrl?.toString()
+                )
+            }
+        }.onFailure { e ->
             e.printStackTrace()
             if (e is CancellationException) throw e
-            SignInResult(
-                data = null,
-                error = e
-            )
         }
     }
 

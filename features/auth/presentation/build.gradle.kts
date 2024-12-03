@@ -15,11 +15,11 @@ android {
 dependencies {
     implementation(project(Projects.Common.KOTLIN_UTILS))
     implementation(project(Projects.Features.Auth.DOMAIN))
+    implementation(project(Projects.Features.Auth.AUTH))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.androidx.lifecycle.viewmodel)
-    //implementation(libs.androidx.compose.runtime)
 }
