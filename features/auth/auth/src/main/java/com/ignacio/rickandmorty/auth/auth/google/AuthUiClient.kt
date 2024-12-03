@@ -2,7 +2,7 @@ package com.ignacio.rickandmorty.auth.auth.google
 
 import android.app.Activity
 import android.content.Intent
-import android.content.IntentSender
+import androidx.activity.result.IntentSenderRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.ignacio.rickandmorty.auth.domain.models.UserData
 import javax.inject.Inject
@@ -21,7 +21,9 @@ class AuthUiClient @Inject constructor(
     }
 
     // Google
-    suspend fun signInGoogle(): IntentSender = googleAuthUiClient.signIn()
+    suspend fun signInGoogle(): IntentSenderRequest =
+        IntentSenderRequest.Builder(googleAuthUiClient.signIn()).build()
+
     suspend fun signInGoogleWithIntent(intent: Intent): Result<UserData?> =
         googleAuthUiClient.signInWithIntent(intent)
 

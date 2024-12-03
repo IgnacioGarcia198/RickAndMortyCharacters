@@ -47,8 +47,8 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             loading()
             try {
-                val intentSender = authUiClient.signInGoogle()
-                launcher.launch(IntentSenderRequest.Builder(intentSender).build())
+                val intentSenderRequest = authUiClient.signInGoogle()
+                launcher.launch(intentSenderRequest)
             } catch (e: Exception) {
                 e.printStackTrace()
                 if (e is CancellationException) throw e

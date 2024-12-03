@@ -22,4 +22,9 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.paging.common.jvm)
     implementation(libs.androidx.lifecycle.viewmodel)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk.jvm)
+    testImplementation(testFixtures(project(Projects.Common.KOTLIN_UTILS)))
+    testImplementation(libs.kotlinx.coroutines.test)
 }
