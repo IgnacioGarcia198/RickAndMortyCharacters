@@ -2,11 +2,11 @@ package com.ignacio.rickandmorty.framework.local.datasource
 
 import com.ignacio.rickandmorty.characters.data.datasources.local.CharactersLocalDataSource
 import com.ignacio.rickandmorty.characters.data.models.RMCharacter
-import com.ignacio.rickandmorty.framework.local.datasource.RealCharactersLocalDataSource
 import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.db.dao.RMCharacterDao
 import com.ignacio.rickandmorty.framework.local.mapping.toData
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
+import com.ignacio.rickandmorty.framework.local.sql.RealSqlQueryBuilder
 import com.ignacio.rickandmorty.kotlin_utils.exceptions.TestException
 import io.mockk.every
 import io.mockk.mockk
@@ -29,7 +29,7 @@ class CharacterLocalDataSourceTest {
     }
 
     private val dataSource: CharactersLocalDataSource = RealCharactersLocalDataSource(
-        db
+        db, RealSqlQueryBuilder()
     )
     private val id = 1
     private val daoFlow: MutableStateFlow<DbRMCharacter?> = MutableStateFlow(null)

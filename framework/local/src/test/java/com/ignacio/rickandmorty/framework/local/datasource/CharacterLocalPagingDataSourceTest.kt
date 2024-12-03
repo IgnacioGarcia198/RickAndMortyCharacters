@@ -2,7 +2,6 @@ package com.ignacio.rickandmorty.framework.local.datasource
 
 import androidx.paging.PagingSource
 import androidx.room.withTransaction
-import androidx.sqlite.db.SupportSQLiteQuery
 import com.ignacio.rickandmorty.characters.data.models.RMCharacter
 import com.ignacio.rickandmorty.characters.data.paging.datasource.local.CharactersLocalPagingDataSource
 import com.ignacio.rickandmorty.characters.data.paging.models.CharacterQueryCriteria
@@ -10,6 +9,8 @@ import com.ignacio.rickandmorty.framework.local.db.AppDatabase
 import com.ignacio.rickandmorty.framework.local.db.dao.RMCharacterDao
 import com.ignacio.rickandmorty.framework.local.mapping.toDb
 import com.ignacio.rickandmorty.framework.local.models.DbRMCharacter
+import com.ignacio.rickandmorty.framework.local.sql.RealSqlQueryBuilder
+import com.ignacio.rickandmorty.framework.local.sql.SqlQueryBuilder
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -33,12 +34,9 @@ class CharacterLocalPagingDataSourceTest {
         every { rmCharacterDao() }.returns(dao)
     }
     private val dataSource: CharactersLocalPagingDataSource =
-        RealCharactersLocalDataSource(database)
+        RealCharactersLocalDataSource(database, RealSqlQueryBuilder())
     private val characters = listOf(RMCharacter.dummy.copy(name = "hello"))
     private val query = CharacterQueryCriteria.default.copy(name = "hello")
-    private val dbCharacters = listOf(DbRMCharacter.dummy)
-
-
     private val pagingSource: PagingSource<Int, DbRMCharacter> = mockk()
 
     @Before
@@ -47,8 +45,8 @@ class CharacterLocalPagingDataSourceTest {
         mockkStatic("androidx.room.RoomDatabaseKt")
         coEvery { database.withTransaction(capture(blockSlot)) }.coAnswers { blockSlot.captured.invoke() }
         coEvery { dao.upsertAll(any()) }.just(runs)
-        coEvery { dao.deleteByQuery(any()) }.returns(1)
-        coEvery { dao.getRMCharacters(any()) }.returns(pagingSource)
+        coEvery { dao.deleteByQuery(any<SqlQueryBuilder.SqlQueryData>()) }.returns(1)
+        coEvery { dao.getRMCharacters(any<SqlQueryBuilder.SqlQueryData>()) }.returns(pagingSource)
     }
 
     @After
@@ -70,12 +68,14 @@ class CharacterLocalPagingDataSourceTest {
 
         coVerify { database.withTransaction(any()) }
         coVerify { dao.upsertAll(characters = characters.map { it.toDb() }) }
-        val slot = slot<SupportSQLiteQuery>()
-        coVerify { dao.deleteByQuery(capture(slot)) }
-        val captured = slot.captured
-        val sql = captured.sql
-        assertEquals(sql, "DELETE FROM rickAndMortyCharacters WHERE name LIKE ?")
-        assertEquals(1, captured.argCount)
+        coVerify {
+            dao.deleteByQuery(
+                SqlQueryBuilder.SqlQueryData(
+                    sqlText = "DELETE FROM rickAndMortyCharacters WHERE name LIKE ?",
+                    args = listOf("%${query.name}%")
+                )
+            )
+        }
     }
 
     @Test
@@ -91,28 +91,34 @@ class CharacterLocalPagingDataSourceTest {
 
         coVerify { database.withTransaction(any()) }
         coVerify { dao.upsertAll(characters = characters.map { it.toDb() }) }
-        val slot = slot<SupportSQLiteQuery>()
-        coVerify { dao.deleteByQuery(capture(slot)) }
-        val captured = slot.captured
-        val sql = captured.sql
-        assertEquals(
-            sql,
-            "DELETE FROM rickAndMortyCharacters WHERE name LIKE ? AND type LIKE ? AND species LIKE ? AND status LIKE ? AND gender LIKE ?"
-        )
-        assertEquals(5, captured.argCount)
+        coVerify {
+            dao.deleteByQuery(
+                SqlQueryBuilder.SqlQueryData(
+                    sqlText = "DELETE FROM rickAndMortyCharacters WHERE name LIKE ? AND type LIKE ? AND species LIKE ? AND status LIKE ? AND gender LIKE ?",
+                    args = listOf(
+                        "%${criteria.name}%",
+                        "%${criteria.type}%",
+                        "%${criteria.species}%",
+                        "%${criteria.status.name}%",
+                        "%${criteria.gender.name}%",
+                    )
+                )
+            )
+        }
     }
 
     @Test
     fun `getRMCharacters() uses dao to get characters PagingDatSource`() = runTest {
         val source = dataSource.getRMCharacters(query)
 
-        val slot = slot<SupportSQLiteQuery>()
-        verify { dao.getRMCharacters(capture(slot)) }
-
-        val captured = slot.captured
-        val sql = captured.sql
-        assertEquals("SELECT * FROM rickAndMortyCharacters WHERE name LIKE ?", sql)
-        assertEquals(1, captured.argCount)
+        verify {
+            dao.getRMCharacters(
+                SqlQueryBuilder.SqlQueryData(
+                    sqlText = "SELECT * FROM rickAndMortyCharacters WHERE name LIKE ?",
+                    listOf("%${query.name}%")
+                )
+            )
+        }
 
         assertEquals(pagingSource, source)
     }
@@ -130,16 +136,20 @@ class CharacterLocalPagingDataSourceTest {
 
             val source = dataSource.getRMCharacters(criteria)
 
-            val slot = slot<SupportSQLiteQuery>()
-            verify { dao.getRMCharacters(capture(slot)) }
-
-            val captured = slot.captured
-            val sql = captured.sql
-            assertEquals(
-                sql,
-                "SELECT * FROM rickAndMortyCharacters WHERE name LIKE ? AND type LIKE ? AND species LIKE ? AND status LIKE ? AND gender LIKE ?"
-            )
-            assertEquals(5, captured.argCount)
+            verify {
+                dao.getRMCharacters(
+                    SqlQueryBuilder.SqlQueryData(
+                        sqlText = "SELECT * FROM rickAndMortyCharacters WHERE name LIKE ? AND type LIKE ? AND species LIKE ? AND status LIKE ? AND gender LIKE ?",
+                        args = listOf(
+                            "%${criteria.name}%",
+                            "%${criteria.type}%",
+                            "%${criteria.species}%",
+                            "%${criteria.status.name}%",
+                            "%${criteria.gender.name}%",
+                        )
+                    )
+                )
+            }
 
             assertEquals(pagingSource, source)
         }
