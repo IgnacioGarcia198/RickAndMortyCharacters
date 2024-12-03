@@ -40,4 +40,5 @@
     <string name="github_sign_in_action">Sign in with GitHub</string>
     <string name="email_text_field_hint">Enter email</string>
     <string name="sign_in_successful_feedback">Sign in successful</string>
+    <string name="sign_in_successful_feedback_with_user">Welcome, %s</string>
 </resources>

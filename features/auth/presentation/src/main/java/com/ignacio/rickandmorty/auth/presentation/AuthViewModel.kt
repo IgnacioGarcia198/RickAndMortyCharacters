@@ -52,7 +52,7 @@ class AuthViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 if (e is CancellationException) throw e
-                _state.update { it.copy(isSignInSuccessful = false, signInError = e) }
+                _state.update { it.copy(userData = null, isSignInSuccessful = false, signInError = e) }
             }
         }
     }
@@ -61,11 +61,7 @@ class AuthViewModel @Inject constructor(
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             viewModelScope.launch {
                 authUiClient.signInGoogleWithIntent(result.data!!)
-                    .onSuccess {
-                        _state.update { it.copy(isSignInSuccessful = true, signInError = null) }
-                    }.onFailure { e ->
-                        _state.update { it.copy(isSignInSuccessful = false, signInError = e) }
-                    }
+                    .updateState()
             }
         }
     }
@@ -74,13 +70,15 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             loading()
             loginCall(authUiClient, state.value.userEmail.value)
-                .onSuccess {
-                    _state.update { it.copy(isSignInSuccessful = true, signInError = null) }
-                }.onFailure { e ->
-                    _state.update { it.copy(isSignInSuccessful = false, signInError = e) }
-                }
+                .updateState()
         }
     }
 
     fun getSignedInUser(): UserData? = authUiClient.getSignedInUser()
+
+    private fun Result<UserData?>.updateState() = onSuccess { userData ->
+        _state.update { it.copy(userData = userData, isSignInSuccessful = true, signInError = null) }
+    }.onFailure { e ->
+        _state.update { it.copy(userData = null, isSignInSuccessful = false, signInError = e) }
+    }
 }

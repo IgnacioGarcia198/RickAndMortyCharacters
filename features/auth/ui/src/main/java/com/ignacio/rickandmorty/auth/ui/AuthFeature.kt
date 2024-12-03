@@ -28,28 +28,19 @@ fun AuthFeature(
     val state by viewModel.state.collectAsStateWithLifecycle()
     var bottomSheetError: String by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(key1 = Unit) {
-        if (viewModel.getSignedInUser() != null) {
-            // navigate to the app content
-            onUserSigned()
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        if (viewModel.getSignedInUser() != null) {
-            // navigate to the app content
-            onUserSigned()
-        }
-    }
-
     LaunchedEffect(
-        key1 = state.isSignInSuccessful,
+        key1 = state.userData,
         key2 = state.signInError,
     ) {
         if (state.isSignInSuccessful) {
+            val message = if (state.userData?.username != null) {
+                context.getString(R.string.sign_in_successful_feedback_with_user, state.userData?.username)
+            } else {
+                context.getString(R.string.sign_in_successful_feedback)
+            }
             Toast.makeText(
                 context,
-                context.getString(R.string.sign_in_successful_feedback),
+                message,
                 Toast.LENGTH_LONG
             ).show()
 
