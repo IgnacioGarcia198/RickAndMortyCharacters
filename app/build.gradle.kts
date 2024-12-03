@@ -70,6 +70,7 @@ android {
 dependencies {
     implementation(project(Projects.Features.Characters.UI))
     implementation(project(Projects.Features.Auth.UI))
+    implementation(project(Projects.Features.Auth.PRESENTATION))
     implementation(project(Projects.Features.MainNavigation.UI))
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))

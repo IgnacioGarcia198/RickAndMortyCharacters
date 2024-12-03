@@ -18,7 +18,7 @@ dependencies {
     implementation((project(Projects.Common.UI_COMMON)))
     implementation((project(Projects.Common.KOTLIN_UTILS)))
     implementation(project(Projects.Features.Auth.PRESENTATION))
-    implementation(project(Projects.Features.Auth.AUTH)) // imported in ui module as auth is a framework module
+    implementation(project(Projects.Features.Auth.AUTH)) // currently just needed in order to ensure that AuthViewModel holds no reference to MainActivity.
     implementation(project(Projects.Features.Auth.DOMAIN))
     implementation(project(Projects.Features.NetworkMonitor.UI))
 
