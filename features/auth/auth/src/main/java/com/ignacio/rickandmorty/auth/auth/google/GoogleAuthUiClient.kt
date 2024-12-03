@@ -12,7 +12,7 @@ import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
 
-private const val WEB_CLIENT_ID =
+private const val GOOGLE_WEB_CLIENT_ID =
     "290149356907-bn871n1qv1kktb5g2c4ni8g6flqtstl5.apps.googleusercontent.com"
 
 class GoogleAuthUiClient @Inject constructor(
@@ -54,21 +54,13 @@ class GoogleAuthUiClient @Inject constructor(
         }
     }
 
-    fun getSignedInUser(): UserData? = auth.currentUser?.run {
-        UserData(
-            userId = uid,
-            username = displayName,
-            profilePictureUrl = photoUrl?.toString()
-        )
-    }
-
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.Builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId(WEB_CLIENT_ID)
+                    .setServerClientId(GOOGLE_WEB_CLIENT_ID)
                     .build()
             )
             .setAutoSelectEnabled(true)

@@ -6,20 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.ignacio.rickandmorty.auth.auth.di.GithubAuthClientEntryPoint
 import com.ignacio.rickandmorty.auth.presentation.AuthViewModel
 import com.ignacio.rickandmorty.kotlin_utils.extensions.getDebugOrProductionText
 import com.ignacio.rickandmorty.resources.R
 import com.ignacio.rickandmorty.ui_common.composables.ErrorBottomSheet
-import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.launch
 
 @Composable
 fun AuthFeature(
@@ -30,11 +26,6 @@ fun AuthFeature(
     val activity = LocalContext.current as Activity
     val viewModel: AuthViewModel = hiltViewModel(LocalContext.current as ViewModelStoreOwner)
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val githubEntryPoint =
-        EntryPointAccessors.fromApplication(context, GithubAuthClientEntryPoint::class.java)
-    val githubAuthUiClient = githubEntryPoint.githubUiClient()
-
-    val coroutineScope = rememberCoroutineScope()
     var bottomSheetError: String by rememberSaveable { mutableStateOf("") }
 
     LaunchedEffect(key1 = Unit) {
@@ -45,7 +36,7 @@ fun AuthFeature(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if (githubAuthUiClient.getSignedInUser() != null) {
+        if (viewModel.getSignedInUser() != null) {
             // navigate to the app content
             onUserSigned()
         }
@@ -75,11 +66,8 @@ fun AuthFeature(
         state = state,
         onGoogleSignInClick = onGoogleSignInClick,
         onGithubSignInClick = {
-            coroutineScope.launch {
-                viewModel.loading()
-                val signInResult =
-                    githubAuthUiClient.startGitHubLogin(activity = activity, state.userEmail.value)
-                viewModel.onSignInResult(signInResult)
+            viewModel.startGithubLogin { authUiClient, email ->
+                authUiClient.startGitHubLogin(activity, email)
             }
         },
         onEmailChanged = viewModel::updateEmail
